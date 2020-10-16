@@ -30,6 +30,7 @@ import java.util.List;
  * @author Wangxin
  * @since 2020-10-16
  */
+@Primary
 @Service
 @Primary
 public class BusLawyerServiceImpl extends ServiceImpl<BusLawyerMapper, BusLawyer> implements IBusLawyerService {

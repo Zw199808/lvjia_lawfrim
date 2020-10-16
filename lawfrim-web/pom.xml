@@ -13,10 +13,9 @@
     <description>Web模块</description>
     <dependencies>
         <dependency>
-            <artifactId>lawfrim-common</artifactId>
             <groupId>com.xinou</groupId>
+            <artifactId>lawfrim-sso</artifactId>
             <version>0.0.1-SNAPSHOT</version>
-            <scope>compile</scope>
         </dependency>
         <dependency>
             <groupId>com.baomidou</groupId>

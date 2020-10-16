@@ -55,4 +55,4 @@ app:
     iosNowVersion: 3
 #logging:
 #  level:
-#    com.xinou.police.mapper: debug
+#    com.xinou.lawfrim.mapper: debug
