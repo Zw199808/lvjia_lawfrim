@@ -16,6 +16,7 @@ import com.xinou.lawfrim.web.mapper.BusLawyerMapper;
 import com.xinou.lawfrim.web.service.IBusLawyerService;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Primary;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -29,6 +30,7 @@ import java.util.List;
  * @author Wangxin
  * @since 2020-10-16
  */
+@Primary
 @Service
 public class BusLawyerServiceImpl extends ServiceImpl<BusLawyerMapper, BusLawyer> implements IBusLawyerService {
 
