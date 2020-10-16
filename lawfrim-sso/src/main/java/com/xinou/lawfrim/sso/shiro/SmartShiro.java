@@ -104,10 +104,7 @@ public class SmartShiro extends AuthorizingRealm {
         //若存在，将此用户存放到登录认证info中
         SYSUser user = users.get(0);
 
-        MemberSSO memberSSO = adminMapper.memberInfoById(user.getId());
-
         session.setAttribute("sysUserId",user.getId());
-        session.setAttribute("memberId",memberSSO.getId());
 
         return new SimpleAuthenticationInfo(user.getAccount(), user.getPassword(), getName());
     }
