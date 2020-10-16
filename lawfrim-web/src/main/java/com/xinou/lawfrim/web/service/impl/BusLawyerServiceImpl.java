@@ -16,6 +16,7 @@ import com.xinou.lawfrim.web.mapper.BusLawyerMapper;
 import com.xinou.lawfrim.web.service.IBusLawyerService;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Primary;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -30,6 +31,7 @@ import java.util.List;
  * @since 2020-10-16
  */
 @Service
+@Primary
 public class BusLawyerServiceImpl extends ServiceImpl<BusLawyerMapper, BusLawyer> implements IBusLawyerService {
 
     @Autowired
@@ -74,8 +76,8 @@ public class BusLawyerServiceImpl extends ServiceImpl<BusLawyerMapper, BusLawyer
         //添加用户
         BusLawyer busLawyer = new BusLawyer();
         busLawyer.setName(lawyer.getName());
-        busLawyer.setState(lawyer.getState());
-        busLawyer.setSysUserId(lawyer.getSysUserId());
+        busLawyer.setState(1);
+        busLawyer.setSysUserId(user.getId());
         res = save(busLawyer);
         if (!res) {
             throw new RuntimeException("新增用户失败");
