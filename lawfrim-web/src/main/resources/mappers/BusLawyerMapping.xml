@@ -2,4 +2,66 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.xinou.lawfrim.web.mapper.BusLawyerMapper">
 
+    <select id="getList" resultType="com.xinou.lawfrim.web.entity.BusLawyer">
+        select lawyer.*,sus.account
+        from bus_lawyer lawyer
+        left join sys_user sus on lawyer.sys_user_id = sus.id
+        where lawyer.is_delete = 0
+        <if test = " condition.name != null and condition.name != '' ">
+            <bind name="name" value="'%'+condition.name+'%'"/>
+            and lawyer.name like #{ name }
+        </if>
+        order by lawyer.gmt_create desc
+    </select>
+
+    <!-- 获取数据总数 -->
+
+    <select id="getTotal" resultType="java.lang.Integer">
+        select
+        count(*)
+        from bus_dispatch_car dc
+        left join bus_member member on dc.user_id = member.id
+        LEFT JOIN bus_department dp on dc.department_id = dp.id
+        left join bus_member dmember on dc.driver_id = dmember.id
+        LEFT JOIN bus_car car on dc.car_id = car.id
+        where dc.is_delete = 0
+        <if test = " condition.userId != null and condition.userId != '' ">
+            and dc.department_id in (SELECT mm.department_id
+            from bus_member mm
+            WHERE mm.user_id = #{condition.userId})
+        </if>
+        <if test = " condition.memberId != null and condition.memberId != '' ">
+            and dc.user_id = #{condition.memberId}
+        </if>
+        <if test = " condition.state != null and condition.state != '' ">
+            and dc.state = #{condition.state}
+        </if>
+        <if test = " condition.states != null and condition.states.size() !=0 ">
+            and dc.state IN
+            <foreach collection="condition.states" index="index" item="item" open="(" separator="," close=")">
+                #{item}
+            </foreach>
+        </if>
+        <if test = " condition.reason != null and condition.reason != '' ">
+            and dc.reason = #{condition.reason}
+        </if>
+
+        <if test = " condition.carName != null and condition.carName != '' ">
+            <bind name="carName" value="'%'+condition.carName+'%'"/>
+            and car.license_plate_number like #{ carName }
+        </if>
+
+        <if test = " condition.address != null and condition.address != '' ">
+            <bind name="address" value="'%'+condition.address+'%'"/>
+            and dc.address like #{ address }
+        </if>
+
+        <if test = " condition.departmentId != null and condition.departmentId != '' ">
+            and dc.department_id = #{ condition.departmentId }
+        </if>
+
+        <if test = " condition.startTimeStr != null and condition.startTimeStr != '' and condition.endTimeStr != null and condition.endTimeStr != ''">
+            and dc.begin_time between #{ condition.startTimeStr } and #{ condition.endTimeStr }
+        </if>
+    </select>
 </mapper>

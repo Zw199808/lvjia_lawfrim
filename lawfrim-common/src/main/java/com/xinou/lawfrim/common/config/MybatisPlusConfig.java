@@ -11,7 +11,7 @@ import org.springframework.context.annotation.Configuration;
  * @description:
  */
 @Configuration
-@MapperScan("com.xinou.police")
+@MapperScan("com.xinou.lawfrim")
 public class MybatisPlusConfig {
 
     @Bean

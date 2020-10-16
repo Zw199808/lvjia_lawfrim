@@ -70,60 +70,6 @@ public class Config {
     public static final String RE_OLD_PASS_ERROR_MSG = "旧密码错误！";
 
 
-    //申请用车
-    public static final Integer RE_CAR_NOT_USE = 0;//空闲
-    public static final Integer RE_CAR_IS_USE = 1;//使用中
-    public static final String RE_ADD_CODE = "4002";
-    public static final String RE_ADD_MSG = "添加数据失败！";
-    public static final String RE_UPDATE_CODE = "4003";
-    public static final String RE_UPDATE_MSG = "修改数据失败！";
-    public static final String RE_DELETE_CODE = "4004";
-    public static final String RE_DELETE_MSG = "删除失败";
-    public static final String RE_REVERT_CODE = "4005";
-    public static final String RE_REVERT_MSG = "恢复失败";
-    public static final String RE_APPLY_CAR_CODE = "4006";
-    public static final String RE_APPLY_CAR_MSG = "当前车辆已被使用";
-    public static final String RE_STATISTIC_TIME_ISNULL_CODE = "4007";
-    public static final String RE_STATISTIC_TIME_ISNULL_MSG = "请选择开始时间和结束时间";
-
-    public static final Integer DISPATCH_CAR = 1;//记录表中-派车单
-
-    public static final Integer DISPATCH_CAR_FIRST = 1; //1申请用车
-    public static final Integer DISPATCH_CAR_TWO = 2; //2审核同意
-    public static final Integer DISPATCH_CAR_THREE = 3; //3审核拒绝
-    public static final Integer DISPATCH_CAR_FOUR = 4; //4终审同意
-    public static final Integer DISPATCH_CAR_FIVE = 5; //5终审拒绝
-    public static final Integer DISPATCH_CAR_SIX = 6; //6撤回作废
-    public static final Integer DISPATCH_CAR_SEVEN = 7; //7拒绝发车
-    public static final Integer DISPATCH_CAR_EIGHT = 8; //8同意发车
-    public static final Integer DISPATCH_CAR_NINE = 9; //9拒绝收车
-    public static final Integer DISPATCH_CAR_TEN = 10; //10同意收车
-
-    public static final Integer DISPATCH_CAR_SEND_SECOND = 2; //派车记录-发车
-    public static final Integer DISPATCH_CAR_SEND_NINE = 9; //派车记录-收车
-    public static final Integer DISPATCH_CAR_SEND_ELEVEN = 11; //派车记录-撤回作废
-    public static final Integer DISPATCH_CAR_AUDIT_SEVEN = 7; //派车记录-初审
-    public static final Integer DISPATCH_CAR_AUDIT_EIGHT = 8; //派车记录-终审
-
-
-    //调车相关
-    public static final Integer STATE_APPLY_DEPLOY_CAR = 1; // 申请调车
-    public static final Integer STATE_APPLY_REFUSE = 2; // 拒绝调车
-    public static final Integer STATE_APPLY_Agree = 3; // 同意调车
-    public static final Integer STATE_OUT_REFUSE = 4; // 调出拒绝
-    public static final Integer STATE_OUT_Agree = 5; // 调出同意
-    public static final Integer STATE_IN_REFUSE = 6; // 调入拒绝
-    public static final Integer STATE_IN_Agree = 7; // 调入同意
-
-    public static final String RE_NOT_DEPLOY_CAR_CODE = "5001";
-    public static final String RE_NOT_DEPLOY_CAR_MSG = "提交申请调车失败！";
-    public static final String RE_NOT_AUDIT_DEPLOY_CAR_CODE = "5002";
-    public static final String RE_NOT_AUDIT_DEPLOY_CAR_MSG = "审核调车失败！";
-    public static final String RE_NOT_UPDATE_DEPLOY_CAR_CODE = "5003";
-    public static final String RE_NOT_UPDATE_DEPLOY_CAR_MSG = "修改申请调车失败！";
-    public static final String RE_NOT_DISPATCH_DEPLOY_CAR_CODE = "5004";
-    public static final String RE_NOT_DISPATCH_DEPLOY_CAR_MSG = "车辆使用中！";
-
     //member相关
     public static final String RE_CODE_USER_EXIST = "3002";          //用户已存在
     public static final String RE_MSG_USER_EXIST = "用户已存在";
@@ -136,28 +82,11 @@ public class Config {
      */
     public static final int ADMIN_APP_ID = 1;
 
-    //id数据不能为空或0
-    public static final String ID_CANNOT_BE_EMPTY_OR_ZERO_ERROR_CODE = "104";
-    public static final String ID_CANNOT_BE_EMPTY_OR_ZERO_ERROR_MESSAGE = "id数据不能为空或0！";
 
-    //IC卡
-    //数据已存在
-    public static final String DATA_ALREADY_EXISTS_CODE = "101";
-    public static final String DATA_ALREADY_EXISTS_MSG = "数据已存在！";
-    //数据不存在
-    public static final String DATA_DOES_NOT_EXISTS_CODE = "102";
-    public static final String DATA_DOES_NOT_EXISTS_MSG = "数据不存在！";
+    //基础
+    public static final String RE_ADD_CODE = "4001";
+    public static final String RE_ADD_MSG = "添加数据失败！";
 
-    public static final String RE_CODE_ERROR = "100";
-    public static final String RE_MSG_ERROR = "error";
-
-    //规则
-    public static final String RE_NOT_USE_RULE_CODE = "5005";
-    public static final String RE_NOT_USE_RULE_MSG = "该时间段已有规则！";
-    public static final String RE_NOT_USE_SPECIAL_RULE_CODE = "5006";
-    public static final String RE_NOT_USE_SPECIAL_RULE_MSG = "该车未使用特殊规则！";
-    public static final String RE_NOT_CAR_CODE = "5007";
-    public static final String RE_NOT_CAR_MSG = "当前车辆不存在！";
 
 
 //            public static final String EXCEL_PATH = "D:\\ideaProject\\";
