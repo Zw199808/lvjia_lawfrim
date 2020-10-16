@@ -21,11 +21,11 @@ import org.springframework.web.bind.annotation.RestController;
  */
 @Api(tags = {"测试Swagger"})
 @RestController
-@RequestMapping("//bus-agreement-audit")
+@RequestMapping("/agreement-audit")
 public class BusAgreementAuditController {
 
-    @PostMapping
-    APIResponse<Void> test(@RequestBody BusAgreementPO busAgreement){
+    @PostMapping("test")
+    APIResponse<Void> test(@RequestBody BusAgreementPO busAgreementPO){
         return new APIResponse<>( );
     }
 }

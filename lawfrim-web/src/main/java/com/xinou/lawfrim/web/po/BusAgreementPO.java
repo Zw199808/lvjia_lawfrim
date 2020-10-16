@@ -1,9 +1,6 @@
 package com.xinou.lawfrim.web.po;
 
-import com.baomidou.mybatisplus.annotation.TableName;
-import java.util.Date;
-import com.xinou.lawfrim.common.util.BaseEntity;
-import com.baomidou.mybatisplus.annotation.TableField;
+import com.xinou.lawfrim.web.base.BaseWebEntity;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
@@ -22,7 +19,7 @@ import lombok.experimental.Accessors;
 @EqualsAndHashCode(callSuper = true)
 @Accessors(chain = true)
 @ApiModel(value="BusAgreementPO", description="")
-public class BusAgreementPO extends BaseEntity {
+public class BusAgreementPO extends BaseWebEntity {
 
     private static final long serialVersionUID = 1L;
 
