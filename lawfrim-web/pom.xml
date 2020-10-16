@@ -13,9 +13,19 @@
     <description>Web模块</description>
     <dependencies>
         <dependency>
-            <groupId>com.xinou</groupId>
             <artifactId>lawfrim-common</artifactId>
+            <groupId>com.xinou</groupId>
             <version>0.0.1-SNAPSHOT</version>
+            <scope>compile</scope>
+        </dependency>
+        <dependency>
+            <groupId>com.baomidou</groupId>
+            <artifactId>mybatis-plus-generator</artifactId>
+            <version>3.3.2</version>
+        </dependency>
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-freemarker</artifactId>
         </dependency>
     </dependencies>
 

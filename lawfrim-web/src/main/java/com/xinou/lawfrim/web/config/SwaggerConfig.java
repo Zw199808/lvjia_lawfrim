@@ -34,12 +34,13 @@ public class SwaggerConfig {
                 .apiInfo(apiInfo())
                 .select()
                 .apis(RequestHandlerSelectors.basePackage("com.xinou"))
+                .paths(PathSelectors.any())
                 .build();
     }
 
     private ApiInfo apiInfo() {
         return new ApiInfoBuilder()
-                .title("律甲 CRM API 文档")
+                .title("氯甲 CRM API 文档")
                 .description("")
                 .version("1.0.0")
                 .build();

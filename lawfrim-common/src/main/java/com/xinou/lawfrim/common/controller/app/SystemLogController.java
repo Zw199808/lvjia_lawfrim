@@ -8,6 +8,7 @@ import com.xinou.lawfrim.common.util.APIResponse;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
+import springfox.documentation.annotations.ApiIgnore;
 
 /**
  * @author xiao_XX
@@ -16,6 +17,7 @@ import org.springframework.web.bind.annotation.RestController;
  */
 @RestController("AppSystemLogController")
 @RequestMapping("/app/logs/")
+@ApiIgnore
 public class SystemLogController {
     private final SystemLogService systemLogService;
 
