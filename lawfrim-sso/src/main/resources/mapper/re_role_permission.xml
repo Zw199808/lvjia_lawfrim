@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.xinou.police.sso.mapper.ReRolePermissionSSOMapper">
+
+    <select id="getPermissionByRoleId" parameterType="java.util.List" resultType="com.xinou.lawfrim.sso.entity.ResReRolePermission">
+        SELECT
+        rua.role_id role_id,
+        rua.permission_id permission_id,
+        a.name permission_name,
+        a.app_id app_id
+        FROM
+        sys_re_role_permission rua
+        LEFT JOIN
+        sys_permission a
+        ON
+        a.id = rua.permission_id
+        WHERE
+        rua.is_delete = 0
+        AND
+        a.is_delete = 0
+        AND
+        rua.role_id IN
+        <foreach collection="list" index="index" item="item" open="(" separator="," close=")">
+            #{item}
+        </foreach>
+    </select>
+
+</mapper>

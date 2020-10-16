@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.xinou.police.sso.mapper.AdminSSOMapper">
+
+    <select id="findRoleByUserId" parameterType="int" resultType="String">
+        SELECT
+        r.name
+        FROM
+        sys_re_user_role ur
+        LEFT JOIN sys_role r
+        ON ur.role_id = r.id
+        WHERE
+        ur.user_id = ${userId}
+        AND
+        ur.is_delete = 0
+        AND
+        r.is_delete = 0
+    </select>
+
+    <select id="findPermissionUrlByUserId" parameterType="int" resultType="String">
+        SELECT
+        p.url
+        FROM
+        sys_re_user_role ur
+        LEFT JOIN
+        sys_re_role_permission rp
+        ON
+        ur.role_id = rp.role_id
+        LEFT JOIN
+        sys_permission p
+        ON
+        rp.permission_id = p.id
+        WHERE
+        ur.user_id = ${userId}
+        AND
+        ur.is_delete = 0
+        AND
+        rp.is_delete = 0
+        AND
+        p.is_delete = 0
+    </select>
+
+    <update id="login" parameterType="String">
+        UPDATE
+        sys_user
+        SET
+        login_count=login_count+1,
+        last_login_ip = #{ip}
+        WHERE
+        account = #{account}
+    </update>
+
+</mapper>

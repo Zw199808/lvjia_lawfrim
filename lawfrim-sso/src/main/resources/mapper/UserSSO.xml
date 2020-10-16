@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.xinou.police.sso.mapper.UserSSOMapper">
+
+    <!--获取数据列表-->
+    <select id="listSysUser" resultType="com.xinou.lawfrim.sso.entity.SYSUser">
+        SELECT su.*
+        FROM sys_user su
+        WHERE su.is_delete=0
+
+        <if test = " condition.realName != null and condition.realName != '' ">
+            <bind name="realName" value="'%'+condition.realName+'%'"/>
+            and su.real_name like #{ realName }
+        </if>
+
+        ORDER BY gmt_create DESC
+
+        <if test = " condition.size != null and condition.size != '' ">
+            LIMIT #{ condition.skip },#{ condition.size }
+        </if>
+
+    </select>
+
+    <!-- 获取数据总数 -->
+    <select id="countSysUser" resultType="java.lang.Integer">
+        SELECT COUNT(*)
+        FROM sys_user su
+        WHERE su.is_delete=0
+
+        <if test = " condition.realName != null and condition.realName != '' ">
+            <bind name="realName" value="'%'+condition.realName+'%'"/>
+            and su.real_name like #{ realName }
+        </if>
+
+    </select>
+
+    <select id="listByRole" resultType="com.xinou.lawfrim.sso.entity.SYSUser">
+        SELECT su.*
+        FROM sys_re_user_role srur
+        LEFT JOIN sys_user su ON su.id = srur.user_id
+        WHERE srur.is_delete=0 AND su.is_enable=1
+
+        <if test = " condition.roleId != null and condition.roleId != '' ">
+            and srur.role_id = #{ condition.roleId }
+        </if>
+        group by su.id
+    </select>
+
+</mapper>

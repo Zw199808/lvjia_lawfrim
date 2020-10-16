@@ -1,0 +1,15 @@
+spring:
+  datasource:
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    url: jdbc:mysql://bj-cdb-edcc78kw.sql.tencentcdb.com:63764/lvjia_lawfrim?useUnicode=true&characterEncoding=utf8&useSSL=false&&serverTimezone=UTC
+    username: ENC(rOjly65a0vaObQw5bRzMILtLoaDFeQug)
+    password: ENC(67G89rGvXtHrbMsgp3vcAGll5NwYNy/h)
+server:
+  servlet:
+    context-path: /api
+
+
+
+
+
+

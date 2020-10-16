@@ -1,0 +1,84 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.xinou.police.common.mapper.SystemLogMapper">
+
+    <select id="logList" parameterType="com.xinou.lawfrim.common.entity.LogDto"
+            resultType="com.xinou.lawfrim.common.entity.LogEntity">
+
+        SELECT sml.*,su.account,bm.name realName FROM sys_msg_log sml
+        left join bus_member bm on bm.id = sml.user_id
+        left join sys_user su on su.id = bm.user_id
+        where sml.is_delete = 0
+        <if test="condition.realName !=null">
+            <bind name="realName" value="'%'+condition.realName+'%'"/>
+            and (su.account like '%${realName}%' or bm.name like '%${realName}%')
+        </if>
+        <if test="condition.type !=null">
+            and sml.type = #{condition.type}
+        </if>
+        <if test="condition.typeList !=null">
+            AND
+            sml.type IN
+            <foreach collection="condition.typeList" index="index" item="item" open="(" separator="," close=")">
+                #{item}
+            </foreach>
+        </if>
+        <if test="condition.startTimeStr !=null">
+            and sml.operation_time between '${condition.startTimeStr}' and '${condition.endTimeStr}'
+        </if>
+        order by sml.operation_time desc
+    </select>
+
+    <select id="logListAll" parameterType="com.xinou.lawfrim.common.entity.LogDto"
+            resultType="com.xinou.lawfrim.common.entity.LogEntity">
+
+        SELECT sml.*,su.account,bm.name realName FROM sys_msg_log sml
+        left join bus_member bm on bm.id = sml.user_id
+        left join sys_user su on su.id = bm.user_id
+        where sml.is_delete = 0
+        <if test="condition.realName !=null">
+            <bind name="realName" value="'%'+condition.realName+'%'"/>
+            and (su.account like '%${realName}%' or bm.name like '%${realName}%')
+        </if>
+        <if test="condition.type !=null">
+            and sml.type = #{condition.type}
+        </if>
+        <if test="condition.typeList !=null">
+            AND
+            sml.type IN
+            <foreach collection="condition.typeList" index="index" item="item" open="(" separator="," close=")">
+                #{item}
+            </foreach>
+        </if>
+        <if test="condition.startTimeStr !=null">
+            and sml.operation_time between '${condition.startTimeStr}' and '${condition.endTimeStr}'
+        </if>
+        order by sml.operation_time desc
+    </select>
+
+    <select id="logCount" parameterType="com.xinou.lawfrim.common.entity.LogDto" resultType="java.lang.Integer">
+        SELECT count(1) FROM sys_msg_log sml
+        left join bus_member bm on bm.id = sml.user_id
+        left join sys_user su on su.id = bm.user_id
+        where sml.is_delete = 0
+        <if test="condition.realName !=null">
+            <bind name="realName" value="'%'+condition.realName+'%'"/>
+            and (su.account like '%${realName}%' or bm.name like '%${realName}%')
+        </if>
+        <if test="condition.type !=null">
+            and sml.type = #{condition.type}
+        </if>
+        <if test="condition.typeList !=null">
+            AND
+            sml.type IN
+            <foreach collection="condition.typeList" index="index" item="item" open="(" separator="," close=")">
+                #{item}
+            </foreach>
+        </if>
+        <if test="condition.startTimeStr !=null">
+            and sml.operation_time between '${condition.startTimeStr}' and '${condition.endTimeStr}'
+        </if>
+    </select>
+</mapper>
