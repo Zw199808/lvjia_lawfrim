@@ -5,6 +5,7 @@ import com.baomidou.mybatisplus.annotation.TableName;
 import com.xinou.lawfrim.common.util.BaseEntity;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
+import io.swagger.models.auth.In;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
@@ -24,18 +25,23 @@ import java.io.Serializable;
 @Data
 @ToString
 @NoArgsConstructor
-public class BusLawyerDto extends BaseEntity implements Serializable {
+public class BusLawyerDto implements Serializable {
 
+    @ApiModelProperty(value = "id")
+    private Integer id;//id
 
+    @ApiModelProperty(value = "律师在线状态0:- 1:在线 2:不在线")
+    private Integer state;//在线状态
+
+    @ApiModelProperty(value = "姓名")
     private String name;//姓名
 
-    private Integer sysUserId;//sys表userId
-
-    private Integer state;//律师在线状态 0:- 1:在线 2:不在线
-
+    @ApiModelProperty(value = "账户")
     private String account;//账户
 
+    @ApiModelProperty(value = "密码")
     private String password;//密码
 
+    @ApiModelProperty(value = "角色")
     private Integer roleId;//角色
 }

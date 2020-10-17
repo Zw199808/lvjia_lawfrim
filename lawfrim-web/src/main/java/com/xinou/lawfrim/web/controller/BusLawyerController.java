@@ -10,9 +10,11 @@ import com.xinou.lawfrim.web.entity.BusLawyer;
 import com.xinou.lawfrim.web.service.IBusLawyerService;
 import com.xinou.lawfrim.web.service.impl.BusLawyerServiceImpl;
 import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiModelProperty;
 import io.swagger.annotations.ApiOperation;
 import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 
@@ -34,24 +36,37 @@ public class BusLawyerController {
     @Autowired
     private IBusLawyerService busLawyerService;
 
-    @RequestMapping("list")
+    @PostMapping("list")
 //    @RequiresPermissions("/web/lawyer/list")
     APIResponse listLawyer(@RequestBody BusLawyerDto lawyerDto) {
         return busLawyerService.listLawyer(lawyerDto);
     }
 
 
-    @RequestMapping("add")
+    @PostMapping("add")
 //    @RequiresPermissions("/web/lawyer/add")
-    @ApiOperationSupport(includeParameters = {"lawyerDto.account", "lawyerDto.password", "lawyerDto.name", "lawyerDto.roleId"})
     @ApiOperation(httpMethod = "POST", value = "添加律师")
+    @ApiOperationSupport(ignoreParameters = {"lawyerDto.id","lawyerDto.state"})
     APIResponse lawyerAdd(@RequestBody BusLawyerDto lawyerDto) {
-        boolean res = busLawyerService.addBusLawyer(lawyerDto);
-        if (!res) {
-            return new APIResponse(Config.RE_ADD_CODE, Config.RE_ADD_MSG);
-        }
+        return busLawyerService.addBusLawyer(lawyerDto);
+    }
 
-        return new APIResponse();
+
+    @PostMapping("info")
+//    @RequiresPermissions("/web/lawyer/info")
+    @ApiOperation(httpMethod = "POST", value = "获取律师信息")
+    @ApiOperationSupport(includeParameters = {"lawyerDto.id"})
+    APIResponse lawyerInfo(@RequestBody BusLawyerDto lawyerDto) {
+        return busLawyerService.getBusLawyer(lawyerDto);
+    }
+
+
+    @PostMapping("update")
+//    @RequiresPermissions("/web/lawyer/update")
+    @ApiOperation(httpMethod = "POST", value = "修改律师信息")
+    @ApiOperationSupport(ignoreParameters = {"lawyerDto.account"})
+    APIResponse lawyerUpdate(@RequestBody BusLawyerDto lawyerDto) {
+        return busLawyerService.updateBusLawyer(lawyerDto);
     }
 
 }

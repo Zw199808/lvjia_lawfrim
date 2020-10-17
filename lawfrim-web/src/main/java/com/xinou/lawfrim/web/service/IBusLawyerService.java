@@ -25,7 +25,21 @@ public interface IBusLawyerService extends IService<BusLawyer> {
     /**
      * 添加律师
      * @param lawyer 律师信息
-     * @return 是否成功
+     * @return
      */
-    boolean addBusLawyer(BusLawyerDto lawyer);
+    APIResponse addBusLawyer(BusLawyerDto lawyer);
+
+    /**
+     * 获取律师信息
+     * @param lawyer 律师id
+     * @return
+     */
+    APIResponse getBusLawyer(BusLawyerDto lawyer);
+
+    /**
+     * 修改律师信息
+     * @param lawyer 律师信息
+     * @return
+     */
+    APIResponse updateBusLawyer(BusLawyerDto lawyer);
 }
