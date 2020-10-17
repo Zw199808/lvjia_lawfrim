@@ -33,10 +33,10 @@ public class BusLawyerDto implements Serializable {
     @ApiModelProperty(value = "律师在线状态0:- 1:在线 2:不在线")
     private Integer state;//在线状态
 
-    @ApiModelProperty(value = "姓名")
+    @ApiModelProperty(value = "姓名", required = true)
     private String name;//姓名
 
-    @ApiModelProperty(value = "账户")
+    @ApiModelProperty(value = "账户", required = true)
     private String account;//账户
 
     @ApiModelProperty(value = "密码")

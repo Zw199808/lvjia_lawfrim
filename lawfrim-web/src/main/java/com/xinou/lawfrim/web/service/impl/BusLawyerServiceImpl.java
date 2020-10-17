@@ -112,23 +112,23 @@ public class BusLawyerServiceImpl extends ServiceImpl<BusLawyerMapper, BusLawyer
     }
 
     @Override
-    public APIResponse getBusLawyer(BusLawyerDto lawyer) {
+    public APIResponse<LawyerVo>  getBusLawyer(BusLawyerDto lawyer) {
         BusLawyer busLawyer = busLawyerMapper.selectById(lawyer.getId());
         if (busLawyer == null){
-            return new APIResponse(Config.RE_DATA_NOT_EXIST_ERROR_CODE,Config.RE_DATA_NOT_EXIST_ERROR_MSG);
+            return new APIResponse<>(Config.RE_DATA_NOT_EXIST_ERROR_CODE,Config.RE_DATA_NOT_EXIST_ERROR_MSG);
         }
         SYSUser sysUser = userSSOService.getById(busLawyer.getSysUserId());
         if (busLawyer == null){
-            return new APIResponse(Config.RE_DATA_NOT_EXIST_ERROR_CODE,Config.RE_DATA_NOT_EXIST_ERROR_MSG);
+            return new APIResponse<>(Config.RE_DATA_NOT_EXIST_ERROR_CODE,Config.RE_DATA_NOT_EXIST_ERROR_MSG);
         }
         ReSYSUserRole reSYSUserRole = reUserRoleSSOService.getOne(new QueryWrapper<ReSYSUserRole>()
                                                                   .eq("user_id",sysUser.getId()));
         if (reSYSUserRole == null){
-            return new APIResponse(Config.RE_DATA_NOT_EXIST_ERROR_CODE,Config.RE_DATA_NOT_EXIST_ERROR_MSG);
+            return new APIResponse<>(Config.RE_DATA_NOT_EXIST_ERROR_CODE,Config.RE_DATA_NOT_EXIST_ERROR_MSG);
         }
         Role role = roleSSOService.getById(reSYSUserRole.getRoleId());
         if (role == null){
-            return new APIResponse(Config.RE_DATA_NOT_EXIST_ERROR_CODE,Config.RE_DATA_NOT_EXIST_ERROR_MSG);
+            return new APIResponse<>(Config.RE_DATA_NOT_EXIST_ERROR_CODE,Config.RE_DATA_NOT_EXIST_ERROR_MSG);
         }
         LawyerVo lawyerVo = new LawyerVo();
         lawyerVo.setId(busLawyer.getId());
@@ -138,9 +138,7 @@ public class BusLawyerServiceImpl extends ServiceImpl<BusLawyerMapper, BusLawyer
         lawyerVo.setState(busLawyer.getState());
         lawyerVo.setRoleId(reSYSUserRole.getRoleId());
         lawyerVo.setRoleName(role.getName());
-        Map<String, Object> map = new HashMap<>(1);
-        map.put(Config.DATA_INFO, lawyerVo);
-        return new APIResponse(map);
+        return new APIResponse<>(lawyerVo);
     }
 
     @Override
