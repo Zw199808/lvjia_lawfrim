@@ -5,6 +5,7 @@ import com.fasterxml.jackson.databind.deser.impl.CreatorCandidate;
 import com.xinou.lawfrim.web.dto.BusLawyerDto;
 import com.xinou.lawfrim.web.entity.BusLawyer;
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
+import com.xinou.lawfrim.web.vo.LawyerVo;
 import org.apache.ibatis.annotations.Param;
 
 import java.util.List;
@@ -25,7 +26,7 @@ public interface BusLawyerMapper extends BaseMapper<BusLawyer> {
      * @param busLawyerDto
      * @return
      */
-    List<BusLawyer> getList(Page<BusLawyer> page, @Param("condition") BusLawyerDto busLawyerDto);
+    List<LawyerVo> getList(Page<BusLawyerDto> page, @Param("condition") BusLawyerDto busLawyerDto);
 
     /**
      * 总数

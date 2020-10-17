@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.xinou.lawfrim.web.mapper.BusLawyerMapper">
+
+    <select id="getList" resultType="com.xinou.lawfrim.web.vo.LawyerVo">
+        select lawyer.name,
+               lawyer.state,
+               lawyer.gmt_create as createTime
+               sus.account,
+               rur.role_id as roleId,
+               role.name as roleName
+        from bus_lawyer lawyer
+        left join sys_user sus on lawyer.sys_user_id = sus.id
+        left join sys_re_user_role rur on rur.user_id = lawyer.sys_user_id
+        left join sys_role role on role.id = rur.role_id
+        where lawyer.is_delete = 0
+        <if test = " condition.name != null and condition.name != '' ">
+            <bind name="name" value="'%'+condition.name+'%'"/>
+            and lawyer.name like #{ name }
+        </if>
+        order by lawyer.gmt_create desc
+    </select>
+
+    <!-- 获取数据总数 -->
+
+    <select id="getTotal" resultType="java.lang.Integer">
+        select lawyer.name,
+        lawyer.state,
+        lawyer.gmt_create as createTime
+        sus.account,
+        rur.role_id as roleId,
+        role.name as roleName
+        from bus_lawyer lawyer
+        left join sys_user sus on lawyer.sys_user_id = sus.id
+        left join sys_re_user_role rur on rur.user_id = lawyer.sys_user_id
+        left join sys_role role on role.id = rur.role_id
+        where lawyer.is_delete = 0
+        <if test = " condition.name != null and condition.name != '' ">
+            <bind name="name" value="'%'+condition.name+'%'"/>
+            and lawyer.name like #{ name }
+        </if>
+    </select>
+</mapper>

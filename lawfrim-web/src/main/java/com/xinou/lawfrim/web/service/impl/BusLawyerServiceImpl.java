@@ -1,9 +1,11 @@
 package com.xinou.lawfrim.web.service.impl;
 
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
+import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.xinou.lawfrim.common.util.APIResponse;
 import com.xinou.lawfrim.common.util.Config;
 import com.xinou.lawfrim.common.util.MD5Util;
+import com.xinou.lawfrim.common.util.TimeChange;
 import com.xinou.lawfrim.sso.entity.ReSYSUserApp;
 import com.xinou.lawfrim.sso.entity.ReSYSUserRole;
 import com.xinou.lawfrim.sso.entity.Role;
@@ -13,8 +15,10 @@ import com.xinou.lawfrim.sso.service.ReUserRoleSSOService;
 import com.xinou.lawfrim.sso.service.RoleSSOService;
 import com.xinou.lawfrim.sso.service.UserSSOService;
 import com.xinou.lawfrim.web.dto.BusLawyerDto;
+import com.xinou.lawfrim.web.entity.BusAgreementAudit;
 import com.xinou.lawfrim.web.entity.BusLawyer;
 import com.xinou.lawfrim.web.mapper.BusLawyerMapper;
+import com.xinou.lawfrim.web.service.IBusAgreementAuditService;
 import com.xinou.lawfrim.web.service.IBusLawyerService;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.xinou.lawfrim.web.vo.LawyerVo;
@@ -23,6 +27,8 @@ import org.springframework.context.annotation.Primary;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.sql.Timestamp;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -54,9 +60,29 @@ public class BusLawyerServiceImpl extends ServiceImpl<BusLawyerMapper, BusLawyer
     @Autowired
     private RoleSSOService roleSSOService;
 
+    @Autowired
+    private IBusAgreementAuditService agreementAuditService;
+
     @Override
     public APIResponse listLawyer(BusLawyerDto busLawyer) {
-        return null;
+        Page<BusLawyerDto> page = new Page<>(busLawyer.getPageNumber(), busLawyer.getPageSize());
+        List<LawyerVo> list = busLawyerMapper.getList(page, busLawyer);
+        Integer total = busLawyerMapper.getTotal(busLawyer);
+        for (LawyerVo lawyerVo :list){
+            Integer count = agreementAuditService.count(new QueryWrapper<BusAgreementAudit>()
+                                        .eq("lawyer_id",lawyerVo.getId())
+                                        .eq("is_delete",0));
+            lawyerVo.setAgreeNum(count);
+        }
+        Map<String, Object> map = new HashMap<>(2);
+        if (list.size() == 0) {
+            map.put("dataList", new ArrayList<>());
+            map.put("total", 0);
+            return new APIResponse(map);
+        }
+        map.put("dataList", list);
+        map.put("total", total);
+        return new APIResponse(map);
     }
 
     @Override
@@ -130,6 +156,7 @@ public class BusLawyerServiceImpl extends ServiceImpl<BusLawyerMapper, BusLawyer
         if (role == null){
             return new APIResponse<>(Config.RE_DATA_NOT_EXIST_ERROR_CODE,Config.RE_DATA_NOT_EXIST_ERROR_MSG);
         }
+        String time = TimeChange.timeChangeString(busLawyer.getGmtCreate());
         LawyerVo lawyerVo = new LawyerVo();
         lawyerVo.setId(busLawyer.getId());
         lawyerVo.setAccount(sysUser.getAccount());
@@ -138,6 +165,7 @@ public class BusLawyerServiceImpl extends ServiceImpl<BusLawyerMapper, BusLawyer
         lawyerVo.setState(busLawyer.getState());
         lawyerVo.setRoleId(reSYSUserRole.getRoleId());
         lawyerVo.setRoleName(role.getName());
+        lawyerVo.setCreateTime(time);
         return new APIResponse<>(lawyerVo);
     }
 

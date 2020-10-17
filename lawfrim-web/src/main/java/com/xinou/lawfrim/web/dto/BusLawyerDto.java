@@ -25,7 +25,7 @@ import java.io.Serializable;
 @Data
 @ToString
 @NoArgsConstructor
-public class BusLawyerDto implements Serializable {
+public class BusLawyerDto extends PageDto implements Serializable {
 
     @ApiModelProperty(value = "id")
     private Integer id;//id

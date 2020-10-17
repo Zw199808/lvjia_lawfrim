@@ -29,12 +29,12 @@ public class LawyerVo implements Serializable {
     @ApiModelProperty("主键")
     private Integer id;
 
-    @ApiModelProperty("name")
+    @ApiModelProperty("姓名")
     private String name;
 
 //    private Integer sysUserId;
 
-    @ApiModelProperty("state")
+    @ApiModelProperty("律师在线状态0:- 1:在线 2:不在线")
     private Integer state;
 
     @ApiModelProperty("账户")
@@ -49,5 +49,9 @@ public class LawyerVo implements Serializable {
     @ApiModelProperty("角色名称")
     private String roleName;
 
+    @ApiModelProperty("注册时间")
+    private String createTime;
 
+    @ApiModelProperty("合同数")
+    private Integer agreeNum;
 }
