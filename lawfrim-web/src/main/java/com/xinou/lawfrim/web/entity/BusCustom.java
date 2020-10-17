@@ -9,6 +9,8 @@ import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.experimental.Accessors;
 
+import java.io.Serializable;
+
 /**
  * <p>
  * 
@@ -22,7 +24,7 @@ import lombok.experimental.Accessors;
 @Accessors(chain = true)
 @TableName("bus_custom")
 @ApiModel(value="BusCustom对象", description="")
-public class BusCustom extends BaseEntity {
+public class BusCustom extends BaseEntity implements Serializable {
 
     private static final long serialVersionUID = 1L;
 
