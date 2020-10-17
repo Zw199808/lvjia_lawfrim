@@ -4,6 +4,7 @@ import com.xinou.lawfrim.web.entity.BusAgreement;
 import com.xinou.lawfrim.web.mapper.BusAgreementMapper;
 import com.xinou.lawfrim.web.service.IBusAgreementService;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
+import org.springframework.context.annotation.Primary;
 import org.springframework.stereotype.Service;
 
 /**
@@ -14,6 +15,7 @@ import org.springframework.stereotype.Service;
  * @author Wangxin
  * @since 2020-10-16
  */
+@Primary
 @Service
 public class BusAgreementServiceImpl extends ServiceImpl<BusAgreementMapper, BusAgreement> implements IBusAgreementService {
 

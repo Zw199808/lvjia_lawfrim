@@ -5,6 +5,7 @@ import com.github.xiaoymin.knife4j.annotations.ApiOperationSupport;
 import com.xinou.lawfrim.common.util.APIResponse;
 import com.xinou.lawfrim.web.dto.BusCustomDto;
 import com.xinou.lawfrim.web.service.IBusCustomService;
+import com.xinou.lawfrim.web.vo.CustomVo;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -32,7 +33,9 @@ public class BusCustomController {
 
     @PostMapping("list")
 //    @RequiresPermissions("/web/custom/list")
-    APIResponse listCustom(@RequestBody BusCustomDto customDto) {
+    @ApiOperation(httpMethod = "POST", value = "客户列表")
+    @ApiOperationSupport(includeParameters = {"customDto.name"})
+    APIResponse<CustomVo> listCustom(@RequestBody BusCustomDto customDto) {
         return customService.listCustom(customDto);
     }
 
@@ -50,7 +53,7 @@ public class BusCustomController {
 //    @RequiresPermissions("/web/custom/info")
     @ApiOperation(httpMethod = "POST", value = "客户信息")
     @ApiOperationSupport(includeParameters = {"customDto.id"})
-    APIResponse customInfo(@RequestBody BusCustomDto customDto) {
+    APIResponse<CustomVo> customInfo(@RequestBody BusCustomDto customDto) {
         return customService.getCustom(customDto);
     }
 
@@ -58,7 +61,7 @@ public class BusCustomController {
     @PostMapping("update")
 //    @RequiresPermissions("/web/custom/update")
     @ApiOperation(httpMethod = "POST", value = "修改客户信息")
-    @ApiOperationSupport(ignoreParameters = {"custom.account"})
+    @ApiOperationSupport(ignoreParameters = {"customDto.account"})
     APIResponse customUpdate(@RequestBody BusCustomDto customDto) {
         return customService.updateCustom(customDto);
     }

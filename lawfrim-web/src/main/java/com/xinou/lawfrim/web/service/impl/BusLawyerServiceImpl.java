@@ -73,7 +73,7 @@ public class BusLawyerServiceImpl extends ServiceImpl<BusLawyerMapper, BusLawyer
                                         .eq("lawyer_id",lawyerVo.getId())
                                         .eq("is_delete",0));
             lawyerVo.setAgreeNum(count);
-            String time = TimeChange.timeStampChangeString(lawyerVo.getGmtCreate());
+            String time = TimeChange.timeChangeStringyMDHM(lawyerVo.getGmtCreate());
             lawyerVo.setCreateTime(time);
         }
         Map<String, Object> map = new HashMap<>(2);
@@ -158,7 +158,11 @@ public class BusLawyerServiceImpl extends ServiceImpl<BusLawyerMapper, BusLawyer
         if (role == null){
             return new APIResponse<>(Config.RE_DATA_NOT_EXIST_ERROR_CODE,Config.RE_DATA_NOT_EXIST_ERROR_MSG);
         }
-        String time = TimeChange.timeChangeString(busLawyer.getGmtCreate());
+        Integer count = agreementAuditService.count(new QueryWrapper<BusAgreementAudit>()
+                .eq("lawyer_id",busLawyer.getId())
+                .eq("is_delete",0));
+
+        String time = TimeChange.timeChangeStringyMDHM(busLawyer.getGmtCreate());
         LawyerVo lawyerVo = new LawyerVo();
         lawyerVo.setId(busLawyer.getId());
         lawyerVo.setAccount(sysUser.getAccount());
@@ -168,6 +172,7 @@ public class BusLawyerServiceImpl extends ServiceImpl<BusLawyerMapper, BusLawyer
         lawyerVo.setRoleId(reSYSUserRole.getRoleId());
         lawyerVo.setRoleName(role.getName());
         lawyerVo.setCreateTime(time);
+        lawyerVo.setAgreeNum(count);
         return new APIResponse<>(lawyerVo);
     }
 

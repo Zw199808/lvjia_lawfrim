@@ -33,6 +33,14 @@ public class TimeChange {
         return  timeFormat(ts,"MM-dd HH:mm:ss");
     }
 
+    /**
+     * 时间戳转字符串  yyyy-MM-dd HH:mm格式
+     * @param ts 时间戳
+     * @return String
+     */
+    public static String timeChangeStringyMDHM(Timestamp ts){
+        return  timeFormat(ts,"yyy-MM-dd HH:mm");
+    }
 
     /**
      * 时间戳转字符串 yyyy-MM-dd 格式
