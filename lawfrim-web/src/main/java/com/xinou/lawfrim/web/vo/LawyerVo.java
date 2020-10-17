@@ -26,21 +26,28 @@ import java.io.Serializable;
 @NoArgsConstructor
 public class LawyerVo implements Serializable {
 
-    private Integer id;//id
+    @ApiModelProperty("主键")
+    private Integer id;
 
+    @ApiModelProperty("name")
     private String name;
 
 //    private Integer sysUserId;
 
+    @ApiModelProperty("state")
     private Integer state;
 
-    private String account;//账户
+    @ApiModelProperty("账户")
+    private String account;
 
-    private String password;//密码
+    @ApiModelProperty("密码")
+    private String password;
 
-    private Integer roleId;//角色id
+    @ApiModelProperty("角色id")
+    private Integer roleId;
 
-    private String roleName;//角色名称
+    @ApiModelProperty("角色名称")
+    private String roleName;
 
 
 }

@@ -4,6 +4,7 @@ import com.xinou.lawfrim.common.util.APIResponse;
 import com.xinou.lawfrim.web.dto.BusLawyerDto;
 import com.xinou.lawfrim.web.entity.BusLawyer;
 import com.baomidou.mybatisplus.extension.service.IService;
+import com.xinou.lawfrim.web.vo.LawyerVo;
 
 /**
  * <p>
@@ -34,7 +35,7 @@ public interface IBusLawyerService extends IService<BusLawyer> {
      * @param lawyer 律师id
      * @return
      */
-    APIResponse getBusLawyer(BusLawyerDto lawyer);
+    APIResponse<LawyerVo>  getBusLawyer(BusLawyerDto lawyer);
 
     /**
      * 修改律师信息

@@ -9,6 +9,7 @@ import com.xinou.lawfrim.web.dto.BusLawyerDto;
 import com.xinou.lawfrim.web.entity.BusLawyer;
 import com.xinou.lawfrim.web.service.IBusLawyerService;
 import com.xinou.lawfrim.web.service.impl.BusLawyerServiceImpl;
+import com.xinou.lawfrim.web.vo.LawyerVo;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiModelProperty;
 import io.swagger.annotations.ApiOperation;
@@ -56,7 +57,7 @@ public class BusLawyerController {
 //    @RequiresPermissions("/web/lawyer/info")
     @ApiOperation(httpMethod = "POST", value = "获取律师信息")
     @ApiOperationSupport(includeParameters = {"lawyerDto.id"})
-    APIResponse lawyerInfo(@RequestBody BusLawyerDto lawyerDto) {
+    APIResponse<LawyerVo> lawyerInfo(@RequestBody BusLawyerDto lawyerDto) {
         return busLawyerService.getBusLawyer(lawyerDto);
     }
 
