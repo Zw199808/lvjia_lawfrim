@@ -21,7 +21,7 @@ public interface IBusLawyerService extends IService<BusLawyer> {
      * @param busLawyer
      * @return
      */
-    APIResponse listLawyer(BusLawyerDto busLawyer);
+    APIResponse<LawyerVo> listLawyer(BusLawyerDto busLawyer);
 
     /**
      * 添加律师

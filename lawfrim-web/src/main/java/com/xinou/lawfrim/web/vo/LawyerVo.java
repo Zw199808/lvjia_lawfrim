@@ -1,8 +1,10 @@
 package com.xinou.lawfrim.web.vo;
 
 import com.baomidou.mybatisplus.annotation.TableName;
+import com.fasterxml.jackson.annotation.JsonFormat;
 import com.xinou.lawfrim.common.util.BaseEntity;
 import com.baomidou.mybatisplus.annotation.TableField;
+import com.xinou.lawfrim.common.util.TimeChange;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
@@ -12,6 +14,7 @@ import lombok.experimental.Accessors;
 import lombok.experimental.SuperBuilder;
 
 import java.io.Serializable;
+import java.sql.Timestamp;
 
 /**
  * <p>
@@ -49,8 +52,12 @@ public class LawyerVo implements Serializable {
     @ApiModelProperty("角色名称")
     private String roleName;
 
-    @ApiModelProperty("注册时间")
+    @ApiModelProperty("注册时间(字符串)")
     private String createTime;
+
+    @JsonFormat(shape = JsonFormat.Shape.STRING,pattern="yyyy-MM-dd HH:mm:ss",timezone="GMT+8")
+    @ApiModelProperty("注册时间(时间戳)")
+    private Timestamp gmtCreate;
 
     @ApiModelProperty("合同数")
     private Integer agreeNum;

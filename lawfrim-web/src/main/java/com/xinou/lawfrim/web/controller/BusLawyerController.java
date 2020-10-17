@@ -39,7 +39,9 @@ public class BusLawyerController {
 
     @PostMapping("list")
 //    @RequiresPermissions("/web/lawyer/list")
-    APIResponse listLawyer(@RequestBody BusLawyerDto lawyerDto) {
+    @ApiOperation(httpMethod = "POST", value = "律师列表")
+    @ApiOperationSupport(includeParameters = {"lawyerDto.name"})
+    APIResponse<LawyerVo> listLawyer(@RequestBody BusLawyerDto lawyerDto) {
         return busLawyerService.listLawyer(lawyerDto);
     }
 
@@ -47,7 +49,7 @@ public class BusLawyerController {
     @PostMapping("add")
 //    @RequiresPermissions("/web/lawyer/add")
     @ApiOperation(httpMethod = "POST", value = "添加律师")
-    @ApiOperationSupport(ignoreParameters = {"lawyerDto.id","lawyerDto.state"})
+    @ApiOperationSupport(ignoreParameters = {"lawyerDto.id","lawyerDto.state","lawyerDto.pageNumber","lawyerDto.pageSize"})
     APIResponse lawyerAdd(@RequestBody BusLawyerDto lawyerDto) {
         return busLawyerService.addBusLawyer(lawyerDto);
     }
@@ -65,7 +67,7 @@ public class BusLawyerController {
     @PostMapping("update")
 //    @RequiresPermissions("/web/lawyer/update")
     @ApiOperation(httpMethod = "POST", value = "修改律师信息")
-    @ApiOperationSupport(ignoreParameters = {"lawyerDto.account"})
+    @ApiOperationSupport(ignoreParameters = {"lawyerDto.account","lawyerDto.pageNumber","lawyerDto.pageSize"})
     APIResponse lawyerUpdate(@RequestBody BusLawyerDto lawyerDto) {
         return busLawyerService.updateBusLawyer(lawyerDto);
     }

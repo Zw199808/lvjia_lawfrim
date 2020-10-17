@@ -3,9 +3,7 @@
 <mapper namespace="com.xinou.lawfrim.web.mapper.BusLawyerMapper">
 
     <select id="getList" resultType="com.xinou.lawfrim.web.vo.LawyerVo">
-        select lawyer.name,
-               lawyer.state,
-               lawyer.gmt_create as createTime
+        select lawyer.*,
                sus.account,
                rur.role_id as roleId,
                role.name as roleName
@@ -24,12 +22,7 @@
     <!-- 获取数据总数 -->
 
     <select id="getTotal" resultType="java.lang.Integer">
-        select lawyer.name,
-        lawyer.state,
-        lawyer.gmt_create as createTime
-        sus.account,
-        rur.role_id as roleId,
-        role.name as roleName
+        select count(*)
         from bus_lawyer lawyer
         left join sys_user sus on lawyer.sys_user_id = sus.id
         left join sys_re_user_role rur on rur.user_id = lawyer.sys_user_id

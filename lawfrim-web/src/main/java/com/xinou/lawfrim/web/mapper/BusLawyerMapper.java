@@ -7,6 +7,7 @@ import com.xinou.lawfrim.web.entity.BusLawyer;
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 import com.xinou.lawfrim.web.vo.LawyerVo;
 import org.apache.ibatis.annotations.Param;
+import org.springframework.stereotype.Repository;
 
 import java.util.List;
 
@@ -18,6 +19,7 @@ import java.util.List;
  * @author Wangxin
  * @since 2020-10-16
  */
+@Repository
 public interface BusLawyerMapper extends BaseMapper<BusLawyer> {
 
     /**

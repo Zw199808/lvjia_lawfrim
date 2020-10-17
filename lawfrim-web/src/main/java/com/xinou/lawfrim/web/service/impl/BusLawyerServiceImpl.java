@@ -64,7 +64,7 @@ public class BusLawyerServiceImpl extends ServiceImpl<BusLawyerMapper, BusLawyer
     private IBusAgreementAuditService agreementAuditService;
 
     @Override
-    public APIResponse listLawyer(BusLawyerDto busLawyer) {
+    public APIResponse<LawyerVo> listLawyer(BusLawyerDto busLawyer) {
         Page<BusLawyerDto> page = new Page<>(busLawyer.getPageNumber(), busLawyer.getPageSize());
         List<LawyerVo> list = busLawyerMapper.getList(page, busLawyer);
         Integer total = busLawyerMapper.getTotal(busLawyer);
@@ -73,6 +73,8 @@ public class BusLawyerServiceImpl extends ServiceImpl<BusLawyerMapper, BusLawyer
                                         .eq("lawyer_id",lawyerVo.getId())
                                         .eq("is_delete",0));
             lawyerVo.setAgreeNum(count);
+            String time = TimeChange.timeStampChangeString(lawyerVo.getGmtCreate());
+            lawyerVo.setCreateTime(time);
         }
         Map<String, Object> map = new HashMap<>(2);
         if (list.size() == 0) {
