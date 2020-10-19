@@ -43,44 +43,44 @@ public class APIResponse<T> implements Serializable {
     }
 
     public APIResponse() {
-        this.reCode = Config.RE_ERROR_CODE;
+        this.reCode = Config.RE_SUCCESS_CODE;
         this.reMsg = Config.RE_SUCCESS_MSG;
     }
 
     public APIResponse(Long id) {
-        this.reCode = Config.RE_ERROR_CODE;
+        this.reCode = Config.RE_SUCCESS_CODE;
         this.reMsg = Config.RE_SUCCESS_MSG;
         body.put("id", id);
     }
 
     public APIResponse(Map data) {
-        this.reCode = Config.RE_ERROR_CODE;
+        this.reCode = Config.RE_SUCCESS_CODE;
         this.reMsg = Config.RE_SUCCESS_MSG;
         body.putAll(data);
     }
 
     public APIResponse(T data) {
-        this.reCode = Config.RE_ERROR_CODE;
+        this.reCode = Config.RE_SUCCESS_CODE;
         this.reMsg = Config.RE_SUCCESS_MSG;
         body.put("dataInfo", data);
     }
 
     public APIResponse(Collection<T> data) {
-        this.reCode = Config.RE_ERROR_CODE;
+        this.reCode = Config.RE_SUCCESS_CODE;
         this.reMsg = Config.RE_SUCCESS_MSG;
         body.put("total", data.size());
         body.put("dataList", data);
     }
 
     public APIResponse(Collection<T> data, Long total) {
-        this.reCode = Config.RE_ERROR_CODE;
+        this.reCode = Config.RE_SUCCESS_CODE;
         this.reMsg = Config.RE_SUCCESS_MSG;
         body.put("total", total);
         body.put("dataList", data);
     }
 
     public APIResponse(Collection<T> data, Integer total) {
-        this.reCode = Config.RE_ERROR_CODE;
+        this.reCode = Config.RE_SUCCESS_CODE;
         this.reMsg = Config.RE_SUCCESS_MSG;
         body.put("total", total);
         body.put("dataList", data);

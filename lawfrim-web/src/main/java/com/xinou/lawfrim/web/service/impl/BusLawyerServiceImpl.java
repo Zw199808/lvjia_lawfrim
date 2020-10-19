@@ -4,7 +4,6 @@ import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.xinou.lawfrim.common.util.APIResponse;
 import com.xinou.lawfrim.common.util.Config;
-import com.xinou.lawfrim.common.util.MD5Util;
 import com.xinou.lawfrim.common.util.TimeChange;
 import com.xinou.lawfrim.sso.entity.ReSYSUserApp;
 import com.xinou.lawfrim.sso.entity.ReSYSUserRole;
@@ -21,13 +20,12 @@ import com.xinou.lawfrim.web.mapper.BusLawyerMapper;
 import com.xinou.lawfrim.web.service.IBusAgreementAuditService;
 import com.xinou.lawfrim.web.service.IBusLawyerService;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
-import com.xinou.lawfrim.web.vo.LawyerVo;
+import com.xinou.lawfrim.web.vo.lawyer.LawyerVo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Primary;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -180,35 +178,51 @@ public class BusLawyerServiceImpl extends ServiceImpl<BusLawyerMapper, BusLawyer
     public APIResponse updateBusLawyer(BusLawyerDto lawyer) {
         BusLawyer busLawyer = getById(lawyer.getId());
         busLawyer.setState(lawyer.getState());
-        busLawyer.setName(lawyer.getName());
+//        busLawyer.setName(lawyer.getName());
         busLawyer.setGmtModified(null);
 
         // 数据插入
         boolean res = updateById(busLawyer);
         if (!res) {
-            throw new RuntimeException("修改律师信息失败");
+            throw new RuntimeException("修改律师在线状态失败");
         }
 
-        //修改sys_user表中姓名
-        SYSUser sysUser = userSSOService.getById(busLawyer.getSysUserId());
-        sysUser.setRealName(lawyer.getName());
-        sysUser.setPassword(lawyer.getPassword());
-        res = userSSOService.updateById(sysUser);
-        if (!res) {
-            throw new RuntimeException("修改律师账户失败");
-        }
+//        //修改sys_user表中密码
+//        SYSUser sysUser = userSSOService.getById(busLawyer.getSysUserId());
+////        sysUser.setRealName(lawyer.getName());
+//        sysUser.setPassword(lawyer.getPassword());
+//        res = userSSOService.updateById(sysUser);
+//        if (!res) {
+//            throw new RuntimeException("修改律师账户失败");
+//        }
 
         // 修改用户角色相关
-        ReSYSUserRole role = reUserRoleSSOService.getOne(
-                new QueryWrapper<ReSYSUserRole>().eq("user_id", busLawyer.getSysUserId())
-        );
-        role.setRoleId(lawyer.getRoleId());
-        role.setGmtModified(null);
-        res = reUserRoleSSOService.updateById(role);
-        if (!res) {
-            throw new RuntimeException("修改律师角色失败");
-        }
+//        ReSYSUserRole role = reUserRoleSSOService.getOne(
+//                new QueryWrapper<ReSYSUserRole>().eq("user_id", busLawyer.getSysUserId())
+//        );
+//        role.setRoleId(lawyer.getRoleId());
+//        role.setGmtModified(null);
+//        res = reUserRoleSSOService.updateById(role);
+//        if (!res) {
+//            throw new RuntimeException("修改律师角色失败");
+//        }
         return new APIResponse();
 
+    }
+
+    @Override
+    public APIResponse updateBusLawyerPassword(BusLawyerDto lawyer) {
+        //修改sys_user表中密码
+        SYSUser sysUser = userSSOService.getById(lawyer.getSysUserId());
+        if (!sysUser.getPassword().equals(lawyer.getOldPassword())){
+            return new APIResponse<>(Config.RE_OLD_PASSWORD_ERROR_CODE,Config.RE_OLD_PASSWORD_ERROR_MSG);
+        }
+//        sysUser.setRealName(lawyer.getName());
+        sysUser.setPassword(lawyer.getPassword());
+        boolean res = userSSOService.updateById(sysUser);
+        if (!res) {
+            throw new RuntimeException("修改律师登录密码失败");
+        }
+        return new APIResponse();
     }
 }

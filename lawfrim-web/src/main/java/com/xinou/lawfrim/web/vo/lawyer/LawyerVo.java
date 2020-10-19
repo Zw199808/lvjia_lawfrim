@@ -1,4 +1,4 @@
-package com.xinou.lawfrim.web.vo;
+package com.xinou.lawfrim.web.vo.lawyer;
 
 import com.baomidou.mybatisplus.annotation.TableName;
 import com.fasterxml.jackson.annotation.JsonFormat;

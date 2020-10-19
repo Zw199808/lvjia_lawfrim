@@ -2,7 +2,7 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.xinou.lawfrim.web.mapper.BusLawyerMapper">
 
-    <select id="getList" resultType="com.xinou.lawfrim.web.vo.LawyerVo">
+    <select id="getList" resultType="com.xinou.lawfrim.web.vo.lawyer.LawyerVo">
         select lawyer.*,
                sus.account,
                rur.role_id as roleId,

@@ -33,11 +33,17 @@ public class BusLawyerDto extends PageDto implements Serializable {
     @ApiModelProperty(value = "律师在线状态0:- 1:在线 2:不在线")
     private Integer state;//在线状态
 
+    @ApiModelProperty(value = "sysUserId")
+    private Integer sysUserId;//sys表userId
+
     @ApiModelProperty(value = "姓名", required = true)
     private String name;//姓名
 
     @ApiModelProperty(value = "账户", required = true)
     private String account;//账户
+
+    @ApiModelProperty(value = "旧密码")
+    private String oldPassword;//密码
 
     @ApiModelProperty(value = "密码")
     private String password;//密码

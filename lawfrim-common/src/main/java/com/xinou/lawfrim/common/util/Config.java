@@ -87,6 +87,9 @@ public class Config {
     public static final String RE_ADD_CODE = "4001";
     public static final String RE_ADD_MSG = "添加数据失败！";
 
+    public static final String RE_OLD_PASSWORD_ERROR_CODE = "4002";
+    public static final String RE_OLD_PASSWORD_ERROR_MSG = "旧密码输入错误！";
+
 
 
 //            public static final String EXCEL_PATH = "D:\\ideaProject\\";

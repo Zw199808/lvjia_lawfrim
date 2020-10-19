@@ -1,25 +1,26 @@
 package com.xinou.lawfrim.web.controller;
 
 
+import cn.hutool.core.bean.BeanUtil;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.github.xiaoymin.knife4j.annotations.ApiOperationSupport;
 import com.xinou.lawfrim.common.util.APIResponse;
-import com.xinou.lawfrim.common.util.Config;
+import com.xinou.lawfrim.sso.entity.SYSUser;
 import com.xinou.lawfrim.web.dto.BusLawyerDto;
 import com.xinou.lawfrim.web.entity.BusLawyer;
 import com.xinou.lawfrim.web.service.IBusLawyerService;
-import com.xinou.lawfrim.web.service.impl.BusLawyerServiceImpl;
-import com.xinou.lawfrim.web.vo.LawyerVo;
-import io.swagger.annotations.Api;
-import io.swagger.annotations.ApiModelProperty;
-import io.swagger.annotations.ApiOperation;
-import org.apache.shiro.authz.annotation.RequiresPermissions;
+import com.xinou.lawfrim.web.vo.lawyer.LawyerSimpleVo;
+import com.xinou.lawfrim.web.vo.lawyer.LawyerVo;
+import io.swagger.annotations.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 import org.springframework.web.bind.annotation.RestController;
+
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
 
 /**
  * <p>
@@ -49,7 +50,7 @@ public class BusLawyerController {
     @PostMapping("add")
 //    @RequiresPermissions("/web/lawyer/add")
     @ApiOperation(httpMethod = "POST", value = "添加律师")
-    @ApiOperationSupport(ignoreParameters = {"lawyerDto.id","lawyerDto.state","lawyerDto.pageNumber","lawyerDto.pageSize"})
+    @ApiOperationSupport(ignoreParameters = {"lawyerDto.id","lawyerDto.state","lawyerDto.pageNumber","lawyerDto.pageSize","lawyerDto.oldPassword","lawyerDto.sysUserId"})
     APIResponse lawyerAdd(@RequestBody BusLawyerDto lawyerDto) {
         return busLawyerService.addBusLawyer(lawyerDto);
     }
@@ -64,12 +65,45 @@ public class BusLawyerController {
     }
 
 
-    @PostMapping("update")
-//    @RequiresPermissions("/web/lawyer/update")
-    @ApiOperation(httpMethod = "POST", value = "修改律师信息")
-    @ApiOperationSupport(ignoreParameters = {"lawyerDto.account","lawyerDto.pageNumber","lawyerDto.pageSize"})
-    APIResponse lawyerUpdate(@RequestBody BusLawyerDto lawyerDto) {
+    @PostMapping("updateState")
+//    @RequiresPermissions("/web/lawyer/updateState")
+    @ApiOperation(httpMethod = "POST", value = "修改律师在线状态")
+    @ApiOperationSupport(includeParameters = {"lawyerDto.state"})
+    APIResponse lawyerUpdate(HttpServletRequest request,@RequestBody BusLawyerDto lawyerDto) {
+        HttpSession session = request.getSession();
+        int adminId = (Integer) session.getAttribute("sysUserId");
+        BusLawyer lawyer = busLawyerService.getOne(new QueryWrapper<BusLawyer>().eq("sys_user_id",adminId));
+        lawyerDto.setId(lawyer.getId());
         return busLawyerService.updateBusLawyer(lawyerDto);
     }
+
+
+    @PostMapping("updatePassword")
+//    @RequiresPermissions("/web/lawyer/updatePassword")
+    @ApiOperation(httpMethod = "POST", value = "修改律师、管理员登录密码")
+    @ApiOperationSupport(includeParameters = {"lawyerDto.password","lawyerDto.oldPassword"})
+    APIResponse lawyerUpdatePassword(HttpServletRequest request,@RequestBody BusLawyerDto lawyerDto) {
+        HttpSession session = request.getSession();
+        int adminId = (Integer) session.getAttribute("sysUserId");
+        lawyerDto.setSysUserId(adminId);
+        return busLawyerService.updateBusLawyerPassword(lawyerDto);
+    }
+
+
+    @PostMapping("get")
+//    @RequiresPermissions("/web/lawyer/get")
+    @ApiOperation("获取律师姓名、职务、个人信息")
+    APIResponse<LawyerVo> getLawyer(HttpServletRequest request) {
+        BusLawyerDto lawyerDto = new BusLawyerDto();
+        HttpSession session = request.getSession();
+        int adminId = (Integer) session.getAttribute("sysUserId");
+        BusLawyer lawyer = busLawyerService.getOne(new QueryWrapper<BusLawyer>().eq("sys_user_id",adminId));
+        lawyerDto.setId(lawyer.getId());
+        return busLawyerService.getBusLawyer(lawyerDto);
+//        LawyerSimpleVo vo = new LawyerSimpleVo();
+//        BeanUtil.copyProperties(busLawyerService.getBusLawyer(lawyerDto).getDataInfo(), vo);
+//        return new APIResponse<>(vo);
+    }
+
 
 }

@@ -1,11 +1,10 @@
 package com.xinou.lawfrim.web.mapper;
 
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
-import com.fasterxml.jackson.databind.deser.impl.CreatorCandidate;
 import com.xinou.lawfrim.web.dto.BusLawyerDto;
 import com.xinou.lawfrim.web.entity.BusLawyer;
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
-import com.xinou.lawfrim.web.vo.LawyerVo;
+import com.xinou.lawfrim.web.vo.lawyer.LawyerVo;
 import org.apache.ibatis.annotations.Param;
 import org.springframework.stereotype.Repository;
 
