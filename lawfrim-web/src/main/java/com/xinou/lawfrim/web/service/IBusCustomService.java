@@ -23,24 +23,32 @@ public interface IBusCustomService extends IService<BusCustom> {
     APIResponse<CustomVo> listCustom(BusCustomDto custom);
 
     /**
-     * 添加律师
+     * 添加客户
      * @param custom 客户信息
      * @return
      */
     APIResponse addCustom(BusCustomDto custom);
 
     /**
-     * 获取律师信息
+     * 获取客户信息
      * @param custom 客户id
      * @return
      */
     APIResponse<CustomVo> getCustom(BusCustomDto custom);
 
     /**
-     * 修改律师信息
+     * 修改客户信息
      * @param custom 客户信息
      * @return
      */
     APIResponse updateCustom(BusCustomDto custom);
+
+
+    /**
+     * 登录
+     * @param custom 客户信息
+     * @return
+     */
+    APIResponse customLogin(BusCustomDto custom);
 
 }

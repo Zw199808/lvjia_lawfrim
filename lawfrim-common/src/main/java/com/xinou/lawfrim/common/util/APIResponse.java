@@ -34,6 +34,9 @@ public class APIResponse<T> implements Serializable {
     @ApiModelProperty(notes = "返回数据")
     private Map<String, Object> body = new HashMap<>();
 
+    @ApiModelProperty(notes = "token")
+    private String token = "";
+
     @ApiModelProperty(notes = "返回实体类示例, 仅用于参考, 实际返回值中没有此字段")
     private T example;
 

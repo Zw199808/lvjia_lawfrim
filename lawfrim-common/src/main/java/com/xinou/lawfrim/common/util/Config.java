@@ -1,5 +1,7 @@
 package com.xinou.lawfrim.common.util;
 
+import com.qiniu.storage.Region;
+
 /**
  * @author: XGLLHZ
  * @date: 2020/5/7 下午9:50
@@ -15,6 +17,16 @@ public class Config {
     public static final String SERVICE_IMG_URL = SERVICE_URL + "file/get/";   //获取图片原图接口
     public static final String SERVICE_TH_IMG_URL = SERVICE_URL + "file/getThumbnail/";   //获取图片缩略图接口
     public static final String LOG_PATH = "/root/project/xinou-upload/";   //生成的用户头像路径
+
+    /**
+     * 文件上传相关
+     */
+    public static final String ACCESSKEY_QN = "S3jdck06nn4poNaKyU6vE5ob8bOkuxPx6LLP6TVL";   //七牛秘钥
+    public static final String SECRETKEY_QN = "TcQP6mQnyjx9xvnFYh4tD8u6GX0LKu-175MZQWXQ";   //七牛私钥
+    public static final String BUCKET_NAME_QN = "lvjia"; //七牛空间名
+    public static final Region BUCKET_ZONE_QN = Region.region2(); //七牛空间地区
+    // 文件上传
+    public static final String SERVICE_UPLOAD_URL = SERVICE_URL + "file/upload";
 
     // 删除字段
     public static final int IS_DELETE = 1;
@@ -89,6 +101,7 @@ public class Config {
 
     public static final String RE_OLD_PASSWORD_ERROR_CODE = "4002";
     public static final String RE_OLD_PASSWORD_ERROR_MSG = "旧密码输入错误！";
+
 
 
 

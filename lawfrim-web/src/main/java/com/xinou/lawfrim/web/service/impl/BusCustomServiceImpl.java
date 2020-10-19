@@ -2,9 +2,11 @@ package com.xinou.lawfrim.web.service.impl;
 
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
+import com.xinou.lawfrim.common.enumeration.TokenTypeEnum;
 import com.xinou.lawfrim.common.util.APIResponse;
 import com.xinou.lawfrim.common.util.Config;
 import com.xinou.lawfrim.common.util.TimeChange;
+import com.xinou.lawfrim.web.base.JwtModel;
 import com.xinou.lawfrim.web.dto.BusCustomDto;
 import com.xinou.lawfrim.web.entity.BusAgreement;
 import com.xinou.lawfrim.web.entity.BusCustom;
@@ -12,6 +14,7 @@ import com.xinou.lawfrim.web.mapper.BusCustomMapper;
 import com.xinou.lawfrim.web.service.IBusAgreementService;
 import com.xinou.lawfrim.web.service.IBusCustomService;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
+import com.xinou.lawfrim.web.util.JwtUtil;
 import com.xinou.lawfrim.web.vo.CustomVo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Primary;
@@ -121,5 +124,29 @@ public class BusCustomServiceImpl extends ServiceImpl<BusCustomMapper, BusCustom
             throw new RuntimeException("修改客户信息失败");
         }
         return new APIResponse();
+    }
+
+    @Override
+    public APIResponse customLogin(BusCustomDto custom) {
+        BusCustom busCustom = busCustomMapper.selectOne(new QueryWrapper<BusCustom>().eq("account",custom.getAccount()));
+        if(busCustom == null){
+            return new APIResponse(Config.RE_ACCOUNT_NOT_EXIST_CODE,Config.RE_ACCOUNT_NOT_EXIST_MSG);
+        }
+        if (!busCustom.getPassword().equals(custom.getPassword())){
+            return new APIResponse(Config.RE_PASSWORD_ERROR_CODE,Config.RE_PASSWORD_ERROR_MSG);
+        }
+        Map<String,Object> data = new HashMap<>(1);
+        return  new APIResponse(data).setToken(
+                JwtUtil.getJwtString(
+                        JwtModel.builder()
+                                .userId(Long.parseLong(busCustom.getId().toString()))
+                                .account(busCustom.getAccount())
+                                .userName(busCustom.getName())
+                                .type(TokenTypeEnum.TYPE_WEB.getType())
+                                .build(),
+                        "custom",
+                        "30d"
+                )
+        );
     }
 }

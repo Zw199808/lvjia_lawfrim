@@ -1,4 +1,4 @@
-package com.xinou.lawfrim.web.controller;
+package com.xinou.lawfrim.web.controller.custom;
 
 
 import com.github.xiaoymin.knife4j.annotations.ApiOperationSupport;
