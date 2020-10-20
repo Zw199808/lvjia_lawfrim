@@ -8,6 +8,7 @@ import com.xinou.lawfrim.web.config.WebLoginToken;
 import com.xinou.lawfrim.web.dto.BusCustomDto;
 import com.xinou.lawfrim.web.dto.BusLawyerDto;
 import com.xinou.lawfrim.web.entity.BusLawyer;
+import com.xinou.lawfrim.web.service.IBusAgreementService;
 import com.xinou.lawfrim.web.service.IBusLawyerService;
 import com.xinou.lawfrim.web.util.HeadersUtil;
 import com.xinou.lawfrim.web.vo.custom.CustomNumVo;
@@ -40,8 +41,11 @@ public class StatisticsController {
     @Autowired
     private IBusLawyerService lawyerService;
 
+    @Autowired
+    private IBusAgreementService agreementService;
+
     @PostMapping("agreementNumByUserId")
-    @ApiOperation(httpMethod = "POST", value = "法务合同（已处理、处理中、全部）数统计")
+    @ApiOperation(httpMethod = "POST", value = "法务合同数统计（已处理、处理中、全部）")
     @WebLoginToken
     APIResponse<CustomNumVo> getCustomAgreementCount(HttpServletRequest request) {
         HttpSession session = request.getSession();
@@ -49,5 +53,11 @@ public class StatisticsController {
         return null;
     }
 
+    @PostMapping("agreementNum")
+    @ApiOperation(httpMethod = "POST", value = "全部合同数统计（已处理、待处理、全部）")
+        //    @RequiresPermissions("/admin/statistics/agreementNum")
+    APIResponse<CustomNumVo> getAllAgreementCount() {
+        return agreementService.getAllAgreementCount();
+    }
 
 }

@@ -1,11 +1,15 @@
 package com.xinou.lawfrim.web.service;
 
 import com.xinou.lawfrim.common.util.APIResponse;
+import com.xinou.lawfrim.web.dto.BusAgreementDto;
 import com.xinou.lawfrim.web.dto.BusCustomDto;
 import com.xinou.lawfrim.web.entity.BusCustom;
 import com.baomidou.mybatisplus.extension.service.IService;
 import com.xinou.lawfrim.web.vo.custom.CustomNumVo;
 import com.xinou.lawfrim.web.vo.custom.CustomVo;
+
+import java.util.HashMap;
+import java.util.Map;
 
 /**
  * <p>
@@ -59,11 +63,12 @@ public interface IBusCustomService extends IService<BusCustom> {
      */
     APIResponse<CustomVo> getCustomInfo(BusCustomDto custom);
 
+
     /**
-     * 获取客户合同数
-     * @param custom 客户信息
+     * 上传合同
+     * @param agreement 客户信息
      * @return
      */
-    APIResponse<CustomNumVo> getCustomAgreementCount(BusCustomDto custom);
+    APIResponse addAgreement(BusAgreementDto agreement);
 
 }

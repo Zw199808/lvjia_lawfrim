@@ -1,0 +1,44 @@
+package com.xinou.lawfrim.web.dto;
+
+import com.baomidou.mybatisplus.annotation.TableField;
+import io.swagger.annotations.ApiModelProperty;
+import io.swagger.models.auth.In;
+import lombok.Data;
+import lombok.NoArgsConstructor;
+import lombok.ToString;
+import org.springframework.web.multipart.MultipartFile;
+
+import java.io.Serializable;
+import java.util.Date;
+
+/**
+ * <p>
+ * 
+ * </p>
+ *
+ * @author Wangxin
+ * @since 2020-10-20
+ */
+@Data
+@ToString
+@NoArgsConstructor
+public class BusAgreementDto extends PageDto implements Serializable {
+
+    @ApiModelProperty(value = "id")
+    private Integer id;
+
+    @ApiModelProperty(value = "需审核方0：-1：甲方2：乙方")
+    private Integer audit;
+
+    @ApiModelProperty(value = "截止日期")
+    private Date endTime;
+
+    @ApiModelProperty(value = "备注")
+    private String remark;
+
+    @ApiModelProperty(value = "文件名")
+    private String name;
+
+    @ApiModelProperty(value = "客户id")
+    private Integer customId;
+}

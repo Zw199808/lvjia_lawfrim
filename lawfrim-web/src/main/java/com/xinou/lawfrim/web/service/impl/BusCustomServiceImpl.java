@@ -7,6 +7,7 @@ import com.xinou.lawfrim.common.util.APIResponse;
 import com.xinou.lawfrim.common.util.Config;
 import com.xinou.lawfrim.common.util.TimeChange;
 import com.xinou.lawfrim.web.base.JwtModel;
+import com.xinou.lawfrim.web.dto.BusAgreementDto;
 import com.xinou.lawfrim.web.dto.BusCustomDto;
 import com.xinou.lawfrim.web.entity.BusAgreement;
 import com.xinou.lawfrim.web.entity.BusCustom;
@@ -15,6 +16,7 @@ import com.xinou.lawfrim.web.service.IBusAgreementService;
 import com.xinou.lawfrim.web.service.IBusCustomService;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.xinou.lawfrim.web.util.JwtUtil;
+import com.xinou.lawfrim.web.util.upLoadFile;
 import com.xinou.lawfrim.web.vo.custom.CustomNumVo;
 import com.xinou.lawfrim.web.vo.custom.CustomVo;
 import io.swagger.models.auth.In;
@@ -164,22 +166,20 @@ public class BusCustomServiceImpl extends ServiceImpl<BusCustomMapper, BusCustom
         return new APIResponse<>(customVo);
     }
 
-    @Override
-    public APIResponse<CustomNumVo> getCustomAgreementCount(BusCustomDto custom) {
-        //根据id查询该对象上传的合同总数
-        Integer agreementCount = agreementService.count(new QueryWrapper<BusAgreement>()
-                                                       .eq("custom_id",custom.getId()));
-        Integer auditCount = agreementService.count(new QueryWrapper<BusAgreement>()
-                                                       .eq("custom_id",custom.getId())
-                                                       .eq("state",4));
-        Integer notAuditCount = agreementService.count(new QueryWrapper<BusAgreement>()
-                                                       .eq("custom_id",custom.getId())
-                                                       .in("state",2,3));
-        CustomNumVo customNumVo = new CustomNumVo();
-        customNumVo.setAgreeNum(agreementCount);
-        customNumVo.setAuditAgreement(auditCount);
-        customNumVo.setNotAuditAgreement(notAuditCount);
 
-        return new APIResponse<>(customNumVo);
+    @Override
+    public APIResponse addAgreement(BusAgreementDto agreement) {
+        BusAgreement busAgreement = new BusAgreement();
+        busAgreement.setAudit(agreement.getAudit());
+        busAgreement.setCustomId(agreement.getCustomId());
+        busAgreement.setEndTime(agreement.getEndTime());
+        busAgreement.setName(agreement.getName());
+        busAgreement.setRemark(agreement.getRemark());
+        busAgreement.setState(1);
+        boolean res = agreementService.save(busAgreement);
+        if (!res){
+            throw new RuntimeException("上传合同失败");
+        }
+        return new APIResponse();
     }
 }

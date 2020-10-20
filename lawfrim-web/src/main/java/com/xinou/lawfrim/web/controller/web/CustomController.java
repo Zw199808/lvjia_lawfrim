@@ -3,7 +3,9 @@ package com.xinou.lawfrim.web.controller.web;
 import com.github.xiaoymin.knife4j.annotations.ApiOperationSupport;
 import com.xinou.lawfrim.common.util.APIResponse;
 import com.xinou.lawfrim.web.config.WebLoginToken;
+import com.xinou.lawfrim.web.dto.BusAgreementDto;
 import com.xinou.lawfrim.web.dto.BusCustomDto;
+import com.xinou.lawfrim.web.service.IBusAgreementService;
 import com.xinou.lawfrim.web.service.IBusCustomService;
 import com.xinou.lawfrim.web.util.HeadersUtil;
 import com.xinou.lawfrim.web.vo.custom.CustomNumVo;
@@ -17,6 +19,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import javax.servlet.http.HttpServletRequest;
+import java.util.HashMap;
+import java.util.Map;
 
 /**
  * @author Wangxin
@@ -29,6 +33,9 @@ public class CustomController {
 
     @Autowired
     private IBusCustomService customService;
+
+    @Autowired
+    private IBusAgreementService agreementService;
 
     @PostMapping("login")
     @ApiOperation(httpMethod = "POST", value = "客户登录")
@@ -51,8 +58,18 @@ public class CustomController {
     @ApiOperation(httpMethod = "POST", value = "客户合同数（全部、处理中、已处理）")
     @WebLoginToken
     APIResponse<CustomNumVo> getCustomAgreementCount(HttpServletRequest request) {
-        BusCustomDto busCustomDto = new BusCustomDto();
-        busCustomDto.setId(Integer.parseInt(HeadersUtil.getUserId(request).toString()));
-        return customService.getCustomAgreementCount(busCustomDto);
+        BusAgreementDto agreementDto = new BusAgreementDto();
+        agreementDto.setCustomId(Integer.parseInt(HeadersUtil.getUserId(request).toString()));
+        return agreementService.getCustomAgreementCount(agreementDto);
     }
+
+    @PostMapping("addAgreement")
+    @ApiOperation(httpMethod = "POST", value = "上传合同")
+    @WebLoginToken
+    @ApiOperationSupport(includeParameters = {"agreementDto.audit","agreementDto.endTime","agreementDto.remark","agreementDto.name"})
+    APIResponse<CustomNumVo> addAgreement(HttpServletRequest request,@RequestBody BusAgreementDto agreementDto) {
+        agreementDto.setCustomId(Integer.parseInt(HeadersUtil.getUserId(request).toString()));
+        return customService.addAgreement(agreementDto);
+    }
+
 }
