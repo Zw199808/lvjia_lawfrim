@@ -6,7 +6,7 @@ spring:
     password: ENC(67G89rGvXtHrbMsgp3vcAGll5NwYNy/h)
 server:
   servlet:
-    context-path: /api
+    context-path:
 
 
 
