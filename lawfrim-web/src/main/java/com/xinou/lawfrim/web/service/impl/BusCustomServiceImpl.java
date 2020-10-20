@@ -15,7 +15,9 @@ import com.xinou.lawfrim.web.service.IBusAgreementService;
 import com.xinou.lawfrim.web.service.IBusCustomService;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.xinou.lawfrim.web.util.JwtUtil;
-import com.xinou.lawfrim.web.vo.CustomVo;
+import com.xinou.lawfrim.web.vo.custom.CustomNumVo;
+import com.xinou.lawfrim.web.vo.custom.CustomVo;
+import io.swagger.models.auth.In;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Primary;
 import org.springframework.stereotype.Service;
@@ -160,5 +162,24 @@ public class BusCustomServiceImpl extends ServiceImpl<BusCustomMapper, BusCustom
         customVo.setPassword(busCustom.getPassword());
         customVo.setCreateTime(TimeChange.timeStampChangeString(busCustom.getGmtCreate()));
         return new APIResponse<>(customVo);
+    }
+
+    @Override
+    public APIResponse<CustomNumVo> getCustomAgreementCount(BusCustomDto custom) {
+        //根据id查询该对象上传的合同总数
+        Integer agreementCount = agreementService.count(new QueryWrapper<BusAgreement>()
+                                                       .eq("custom_id",custom.getId()));
+        Integer auditCount = agreementService.count(new QueryWrapper<BusAgreement>()
+                                                       .eq("custom_id",custom.getId())
+                                                       .eq("state",4));
+        Integer notAuditCount = agreementService.count(new QueryWrapper<BusAgreement>()
+                                                       .eq("custom_id",custom.getId())
+                                                       .in("state",2,3));
+        CustomNumVo customNumVo = new CustomNumVo();
+        customNumVo.setAgreeNum(agreementCount);
+        customNumVo.setAuditAgreement(auditCount);
+        customNumVo.setNotAuditAgreement(notAuditCount);
+
+        return new APIResponse<>(customNumVo);
     }
 }

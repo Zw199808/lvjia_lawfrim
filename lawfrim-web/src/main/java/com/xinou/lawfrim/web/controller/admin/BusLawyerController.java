@@ -1,4 +1,4 @@
-package com.xinou.lawfrim.web.controller;
+package com.xinou.lawfrim.web.controller.admin;
 
 
 import cn.hutool.core.bean.BeanUtil;

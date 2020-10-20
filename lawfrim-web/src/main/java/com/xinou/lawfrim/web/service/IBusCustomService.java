@@ -4,7 +4,8 @@ import com.xinou.lawfrim.common.util.APIResponse;
 import com.xinou.lawfrim.web.dto.BusCustomDto;
 import com.xinou.lawfrim.web.entity.BusCustom;
 import com.baomidou.mybatisplus.extension.service.IService;
-import com.xinou.lawfrim.web.vo.CustomVo;
+import com.xinou.lawfrim.web.vo.custom.CustomNumVo;
+import com.xinou.lawfrim.web.vo.custom.CustomVo;
 
 /**
  * <p>
@@ -57,5 +58,12 @@ public interface IBusCustomService extends IService<BusCustom> {
      * @return
      */
     APIResponse<CustomVo> getCustomInfo(BusCustomDto custom);
+
+    /**
+     * 获取客户合同数
+     * @param custom 客户信息
+     * @return
+     */
+    APIResponse<CustomNumVo> getCustomAgreementCount(BusCustomDto custom);
 
 }

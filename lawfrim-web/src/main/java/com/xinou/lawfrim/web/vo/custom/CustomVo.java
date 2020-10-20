@@ -1,4 +1,4 @@
-package com.xinou.lawfrim.web.vo;
+package com.xinou.lawfrim.web.vo.custom;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
 import io.swagger.annotations.ApiModelProperty;

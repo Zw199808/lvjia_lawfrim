@@ -6,7 +6,8 @@ import com.xinou.lawfrim.web.config.WebLoginToken;
 import com.xinou.lawfrim.web.dto.BusCustomDto;
 import com.xinou.lawfrim.web.service.IBusCustomService;
 import com.xinou.lawfrim.web.util.HeadersUtil;
-import com.xinou.lawfrim.web.vo.CustomVo;
+import com.xinou.lawfrim.web.vo.custom.CustomNumVo;
+import com.xinou.lawfrim.web.vo.custom.CustomVo;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -40,9 +41,18 @@ public class CustomController {
     @PostMapping("info")
     @ApiOperation(httpMethod = "POST", value = "客户简介、个人信息")
     @WebLoginToken
-    APIResponse<CustomVo> listCustom(HttpServletRequest request) {
+    APIResponse<CustomVo> getCustomInfo(HttpServletRequest request) {
         BusCustomDto busCustomDto = new BusCustomDto();
         busCustomDto.setId(Integer.parseInt(HeadersUtil.getUserId(request).toString()));
         return customService.getCustomInfo(busCustomDto);
+    }
+
+    @PostMapping("StatisticsAgreementNum")
+    @ApiOperation(httpMethod = "POST", value = "客户合同数（全部、处理中、已处理）")
+    @WebLoginToken
+    APIResponse<CustomNumVo> getCustomAgreementCount(HttpServletRequest request) {
+        BusCustomDto busCustomDto = new BusCustomDto();
+        busCustomDto.setId(Integer.parseInt(HeadersUtil.getUserId(request).toString()));
+        return customService.getCustomAgreementCount(busCustomDto);
     }
 }

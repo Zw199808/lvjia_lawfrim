@@ -5,7 +5,7 @@ import com.github.xiaoymin.knife4j.annotations.ApiOperationSupport;
 import com.xinou.lawfrim.common.util.APIResponse;
 import com.xinou.lawfrim.web.dto.BusCustomDto;
 import com.xinou.lawfrim.web.service.IBusCustomService;
-import com.xinou.lawfrim.web.vo.CustomVo;
+import com.xinou.lawfrim.web.vo.custom.CustomVo;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
