@@ -22,15 +22,15 @@
     </dependencies>
 
     <build>
-        <finalName>lawfrim-0.0.1-SNAPSHOT</finalName>
         <plugins>
             <plugin>
                 <groupId>org.springframework.boot</groupId>
                 <artifactId>spring-boot-maven-plugin</artifactId>
                 <configuration>
                     <!-- 指定该类为全局唯一入口 -->
-                    <mainClass>com.xinou.lawfrim.MainApplication</mainClass>
+                    <mainClass>com.xinou.main.MainApplication</mainClass>
                     <layout>ZIP</layout>
+                    <outputDirectory>../sh</outputDirectory>
                 </configuration>
                 <executions>
                     <execution>
@@ -43,6 +43,4 @@
             </plugin>
         </plugins>
     </build>
-
-
 </project>
