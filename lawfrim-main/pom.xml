@@ -28,7 +28,7 @@
                 <artifactId>spring-boot-maven-plugin</artifactId>
                 <configuration>
                     <!-- 指定该类为全局唯一入口 -->
-                    <mainClass>com.xinou.main.MainApplication</mainClass>
+                    <mainClass>com.xinou.lawfrim.MainApplication</mainClass>
                     <layout>ZIP</layout>
                     <outputDirectory>../sh</outputDirectory>
                 </configuration>
