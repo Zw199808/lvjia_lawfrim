@@ -50,5 +50,17 @@ public class BusAgreementAudit extends BaseEntity {
     @TableField("type")
     private Integer type;
 
+    @ApiModelProperty("处理中合同数")
+    @TableField(exist = false)
+    private Integer notAuditAgreement;
+
+    @ApiModelProperty("已处理合同数")
+    @TableField(exist = false)
+    private Integer auditAgreement;
+
+    @ApiModelProperty("合同总数")
+    @TableField(exist = false)
+    private Integer agreeNum;
+
 
 }

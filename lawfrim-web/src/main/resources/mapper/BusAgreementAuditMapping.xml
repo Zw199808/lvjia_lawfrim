@@ -2,4 +2,13 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.xinou.lawfrim.web.mapper.BusAgreementAuditMapper">
 
+    <select id="getLawyerAgreementCount" resultType="com.xinou.lawfrim.web.vo.custom.CustomNumVo">
+         SELECT count(agree.id) as agreeNum,
+                count(case when agree.state in(1,2,3) then 1  end ) notAuditAgreement,
+                count(case when agree.state = 4 then 1  end ) auditAgreement
+         FROM bus_agreement_audit audit
+                left join bus_agreement agree on agree.id = audit.agreement_id
+                where agree.is_delete = 0
+                and audit.lawyer_id = #{condition.lawyerId}
+    </select>
 </mapper>
