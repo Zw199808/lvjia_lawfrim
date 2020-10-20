@@ -1,4 +1,4 @@
-package com.xinou.lawfrim.web.controller.custom;
+package com.xinou.lawfrim.web.controller.admin;
 
 
 import com.github.xiaoymin.knife4j.annotations.ApiOperationSupport;
@@ -24,8 +24,8 @@ import org.springframework.web.bind.annotation.RestController;
  * @since 2020-10-16
  */
 @RestController
-@RequestMapping("/web/custom")
-@Api(tags = {"客户"})
+@RequestMapping("/admin/custom")
+@Api(tags = {"管理员-管理客户"})
 public class BusCustomController {
 
     @Autowired
@@ -43,7 +43,7 @@ public class BusCustomController {
     @PostMapping("add")
 //    @RequiresPermissions("/web/custom/add")
     @ApiOperation(httpMethod = "POST", value = "添加客户")
-    @ApiOperationSupport(ignoreParameters = {"customDto.id"})
+    @ApiOperationSupport(ignoreParameters = {"customDto.id","customDto.oldPassword"})
     APIResponse customAdd(@RequestBody BusCustomDto customDto) {
         return customService.addCustom(customDto);
     }
@@ -61,7 +61,7 @@ public class BusCustomController {
     @PostMapping("update")
 //    @RequiresPermissions("/web/custom/update")
     @ApiOperation(httpMethod = "POST", value = "修改客户信息")
-    @ApiOperationSupport(ignoreParameters = {"customDto.account"})
+    @ApiOperationSupport(includeParameters = {"customDto.password","customDto.id"})
     APIResponse customUpdate(@RequestBody BusCustomDto customDto) {
         return customService.updateCustom(customDto);
     }

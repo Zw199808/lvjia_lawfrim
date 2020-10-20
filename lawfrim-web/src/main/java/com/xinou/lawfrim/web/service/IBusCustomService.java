@@ -51,4 +51,11 @@ public interface IBusCustomService extends IService<BusCustom> {
      */
     APIResponse customLogin(BusCustomDto custom);
 
+    /**
+     * 获取用户信息
+     * @param custom 客户信息
+     * @return
+     */
+    APIResponse<CustomVo> getCustomInfo(BusCustomDto custom);
+
 }

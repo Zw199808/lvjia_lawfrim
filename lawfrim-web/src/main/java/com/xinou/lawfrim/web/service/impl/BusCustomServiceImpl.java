@@ -115,7 +115,7 @@ public class BusCustomServiceImpl extends ServiceImpl<BusCustomMapper, BusCustom
     public APIResponse updateCustom(BusCustomDto custom) {
         BusCustom busCustom = getById(custom.getId());
         busCustom.setPassword(custom.getPassword());
-        busCustom.setName(custom.getName());
+//        busCustom.setName(custom.getName());
         busCustom.setGmtModified(null);
 
         // 数据插入
@@ -148,5 +148,17 @@ public class BusCustomServiceImpl extends ServiceImpl<BusCustomMapper, BusCustom
                         "30d"
                 )
         );
+    }
+
+    @Override
+    public APIResponse<CustomVo> getCustomInfo(BusCustomDto custom) {
+        BusCustom busCustom = busCustomMapper.selectById(custom.getId());
+        CustomVo customVo = new CustomVo();
+        customVo.setAccount(busCustom.getAccount());
+        customVo.setName(busCustom.getName());
+        customVo.setId(busCustom.getId());
+        customVo.setPassword(busCustom.getPassword());
+        customVo.setCreateTime(TimeChange.timeStampChangeString(busCustom.getGmtCreate()));
+        return new APIResponse<>(customVo);
     }
 }

@@ -32,9 +32,6 @@ public class Config {
     public static final int IS_DELETE = 1;
     public static final int NOT_DELETE = 0;
 
-    // 车辆状态
-    public static final String CAR_STATUS_DISABLED = "使用中";
-    public static final String CAR_STATUS_FREE = "空闲";
 
     //数据不存在
     public static final String RE_DATA_NOT_EXIST_ERROR_CODE = "3301";
@@ -42,6 +39,12 @@ public class Config {
 
     public static final String RE_CODE_DATABASE_ERROR = "100";
     public static final String RE_MSG_DATABASE_ERROR = "网络连接异常";
+
+    public static final String RE_CODE_PARAM_ERROR = "102";
+    public static final String RE_MSG_PARAM_ERROR = "参数错误";
+
+    public static final String RE_CODE_NO_HAVE_TOKEN = "1003";
+    public static final String RE_MSG_NO_HAVE_TOKEN = "请携带token";
 
     public static final String DATA_LIST = "dataList";
     public static final String DATA_INFO = "dataInfo";

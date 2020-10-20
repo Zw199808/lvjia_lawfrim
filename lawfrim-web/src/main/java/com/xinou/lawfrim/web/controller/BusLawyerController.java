@@ -31,7 +31,7 @@ import javax.servlet.http.HttpSession;
  * @since 2020-10-16
  */
 @RestController
-@RequestMapping("/web/lawyer")
+@RequestMapping("/admin/lawyer")
 @Api(tags = {"律师"})
 public class BusLawyerController {
 
