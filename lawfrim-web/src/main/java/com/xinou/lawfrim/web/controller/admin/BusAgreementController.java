@@ -67,6 +67,7 @@ public class BusAgreementController {
     @PostMapping("agreementInfo")
 //    @RequiresPermissions("/admin/agreement/agreementInfo")
     @ApiOperation(httpMethod = "POST", value = "合同详情")
+    @ApiOperationSupport(includeParameters = {"agreement.id"})
     APIResponse agreementInfo(@RequestBody BusAgreementDto agreement) {
         return agreementService.getAgreementInfo(agreement);
     }

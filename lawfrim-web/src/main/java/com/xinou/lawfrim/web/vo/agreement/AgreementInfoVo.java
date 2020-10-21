@@ -2,6 +2,7 @@ package com.xinou.lawfrim.web.vo.agreement;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
 import io.swagger.annotations.ApiModelProperty;
+import io.swagger.models.auth.In;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import lombok.experimental.SuperBuilder;
@@ -29,10 +30,10 @@ public class AgreementInfoVo implements Serializable {
     private String customName;
 
     @ApiModelProperty("合同类型0：- 1：买卖合同 2：供水电气热力合同 3：赠与合同 4：借款合同 5：租赁合同 6：股权合同 7：融资租赁合同 8：承揽合同 9：建设工程合同 10：物流运输合同 11：技术合同 12：保管合同 13：仓储合同 14：委托合同 15：行纪合同 16：居间合同 17：混合法律关系合同 18：其他合同")
-    private String agreeType;
+    private Integer agreeType;
 
     @ApiModelProperty("需审核方0：- 1：甲方 2：乙方")
-    private String agreeAudit;
+    private Integer agreeAudit;
 
     @ApiModelProperty("上传日期")
     private String applyTime;

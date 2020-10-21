@@ -66,7 +66,6 @@ public class BusAgreementAudit extends BaseEntity {
     private Integer agreeNum;
 
     @ApiModelProperty("复审律师id")
-    @TableField(exist = false)
     private Integer endLawyerId;
 
     @ApiModelProperty("初审回复时间")

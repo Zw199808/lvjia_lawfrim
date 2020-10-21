@@ -9,6 +9,7 @@ import lombok.ToString;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.Serializable;
+import java.sql.Timestamp;
 import java.util.Date;
 import java.util.List;
 
@@ -32,7 +33,7 @@ public class BusAgreementDto extends PageDto implements Serializable {
     private Integer audit;
 
     @ApiModelProperty(value = "截止日期")
-    private Date endTime;
+    private Timestamp endTime;
 
     @ApiModelProperty(value = "备注")
     private String remark;

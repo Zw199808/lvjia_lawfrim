@@ -1,6 +1,8 @@
 package com.xinou.lawfrim.web.entity;
 
 import com.baomidou.mybatisplus.annotation.TableName;
+
+import java.sql.Timestamp;
 import java.util.Date;
 import com.xinou.lawfrim.common.util.BaseEntity;
 import com.baomidou.mybatisplus.annotation.TableField;
@@ -41,7 +43,7 @@ public class BusAgreement extends BaseEntity {
 
     @ApiModelProperty(value = "截止日期")
     @TableField("end_time")
-    private Date endTime;
+    private Timestamp endTime;
 
     @ApiModelProperty(value = "需审核方0：-1：甲方2：乙方")
     @TableField("audit")
