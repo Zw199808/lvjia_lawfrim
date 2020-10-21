@@ -59,7 +59,7 @@ public class SwaggerConfig {
 
     private ApiInfo apiInfo() {
         return new ApiInfoBuilder()
-                .title("氯甲 CRM API 文档")
+                .title("文契 CRM API 文档")
                 .description("")
                 .version("1.0.0")
                 .build();
