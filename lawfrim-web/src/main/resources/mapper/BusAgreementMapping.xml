@@ -3,6 +3,7 @@
 <mapper namespace="com.xinou.lawfrim.web.mapper.BusAgreementMapper">
     <select id="getList" resultType="com.xinou.lawfrim.web.vo.agreement.AgreementListVo">
         SELECT agree.end_time as endTime,
+        agree.id as agreeId,
         agree.name as agreeName,
         agree.state,
         custom.name as customName

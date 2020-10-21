@@ -39,7 +39,7 @@ import javax.servlet.http.HttpSession;
  */
 @RestController
 @RequestMapping("/admin/lawyer")
-@Api(tags = {"律师"})
+@Api(tags = {"律师法务"})
 public class BusLawyerController {
 
     @Autowired
@@ -113,15 +113,6 @@ public class BusLawyerController {
 //        LawyerSimpleVo vo = new LawyerSimpleVo();
 //        BeanUtil.copyProperties(busLawyerService.getBusLawyer(lawyerDto).getDataInfo(), vo);
 //        return new APIResponse<>(vo);
-    }
-
-
-    @PostMapping("downloadAgreement")
-    @ApiOperation(httpMethod = "POST", value = "下载合同")
-    //    @RequiresPermissions("/admin/lawyer/downloadAgreement")
-    @ApiOperationSupport(includeParameters = {"agreementDto.id"})
-    APIResponse<AgreementVo> downloadAgreement(@RequestBody BusAgreementDto agreementDto) {
-        return agreementService.downloadAgreement(agreementDto);
     }
 
 

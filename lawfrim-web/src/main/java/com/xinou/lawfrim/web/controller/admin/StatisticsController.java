@@ -38,7 +38,7 @@ import javax.servlet.http.HttpSession;
  */
 @RestController
 @RequestMapping("/admin/statistics")
-@Api(tags = {"律师法务统计"})
+@Api(tags = {"律师法务-统计"})
 public class StatisticsController {
 
     @Autowired

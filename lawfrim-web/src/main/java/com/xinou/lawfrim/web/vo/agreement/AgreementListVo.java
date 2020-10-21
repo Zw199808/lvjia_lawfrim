@@ -20,6 +20,9 @@ import java.io.Serializable;
 @NoArgsConstructor
 public class AgreementListVo implements Serializable {
 
+    @ApiModelProperty("合同id")
+    private Integer agreeId;
+
     @ApiModelProperty("合同名称")
     private String agreeName;
 
@@ -33,8 +36,8 @@ public class AgreementListVo implements Serializable {
     private Integer state;
 
     @ApiModelProperty("初审合同名")
-    private Integer firstAgreeName;
+    private String firstAgreeName;
 
     @ApiModelProperty("终审合同名")
-    private Integer endAgreeName;
+    private String endAgreeName;
 }

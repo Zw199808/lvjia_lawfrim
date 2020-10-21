@@ -8,6 +8,7 @@ import com.xinou.lawfrim.web.dto.BusAgreementDto;
 import com.xinou.lawfrim.web.service.IBusAgreementAuditService;
 import com.xinou.lawfrim.web.service.IBusAgreementService;
 import com.xinou.lawfrim.web.vo.agreement.AgreementListVo;
+import com.xinou.lawfrim.web.vo.agreement.AgreementVo;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -30,7 +31,7 @@ import javax.servlet.http.HttpSession;
  */
 @RestController
 @RequestMapping("/admin/agreement")
-@Api(tags = {"法务律师-合同"})
+@Api(tags = {"律师法务-合同"})
 public class BusAgreementController {
 
     @Autowired
@@ -68,5 +69,13 @@ public class BusAgreementController {
     @ApiOperation(httpMethod = "POST", value = "合同详情")
     APIResponse agreementInfo(@RequestBody BusAgreementDto agreement) {
         return agreementService.getAgreementInfo(agreement);
+    }
+
+    @PostMapping("downloadAgreement")
+    @ApiOperation(httpMethod = "POST", value = "下载合同")
+    //    @RequiresPermissions("/admin/lawyer/downloadAgreement")
+    @ApiOperationSupport(includeParameters = {"agreementDto.id"})
+    APIResponse<AgreementVo> downloadAgreement(@RequestBody BusAgreementDto agreementDto) {
+        return agreementService.downloadAgreement(agreementDto);
     }
 }

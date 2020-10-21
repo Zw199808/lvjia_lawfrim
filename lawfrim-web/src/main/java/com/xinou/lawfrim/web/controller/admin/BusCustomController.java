@@ -8,6 +8,7 @@ import com.xinou.lawfrim.web.service.IBusCustomService;
 import com.xinou.lawfrim.web.vo.custom.CustomVo;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
+import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -32,7 +33,7 @@ public class BusCustomController {
     private IBusCustomService customService;
 
     @PostMapping("list")
-//    @RequiresPermissions("/web/custom/list")
+//    @RequiresPermissions("/admin/custom/list")
     @ApiOperation(httpMethod = "POST", value = "客户列表")
     @ApiOperationSupport(includeParameters = {"customDto.name"})
     APIResponse<CustomVo> listCustom(@RequestBody BusCustomDto customDto) {

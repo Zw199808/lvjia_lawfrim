@@ -8,8 +8,10 @@ import com.xinou.lawfrim.web.dto.BusAgreementAuditDto;
 import com.xinou.lawfrim.web.dto.BusAgreementDto;
 import com.xinou.lawfrim.web.service.IBusAgreementAuditService;
 import com.xinou.lawfrim.web.service.IBusAgreementService;
+import com.xinou.lawfrim.web.service.IBusCustomService;
 import com.xinou.lawfrim.web.util.HeadersUtil;
 import com.xinou.lawfrim.web.vo.agreement.AgreementListVo;
+import com.xinou.lawfrim.web.vo.custom.CustomNumVo;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -40,7 +42,7 @@ public class AgreementController {
     private IBusAgreementService agreementService;
 
     @Autowired
-    private IBusAgreementAuditService agreementAuditService;
+    private IBusCustomService customService;
 
 
     @PostMapping("progressList")
@@ -64,7 +66,16 @@ public class AgreementController {
         BusAgreementDto agreementDto = new BusAgreementDto();
         agreementDto.setState(4);
         agreementDto.setCustomId(Integer.parseInt(HeadersUtil.getUserId(request).toString()));
-        return agreementService.listAgreement(agreementDto);
+        return agreementService.finishAgreement(agreementDto);
+    }
+
+    @PostMapping("addAgreement")
+    @ApiOperation(httpMethod = "POST", value = "上传合同")
+    @WebLoginToken
+    @ApiOperationSupport(includeParameters = {"agreementDto.audit","agreementDto.endTime","agreementDto.remark","agreementDto.name"})
+    APIResponse<CustomNumVo> addAgreement(HttpServletRequest request, @RequestBody BusAgreementDto agreementDto) {
+        agreementDto.setCustomId(Integer.parseInt(HeadersUtil.getUserId(request).toString()));
+        return customService.addAgreement(agreementDto);
     }
 
 }

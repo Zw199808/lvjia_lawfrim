@@ -34,8 +34,6 @@ public class CustomController {
     @Autowired
     private IBusCustomService customService;
 
-    @Autowired
-    private IBusAgreementService agreementService;
 
     @PostMapping("login")
     @ApiOperation(httpMethod = "POST", value = "客户登录")
@@ -54,22 +52,5 @@ public class CustomController {
         return customService.getCustomInfo(busCustomDto);
     }
 
-    @PostMapping("StatisticsAgreementNum")
-    @ApiOperation(httpMethod = "POST", value = "客户合同数（全部、处理中、已处理）")
-    @WebLoginToken
-    APIResponse<CustomNumVo> getCustomAgreementCount(HttpServletRequest request) {
-        BusAgreementDto agreementDto = new BusAgreementDto();
-        agreementDto.setCustomId(Integer.parseInt(HeadersUtil.getUserId(request).toString()));
-        return agreementService.getCustomAgreementCount(agreementDto);
-    }
-
-    @PostMapping("addAgreement")
-    @ApiOperation(httpMethod = "POST", value = "上传合同")
-    @WebLoginToken
-    @ApiOperationSupport(includeParameters = {"agreementDto.audit","agreementDto.endTime","agreementDto.remark","agreementDto.name"})
-    APIResponse<CustomNumVo> addAgreement(HttpServletRequest request,@RequestBody BusAgreementDto agreementDto) {
-        agreementDto.setCustomId(Integer.parseInt(HeadersUtil.getUserId(request).toString()));
-        return customService.addAgreement(agreementDto);
-    }
 
 }

@@ -6,7 +6,10 @@ import com.xinou.lawfrim.common.util.APIResponse;
 import com.xinou.lawfrim.common.util.Config;
 import com.xinou.lawfrim.web.dto.BusAgreementDto;
 import com.xinou.lawfrim.web.entity.BusAgreement;
+import com.xinou.lawfrim.web.entity.BusAgreementAudit;
+import com.xinou.lawfrim.web.mapper.BusAgreementAuditMapper;
 import com.xinou.lawfrim.web.mapper.BusAgreementMapper;
+import com.xinou.lawfrim.web.service.IBusAgreementAuditService;
 import com.xinou.lawfrim.web.service.IBusAgreementService;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.xinou.lawfrim.web.util.upLoadFile;
@@ -37,6 +40,9 @@ public class BusAgreementServiceImpl extends ServiceImpl<BusAgreementMapper, Bus
 
     @Autowired
     private BusAgreementMapper agreementMapper;
+
+    @Autowired
+    private BusAgreementAuditMapper agreementAuditMapper;
     @Override
     public APIResponse<CustomNumVo> getCustomAgreementCount(BusAgreementDto agreement) {
         //根据id查询该对象上传的合同总数
@@ -95,6 +101,32 @@ public class BusAgreementServiceImpl extends ServiceImpl<BusAgreementMapper, Bus
         Page<BusAgreementDto> page = new Page<>(agreementDto.getPageNumber(), agreementDto.getPageSize());
         List<AgreementListVo> list = agreementMapper.getList(page, agreementDto);
         Integer total = agreementMapper.getTotal(agreementDto);
+        Map<String, Object> map = new HashMap<>(2);
+        if (list.size() == 0) {
+            map.put("dataList", new ArrayList<>());
+            map.put("total", 0);
+            return new APIResponse(map);
+        }
+        map.put("dataList", list);
+        map.put("total", total);
+        return new APIResponse(map);
+    }
+
+    @Override
+    public APIResponse<AgreementListVo> finishAgreement(BusAgreementDto agreementDto) {
+        Page<BusAgreementDto> page = new Page<>(agreementDto.getPageNumber(), agreementDto.getPageSize());
+        List<AgreementListVo> list = agreementMapper.getList(page, agreementDto);
+        Integer total = agreementMapper.getTotal(agreementDto);
+        for (AgreementListVo agreementListVo :list){
+              BusAgreementAudit agreementAudit = agreementAuditMapper.selectOne(new QueryWrapper<BusAgreementAudit>()
+                                                                            .eq("agreement_id",agreementListVo.getAgreeId())
+                                                                            .eq("is_delete",0));
+              if (agreementAudit == null){
+                  return new APIResponse<>(Config.RE_DATA_NOT_EXIST_ERROR_CODE,Config.RE_DATA_NOT_EXIST_ERROR_MSG);
+              }
+              agreementListVo.setFirstAgreeName(agreementAudit.getFirstAgreementName());
+              agreementListVo.setEndAgreeName(agreementAudit.getFirstAgreementName());
+        }
         Map<String, Object> map = new HashMap<>(2);
         if (list.size() == 0) {
             map.put("dataList", new ArrayList<>());
