@@ -78,4 +78,12 @@ public class AgreementController {
         return customService.addAgreement(agreementDto);
     }
 
+    @PostMapping("agreementInfo")
+    @ApiOperation(httpMethod = "POST", value = "合同详情")
+    @WebLoginToken
+    @ApiOperationSupport(includeParameters = {"agreement.id"})
+    APIResponse agreementInfo(@RequestBody BusAgreementDto agreement) {
+        return agreementService.getAgreementInfo(agreement);
+    }
+
 }
