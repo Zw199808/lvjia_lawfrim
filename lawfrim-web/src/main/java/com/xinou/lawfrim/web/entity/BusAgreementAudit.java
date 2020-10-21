@@ -1,6 +1,7 @@
 package com.xinou.lawfrim.web.entity;
 
 import com.baomidou.mybatisplus.annotation.TableName;
+import com.fasterxml.jackson.annotation.JsonFormat;
 import com.xinou.lawfrim.common.util.BaseEntity;
 import com.baomidou.mybatisplus.annotation.TableField;
 import io.swagger.annotations.ApiModel;
@@ -8,6 +9,8 @@ import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.experimental.Accessors;
+
+import java.sql.Timestamp;
 
 /**
  * <p>
@@ -62,5 +65,12 @@ public class BusAgreementAudit extends BaseEntity {
     @TableField(exist = false)
     private Integer agreeNum;
 
+    @ApiModelProperty("复审律师id")
+    @TableField(exist = false)
+    private Integer endLawyerId;
+
+    @ApiModelProperty("初审回复时间")
+    @JsonFormat(shape = JsonFormat.Shape.STRING,pattern="yyyy-MM-dd HH:mm:ss",timezone="GMT+8")
+    private Timestamp firstAuditTime;
 
 }

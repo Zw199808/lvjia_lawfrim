@@ -23,4 +23,7 @@ public class BusAgreementAuditDto extends PageDto implements Serializable {
 
     @ApiModelProperty(value = "律师id")
     private Integer lawyerId;
+
+    @ApiModelProperty(value = "合同id")
+    private Integer agreementId;
 }

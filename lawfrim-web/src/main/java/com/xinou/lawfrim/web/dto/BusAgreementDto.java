@@ -41,4 +41,7 @@ public class BusAgreementDto extends PageDto implements Serializable {
 
     @ApiModelProperty(value = "客户id")
     private Integer customId;
+
+    @ApiModelProperty(value = "合同状态0:- 1:发布 2:初审 3:终审 4:审核完成")
+    private Integer state;
 }

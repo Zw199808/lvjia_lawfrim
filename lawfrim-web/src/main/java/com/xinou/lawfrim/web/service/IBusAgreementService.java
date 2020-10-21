@@ -2,9 +2,10 @@ package com.xinou.lawfrim.web.service;
 
 import com.xinou.lawfrim.common.util.APIResponse;
 import com.xinou.lawfrim.web.dto.BusAgreementDto;
-import com.xinou.lawfrim.web.dto.BusCustomDto;
 import com.xinou.lawfrim.web.entity.BusAgreement;
 import com.baomidou.mybatisplus.extension.service.IService;
+import com.xinou.lawfrim.web.vo.agreement.AgreementInfoVo;
+import com.xinou.lawfrim.web.vo.agreement.AgreementListVo;
 import com.xinou.lawfrim.web.vo.agreement.AgreementVo;
 import com.xinou.lawfrim.web.vo.custom.CustomNumVo;
 
@@ -38,6 +39,21 @@ public interface IBusAgreementService extends IService<BusAgreement> {
      * @return
      */
     APIResponse<AgreementVo> downloadAgreement(BusAgreementDto agreementDto);
+
+
+    /**
+     * 合同列表
+     * @param
+     * @return
+     */
+    APIResponse<AgreementListVo> listAgreement(BusAgreementDto agreementDto);
+
+    /**
+     * 合同详情
+     * @param
+     * @return
+     */
+    APIResponse<AgreementInfoVo> getAgreementInfo(BusAgreementDto agreementDto);
 
 
 

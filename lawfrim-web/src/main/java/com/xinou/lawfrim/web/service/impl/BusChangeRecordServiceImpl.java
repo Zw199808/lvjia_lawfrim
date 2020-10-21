@@ -4,6 +4,7 @@ import com.xinou.lawfrim.web.entity.BusChangeRecord;
 import com.xinou.lawfrim.web.mapper.BusChangeRecordMapper;
 import com.xinou.lawfrim.web.service.IBusChangeRecordService;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
+import org.springframework.context.annotation.Primary;
 import org.springframework.stereotype.Service;
 
 /**
@@ -15,6 +16,7 @@ import org.springframework.stereotype.Service;
  * @since 2020-10-16
  */
 @Service
+@Primary
 public class BusChangeRecordServiceImpl extends ServiceImpl<BusChangeRecordMapper, BusChangeRecord> implements IBusChangeRecordService {
 
 }
