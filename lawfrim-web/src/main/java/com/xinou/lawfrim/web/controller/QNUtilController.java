@@ -3,6 +3,8 @@ package com.xinou.lawfrim.web.controller;
 import com.xinou.lawfrim.common.util.APIResponse;
 import com.xinou.lawfrim.common.util.Config;
 import com.xinou.lawfrim.web.util.upLoadFile;
+import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -26,6 +28,7 @@ import java.util.Map;
  */
 @RequestMapping("/qn/util/")
 @RestController("QNUtilController")
+@Api(tags = {"七牛云上传下载"})
 public class QNUtilController {
 
 
@@ -35,6 +38,7 @@ public class QNUtilController {
      * @return
      */
     @PostMapping("/file/upload")
+    @ApiOperation(httpMethod = "POST", value = "上传")
     public APIResponse upload(MultipartFile file){
         String name = upLoadFile.uploadFileQN(file);
         Map<String,Object> date = new HashMap<>();
@@ -46,6 +50,7 @@ public class QNUtilController {
      * 文件服务（七牛）删除文件
      */
     @PostMapping("/file/del")
+    @ApiOperation(httpMethod = "POST", value = "删除")
     public APIResponse delFile(String fileName){
         boolean res = upLoadFile.delFile(fileName,"");
         if (!res){

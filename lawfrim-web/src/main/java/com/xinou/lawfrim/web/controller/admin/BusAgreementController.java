@@ -30,7 +30,7 @@ import javax.servlet.http.HttpSession;
  */
 @RestController
 @RequestMapping("/admin/agreement")
-@Api(tags = {"合同"})
+@Api(tags = {"法务律师-合同"})
 public class BusAgreementController {
 
     @Autowired

@@ -36,7 +36,7 @@ import javax.servlet.http.HttpServletResponse;
  */
 @Controller("adminSSOControllerImpl")
 @RequestMapping("/admin/")
-@Api(tags = {"admin接口"})
+@Api(tags = {"律师法务-登录接口"})
 public class AdminSSOControllerImp implements AdminSSOController {
 
     @Autowired

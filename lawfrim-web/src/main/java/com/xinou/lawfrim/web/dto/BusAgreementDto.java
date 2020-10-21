@@ -10,6 +10,7 @@ import org.springframework.web.multipart.MultipartFile;
 
 import java.io.Serializable;
 import java.util.Date;
+import java.util.List;
 
 /**
  * <p>
@@ -44,4 +45,7 @@ public class BusAgreementDto extends PageDto implements Serializable {
 
     @ApiModelProperty(value = "合同状态0:- 1:发布 2:初审 3:终审 4:审核完成")
     private Integer state;
+
+    @ApiModelProperty(value = "合同状态0:- 1:发布 2:初审 3:终审 4:审核完成")
+    private List<Integer> stateList;
 }

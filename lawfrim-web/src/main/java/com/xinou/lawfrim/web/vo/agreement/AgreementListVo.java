@@ -31,4 +31,10 @@ public class AgreementListVo implements Serializable {
 
     @ApiModelProperty("合同状态")
     private Integer state;
+
+    @ApiModelProperty("初审合同名")
+    private Integer firstAgreeName;
+
+    @ApiModelProperty("终审合同名")
+    private Integer endAgreeName;
 }

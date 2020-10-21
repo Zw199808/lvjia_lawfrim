@@ -14,7 +14,16 @@
             and agree.name like #{ name }
         </if>
         <if test = " condition.state != null and condition.state != '' ">
-            and agree.state = #{ condition.stste }
+            and agree.state = #{ condition.state }
+        </if>
+        <if test = " condition.customId != null and condition.customId != '' ">
+            and agree.custom_id = #{ condition.customId }
+        </if>
+        <if test = " condition.stateList != null and condition.stateList.size() !=0">
+            and agree.state IN
+            <foreach collection="condition.stateList" index="index" item="item" open="(" separator="," close=")">
+                #{item}
+            </foreach>
         </if>
         order by agree.gmt_create desc
     </select>
@@ -31,7 +40,16 @@
             and agree.name like #{ name }
         </if>
         <if test = " condition.state != null and condition.state != '' ">
-            and agree.state = #{ condition.stste }
+            and agree.state = #{ condition.state }
+        </if>
+        <if test = " condition.customId != null and condition.customId != '' ">
+            and agree.custom_id = #{ condition.customId }
+        </if>
+        <if test = " condition.stateList != null and condition.stateList.size() !=0">
+            and agree.state IN
+            <foreach collection="condition.stateList" index="index" item="item" open="(" separator="," close=")">
+                #{item}
+            </foreach>
         </if>
     </select>
 </mapper>

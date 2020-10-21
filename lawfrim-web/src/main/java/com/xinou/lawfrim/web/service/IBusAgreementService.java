@@ -56,5 +56,4 @@ public interface IBusAgreementService extends IService<BusAgreement> {
     APIResponse<AgreementInfoVo> getAgreementInfo(BusAgreementDto agreementDto);
 
 
-
 }
