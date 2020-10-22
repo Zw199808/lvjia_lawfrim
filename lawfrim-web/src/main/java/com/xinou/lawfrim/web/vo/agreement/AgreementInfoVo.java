@@ -25,6 +25,9 @@ import java.util.List;
 @NoArgsConstructor
 public class AgreementInfoVo implements Serializable {
 
+    @ApiModelProperty("合同id")
+    private Integer agreeId;
+
     @ApiModelProperty("合同名称")
     private String agreeName;
 

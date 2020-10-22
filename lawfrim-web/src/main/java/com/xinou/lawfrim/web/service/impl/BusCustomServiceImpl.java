@@ -172,7 +172,7 @@ public class BusCustomServiceImpl extends ServiceImpl<BusCustomMapper, BusCustom
         BusAgreement busAgreement = new BusAgreement();
         busAgreement.setAudit(agreement.getAudit());
         busAgreement.setCustomId(agreement.getCustomId());
-        busAgreement.setEndTime(agreement.getEndTime());
+        busAgreement.setEndTime(TimeChange.stringChangeTime(agreement.getEndTime()));
         busAgreement.setName(agreement.getName());
         busAgreement.setRemark(agreement.getRemark());
         busAgreement.setState(1);

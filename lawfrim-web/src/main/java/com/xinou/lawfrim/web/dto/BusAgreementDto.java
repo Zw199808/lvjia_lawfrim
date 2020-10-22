@@ -33,7 +33,7 @@ public class BusAgreementDto extends PageDto implements Serializable {
     private Integer audit;
 
     @ApiModelProperty(value = "截止日期")
-    private Timestamp endTime;
+    private String endTime;
 
     @ApiModelProperty(value = "备注")
     private String remark;

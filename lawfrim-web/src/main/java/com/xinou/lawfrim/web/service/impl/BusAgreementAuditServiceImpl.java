@@ -1,5 +1,6 @@
 package com.xinou.lawfrim.web.service.impl;
 
+import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.xinou.lawfrim.common.util.APIResponse;
 import com.xinou.lawfrim.common.util.Config;
 import com.xinou.lawfrim.web.dto.BusAgreementAuditDto;
@@ -71,6 +72,35 @@ public class BusAgreementAuditServiceImpl extends ServiceImpl<BusAgreementAuditM
         res = busChangeRecordService.save(changeRecord);
         if (!res){
             throw new RuntimeException("领取合同失败");
+        }
+        return new APIResponse();
+    }
+
+    @Override
+    public APIResponse answerAgreement(BusAgreementAuditDto agreementAuditDto) {
+        BusAgreement agreement = agreementService.getById(agreementAuditDto.getAgreementId());
+        if (agreement == null){
+            return new APIResponse<>(Config.RE_DATA_NOT_EXIST_ERROR_CODE,Config.RE_DATA_NOT_EXIST_ERROR_MSG);
+        }
+        agreement.setState(3);
+        boolean res1 = agreementService.updateById(agreement);
+        if (!res1){
+            throw new RuntimeException("回复合同失败");
+        }
+
+        BusAgreementAudit agreementAudit = agreementAuditMapper.selectOne(new QueryWrapper<BusAgreementAudit>()
+                                                                         .eq("agreement_id",agreementAuditDto.getAgreementId())
+                                                                         .eq("is_delete",0));
+        if (agreementAudit == null){
+            return new APIResponse<>(Config.RE_DATA_NOT_EXIST_ERROR_CODE,Config.RE_DATA_NOT_EXIST_ERROR_MSG);
+        }
+        agreementAudit.setFirstAgreementName(agreementAuditDto.getFirstAgreementName());//初审合同名
+        agreementAudit.setSecondAgreementName(agreementAuditDto.getSecondAgreementName());//复审合同名
+        agreementAudit.setType(agreementAuditDto.getAgreementType());
+        agreementAudit.setEndLawyerId(agreementAuditDto.getLawyerId());
+        int res = agreementAuditMapper.updateById(agreementAudit);
+        if (res<=0){
+            throw new RuntimeException("回复合同失败");
         }
         return new APIResponse();
     }

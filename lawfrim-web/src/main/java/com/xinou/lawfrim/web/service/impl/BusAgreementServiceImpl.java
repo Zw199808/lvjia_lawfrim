@@ -6,16 +6,14 @@ import com.xinou.lawfrim.common.util.APIResponse;
 import com.xinou.lawfrim.common.util.Config;
 import com.xinou.lawfrim.common.util.TimeChange;
 import com.xinou.lawfrim.web.dto.BusAgreementDto;
+import com.xinou.lawfrim.web.dto.DownloadAgreementDto;
 import com.xinou.lawfrim.web.entity.*;
 import com.xinou.lawfrim.web.mapper.*;
 import com.xinou.lawfrim.web.service.IBusAgreementAuditService;
 import com.xinou.lawfrim.web.service.IBusAgreementService;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.xinou.lawfrim.web.util.upLoadFile;
-import com.xinou.lawfrim.web.vo.agreement.AgreementInfoVo;
-import com.xinou.lawfrim.web.vo.agreement.AgreementListVo;
-import com.xinou.lawfrim.web.vo.agreement.AgreementTypeVo;
-import com.xinou.lawfrim.web.vo.agreement.AgreementVo;
+import com.xinou.lawfrim.web.vo.agreement.*;
 import com.xinou.lawfrim.web.vo.custom.CustomNumVo;
 import com.xinou.lawfrim.web.vo.lawyer.LawyerChangeVo;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -174,6 +172,7 @@ public class BusAgreementServiceImpl extends ServiceImpl<BusAgreementMapper, Bus
         }
 
         AgreementInfoVo agreementInfoVo = new AgreementInfoVo();
+        agreementInfoVo.setAgreeId(agreement.getId());
         agreementInfoVo.setAgreeName(agreement.getName());
         agreementInfoVo.setCustomName(busCustom.getName());
         agreementInfoVo.setAgreeAudit(agreement.getAudit());
@@ -231,6 +230,16 @@ public class BusAgreementServiceImpl extends ServiceImpl<BusAgreementMapper, Bus
             agreementInfoVo.setLawyerChangeVoList(list);
         }
         return new APIResponse<>(agreementInfoVo);
+    }
+
+    @Override
+    public APIResponse<DownloadAgreementVo> downloadTwoAgreement(DownloadAgreementDto agreement) {
+        String firstURL = upLoadFile.resourcesCode(agreement.getFirstAgreeName());
+        String secondURL = upLoadFile.resourcesCode(agreement.getEndAgreeName());
+        DownloadAgreementVo downloadAgreementVo = new DownloadAgreementVo();
+        downloadAgreementVo.setFirstURL(firstURL);
+        downloadAgreementVo.setSecondURL(secondURL);
+        return new APIResponse<>(downloadAgreementVo);
     }
 
 }

@@ -30,5 +30,12 @@ public interface IBusAgreementAuditService extends IService<BusAgreementAudit> {
      */
     APIResponse acceptAgreement(BusAgreementAuditDto agreementAuditDto);
 
+    /**
+     * 回复合同
+     * @param
+     * @return
+     */
+    APIResponse answerAgreement(BusAgreementAuditDto agreementAuditDto);
+
 
 }

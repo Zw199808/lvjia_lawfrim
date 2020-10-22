@@ -6,12 +6,14 @@ import com.xinou.lawfrim.common.util.APIResponse;
 import com.xinou.lawfrim.web.config.WebLoginToken;
 import com.xinou.lawfrim.web.dto.BusAgreementAuditDto;
 import com.xinou.lawfrim.web.dto.BusAgreementDto;
+import com.xinou.lawfrim.web.dto.DownloadAgreementDto;
 import com.xinou.lawfrim.web.service.IBusAgreementAuditService;
 import com.xinou.lawfrim.web.service.IBusAgreementService;
 import com.xinou.lawfrim.web.service.IBusCustomService;
 import com.xinou.lawfrim.web.util.HeadersUtil;
 import com.xinou.lawfrim.web.vo.agreement.AgreementInfoVo;
 import com.xinou.lawfrim.web.vo.agreement.AgreementListVo;
+import com.xinou.lawfrim.web.vo.agreement.DownloadAgreementVo;
 import com.xinou.lawfrim.web.vo.custom.CustomNumVo;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
@@ -87,4 +89,11 @@ public class AgreementController {
         return agreementService.getAgreementInfo(agreement);
     }
 
+    @PostMapping("downloadAgreement")
+    @ApiOperation(httpMethod = "POST", value = "下载合同")
+    @WebLoginToken
+    @ApiOperationSupport(includeParameters = {"agreement.agreeId","agreement.endAgreeName","agreement.firstAgreeName"})
+    APIResponse<DownloadAgreementVo> downloadAgreement(@RequestBody DownloadAgreementDto agreement) {
+        return agreementService.downloadTwoAgreement(agreement);
+    }
 }
