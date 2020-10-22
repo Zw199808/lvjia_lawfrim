@@ -3,8 +3,13 @@ package com.xinou.lawfrim.web.controller.admin;
 
 import com.github.xiaoymin.knife4j.annotations.ApiOperationSupport;
 import com.xinou.lawfrim.common.util.APIResponse;
+import com.xinou.lawfrim.web.config.WebLoginToken;
+import com.xinou.lawfrim.web.dto.BusAgreementDto;
 import com.xinou.lawfrim.web.dto.BusCustomDto;
+import com.xinou.lawfrim.web.service.IBusAgreementService;
 import com.xinou.lawfrim.web.service.IBusCustomService;
+import com.xinou.lawfrim.web.util.HeadersUtil;
+import com.xinou.lawfrim.web.vo.agreement.AgreementTypeVo;
 import com.xinou.lawfrim.web.vo.custom.CustomVo;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
@@ -15,6 +20,8 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 import org.springframework.web.bind.annotation.RestController;
+
+import javax.servlet.http.HttpServletRequest;
 
 /**
  * <p>
@@ -60,7 +67,7 @@ public class BusCustomController {
 
 
     @PostMapping("update")
-//    @RequiresPermissions("/web/custom/update")
+//    @RequiresPermissions("/admin/custom/update")
     @ApiOperation(httpMethod = "POST", value = "修改客户信息")
     @ApiOperationSupport(includeParameters = {"customDto.password","customDto.id"})
     APIResponse customUpdate(@RequestBody BusCustomDto customDto) {

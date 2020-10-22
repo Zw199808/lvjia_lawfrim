@@ -6,6 +6,7 @@ import com.xinou.lawfrim.web.entity.BusAgreement;
 import com.baomidou.mybatisplus.extension.service.IService;
 import com.xinou.lawfrim.web.vo.agreement.AgreementInfoVo;
 import com.xinou.lawfrim.web.vo.agreement.AgreementListVo;
+import com.xinou.lawfrim.web.vo.agreement.AgreementTypeVo;
 import com.xinou.lawfrim.web.vo.agreement.AgreementVo;
 import com.xinou.lawfrim.web.vo.custom.CustomNumVo;
 
@@ -25,6 +26,13 @@ public interface IBusAgreementService extends IService<BusAgreement> {
      * @return
      */
     APIResponse<CustomNumVo> getCustomAgreementCount(BusAgreementDto agreement);
+
+    /**
+     * 合同类型分类统计
+     * @param agreement
+     * @return
+     */
+    APIResponse<AgreementTypeVo> getAgreementTypeStatistic(BusAgreementDto agreement);
 
     /**
      * 获取全部合同数

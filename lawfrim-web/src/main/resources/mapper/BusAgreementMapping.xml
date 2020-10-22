@@ -53,4 +53,18 @@
             </foreach>
         </if>
     </select>
+    <!-- 获取数据总数 -->
+
+    <select id="getAgreementTypeStatistic" resultType="com.xinou.lawfrim.web.vo.agreement.AgreementTypeVo">
+        SELECT count(agree.id) as agreement,
+        aa.type
+        FROM bus_agreement agree
+        left join bus_agreement_audit aa on aa.agreement_id = agree.id
+        where agree.state = 4
+        <if test = " condition.customId != null and condition.customId != '' ">
+            and agree.custom_id = #{ condition.customId }
+        </if>
+        group by aa.type
+    </select>
+
 </mapper>

@@ -14,6 +14,7 @@ import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.xinou.lawfrim.web.util.upLoadFile;
 import com.xinou.lawfrim.web.vo.agreement.AgreementInfoVo;
 import com.xinou.lawfrim.web.vo.agreement.AgreementListVo;
+import com.xinou.lawfrim.web.vo.agreement.AgreementTypeVo;
 import com.xinou.lawfrim.web.vo.agreement.AgreementVo;
 import com.xinou.lawfrim.web.vo.custom.CustomNumVo;
 import com.xinou.lawfrim.web.vo.lawyer.LawyerChangeVo;
@@ -73,6 +74,18 @@ public class BusAgreementServiceImpl extends ServiceImpl<BusAgreementMapper, Bus
         customNumVo.setNotAuditAgreement(notAuditCount);
 
         return new APIResponse<>(customNumVo);
+    }
+
+    @Override
+    public APIResponse<AgreementTypeVo> getAgreementTypeStatistic(BusAgreementDto agreement) {
+        List<AgreementTypeVo> list = agreementMapper.getAgreementTypeStatistic(agreement);
+        Map<String, Object> map = new HashMap<>(2);
+        if (list.size() == 0) {
+            map.put("dataList", new ArrayList<>());
+            return new APIResponse(map);
+        }
+        map.put("dataList", list);
+        return new APIResponse(map);
     }
 
     @Override

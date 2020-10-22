@@ -9,6 +9,7 @@ import com.xinou.lawfrim.web.service.IBusAgreementAuditService;
 import com.xinou.lawfrim.web.service.IBusAgreementService;
 import com.xinou.lawfrim.web.service.IBusLawyerService;
 import com.xinou.lawfrim.web.util.HeadersUtil;
+import com.xinou.lawfrim.web.vo.agreement.AgreementTypeVo;
 import com.xinou.lawfrim.web.vo.custom.CustomNumVo;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
@@ -43,6 +44,16 @@ public class CustomStatisticsController {
         BusAgreementDto agreementDto = new BusAgreementDto();
         agreementDto.setCustomId(Integer.parseInt(HeadersUtil.getUserId(request).toString()));
         return agreementService.getCustomAgreementCount(agreementDto);
+    }
+
+
+    @PostMapping("statisticAgreementType")
+    @ApiOperation(httpMethod = "POST", value = "合同类型分类统计")
+    @WebLoginToken
+    APIResponse<AgreementTypeVo> getAgreementTypeStatistic(HttpServletRequest request) {
+        BusAgreementDto agreementDto = new BusAgreementDto();
+        agreementDto.setCustomId(Integer.parseInt(HeadersUtil.getUserId(request).toString()));
+        return agreementService.getAgreementTypeStatistic(agreementDto);
     }
 
 }
