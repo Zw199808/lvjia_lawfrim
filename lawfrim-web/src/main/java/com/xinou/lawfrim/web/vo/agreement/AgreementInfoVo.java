@@ -1,6 +1,7 @@
 package com.xinou.lawfrim.web.vo.agreement;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
+import com.xinou.lawfrim.web.vo.lawyer.LawyerChangeVo;
 import io.swagger.annotations.ApiModelProperty;
 import io.swagger.models.auth.In;
 import lombok.Data;
@@ -9,6 +10,7 @@ import lombok.experimental.SuperBuilder;
 
 import java.io.Serializable;
 import java.sql.Timestamp;
+import java.util.List;
 
 /**
  * <p>
@@ -59,9 +61,12 @@ public class AgreementInfoVo implements Serializable {
     @ApiModelProperty("复审回复时间")
     private String gmtModified;
 
-    @ApiModelProperty("转移律师")
-    private String changeLawyerName;
+//    @ApiModelProperty("转移律师")
+//    private String changeLawyerName;
+//
+//    @ApiModelProperty("转移时间")
+//    private String changeTime;
 
-    @ApiModelProperty("转移时间")
-    private String changeTime;
+    @ApiModelProperty("转移律师")
+    private List<LawyerChangeVo> lawyerChangeVoList;
 }

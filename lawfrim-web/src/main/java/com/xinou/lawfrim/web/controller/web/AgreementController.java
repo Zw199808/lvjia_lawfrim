@@ -10,6 +10,7 @@ import com.xinou.lawfrim.web.service.IBusAgreementAuditService;
 import com.xinou.lawfrim.web.service.IBusAgreementService;
 import com.xinou.lawfrim.web.service.IBusCustomService;
 import com.xinou.lawfrim.web.util.HeadersUtil;
+import com.xinou.lawfrim.web.vo.agreement.AgreementInfoVo;
 import com.xinou.lawfrim.web.vo.agreement.AgreementListVo;
 import com.xinou.lawfrim.web.vo.custom.CustomNumVo;
 import io.swagger.annotations.Api;
@@ -82,7 +83,7 @@ public class AgreementController {
     @ApiOperation(httpMethod = "POST", value = "合同详情")
     @WebLoginToken
     @ApiOperationSupport(includeParameters = {"agreement.id"})
-    APIResponse agreementInfo(@RequestBody BusAgreementDto agreement) {
+    APIResponse<AgreementInfoVo> agreementInfo(@RequestBody BusAgreementDto agreement) {
         return agreementService.getAgreementInfo(agreement);
     }
 

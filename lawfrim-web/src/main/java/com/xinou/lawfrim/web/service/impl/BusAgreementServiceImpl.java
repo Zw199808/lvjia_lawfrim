@@ -16,6 +16,7 @@ import com.xinou.lawfrim.web.vo.agreement.AgreementInfoVo;
 import com.xinou.lawfrim.web.vo.agreement.AgreementListVo;
 import com.xinou.lawfrim.web.vo.agreement.AgreementVo;
 import com.xinou.lawfrim.web.vo.custom.CustomNumVo;
+import com.xinou.lawfrim.web.vo.lawyer.LawyerChangeVo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Primary;
 import org.springframework.stereotype.Service;
@@ -174,9 +175,11 @@ public class BusAgreementServiceImpl extends ServiceImpl<BusAgreementMapper, Bus
             if (agreementAudit == null){
                 return new APIResponse<>(Config.RE_DATA_NOT_EXIST_ERROR_CODE,Config.RE_DATA_NOT_EXIST_ERROR_MSG);
             }
-            BusChangeRecord changeRecord = changeRecordMapper.selectOne(new QueryWrapper<BusChangeRecord>()
+            //所有转移记录
+            List<BusChangeRecord> changeRecordList = changeRecordMapper.selectList(new QueryWrapper<BusChangeRecord>()
                                                                        .eq("is_delete",0)
-                                                                       .eq("agreement_audit_id",agreementAudit.getId()));
+                                                                       .eq("agreement_audit_id",agreementAudit.getId())
+                                                                       .in("type",2,3));
             //获取初审律师姓名
             if (agreement.getState() != 2){
                 BusLawyer lawyer = lawyerMapper.selectById(agreementAudit.getLawyerId());
@@ -198,11 +201,21 @@ public class BusAgreementServiceImpl extends ServiceImpl<BusAgreementMapper, Bus
             }else{
                 agreementInfoVo.setGmtModified("");//未审核完成复审时间为空
             }
-            if (changeRecord.getType() == 2){//转移，查询转移律师
+//            if (changeRecord.getType() == 2){//转移，查询转移律师
+//                BusLawyer lawyer2 = lawyerMapper.selectById(changeRecord.getOldOrAssignLawyerId());
+//                agreementInfoVo.setChangeLawyerName(lawyer2.getName());
+//                agreementInfoVo.setChangeTime(TimeChange.timeChangeString(changeRecord.getGmtModified()));
+//            }
+            List<LawyerChangeVo> list = new ArrayList<>();
+            for (BusChangeRecord changeRecord : changeRecordList){
                 BusLawyer lawyer2 = lawyerMapper.selectById(changeRecord.getOldOrAssignLawyerId());
-                agreementInfoVo.setChangeLawyerName(lawyer2.getName());
-                agreementInfoVo.setChangeTime(TimeChange.timeChangeString(changeRecord.getGmtModified()));
+                LawyerChangeVo changeVo = new LawyerChangeVo();
+                changeVo.setChangeLawyerName(lawyer2.getName());
+                changeVo.setChangeTime(TimeChange.timeChangeString(changeRecord.getGmtCreate()));
+                changeVo.setType(changeRecord.getType());
+                list.add(changeVo);
             }
+            agreementInfoVo.setLawyerChangeVoList(list);
         }
         return new APIResponse<>(agreementInfoVo);
     }
