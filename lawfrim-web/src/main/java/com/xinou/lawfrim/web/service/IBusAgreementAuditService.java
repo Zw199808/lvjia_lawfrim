@@ -2,8 +2,10 @@ package com.xinou.lawfrim.web.service;
 
 import com.xinou.lawfrim.common.util.APIResponse;
 import com.xinou.lawfrim.web.dto.BusAgreementAuditDto;
+import com.xinou.lawfrim.web.dto.BusChangeRecordDto;
 import com.xinou.lawfrim.web.entity.BusAgreementAudit;
 import com.baomidou.mybatisplus.extension.service.IService;
+import com.xinou.lawfrim.web.entity.BusChangeRecord;
 import com.xinou.lawfrim.web.vo.custom.CustomNumVo;
 
 /**
@@ -36,6 +38,20 @@ public interface IBusAgreementAuditService extends IService<BusAgreementAudit> {
      * @return
      */
     APIResponse answerAgreement(BusAgreementAuditDto agreementAuditDto);
+
+    /**
+     * 转移合同
+     * @param
+     * @return
+     */
+    APIResponse changeAgreement(BusChangeRecordDto changeRecord);
+
+    /**
+     * 接受转移合同
+     * @param
+     * @return
+     */
+    APIResponse agreeChangeAgreement(BusChangeRecordDto changeRecord);
 
 
 }

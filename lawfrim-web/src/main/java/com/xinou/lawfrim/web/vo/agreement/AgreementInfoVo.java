@@ -52,6 +52,9 @@ public class AgreementInfoVo implements Serializable {
     @ApiModelProperty("初审律师")
     private String firstLawyerName;
 
+    @ApiModelProperty("审批表Id")
+    private Integer agreementAuditId;
+
     @ApiModelProperty("初审接受时间")
     private String gmtCreate;
 

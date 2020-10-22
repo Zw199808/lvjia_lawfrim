@@ -76,5 +76,12 @@ public interface IBusAgreementService extends IService<BusAgreement> {
     APIResponse<DownloadAgreementVo> downloadTwoAgreement(DownloadAgreementDto agreement);
 
 
+    /**
+     * 我的-合同列表
+     * @param
+     * @return
+     */
+    APIResponse<LawyerAgreementListVo> AllAgreementList(BusAgreementDto agreement);
+
 
 }

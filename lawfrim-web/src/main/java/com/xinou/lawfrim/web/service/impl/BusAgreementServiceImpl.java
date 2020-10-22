@@ -197,6 +197,8 @@ public class BusAgreementServiceImpl extends ServiceImpl<BusAgreementMapper, Bus
                 BusLawyer lawyer = lawyerMapper.selectById(agreementAudit.getLawyerId());
                 agreementInfoVo.setFirstLawyerName(lawyer.getName());//初审律师姓名
             }
+            //审批表id
+            agreementInfoVo.setAgreementAuditId(agreementAudit.getId());
             agreementInfoVo.setAgreeType(agreementAudit.getType());//合同类型---回复后才会有
             //初审接受时间
             agreementInfoVo.setGmtCreate(TimeChange.timeChangeString(agreementAudit.getGmtCreate()));
@@ -240,6 +242,23 @@ public class BusAgreementServiceImpl extends ServiceImpl<BusAgreementMapper, Bus
         downloadAgreementVo.setFirstURL(firstURL);
         downloadAgreementVo.setSecondURL(secondURL);
         return new APIResponse<>(downloadAgreementVo);
+    }
+
+    @Override
+    public APIResponse<LawyerAgreementListVo> AllAgreementList(BusAgreementDto agreement) {
+        //
+        Page<BusAgreementDto> page = new Page<>(agreement.getPageNumber(), agreement.getPageSize());
+        List<LawyerAgreementListVo> list = changeRecordMapper.getList(page, agreement);
+        Integer total = changeRecordMapper.getTotal(agreement);
+        Map<String, Object> map = new HashMap<>(2);
+        if (list.size() == 0) {
+            map.put("dataList", new ArrayList<>());
+            map.put("total", 0);
+            return new APIResponse(map);
+        }
+        map.put("dataList", list);
+        map.put("total", total);
+        return new APIResponse(map);
     }
 
 }

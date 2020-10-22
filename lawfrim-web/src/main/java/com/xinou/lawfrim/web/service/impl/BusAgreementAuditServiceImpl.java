@@ -4,6 +4,7 @@ import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.xinou.lawfrim.common.util.APIResponse;
 import com.xinou.lawfrim.common.util.Config;
 import com.xinou.lawfrim.web.dto.BusAgreementAuditDto;
+import com.xinou.lawfrim.web.dto.BusChangeRecordDto;
 import com.xinou.lawfrim.web.entity.BusAgreement;
 import com.xinou.lawfrim.web.entity.BusAgreementAudit;
 import com.xinou.lawfrim.web.entity.BusChangeRecord;
@@ -98,9 +99,85 @@ public class BusAgreementAuditServiceImpl extends ServiceImpl<BusAgreementAuditM
         agreementAudit.setSecondAgreementName(agreementAuditDto.getSecondAgreementName());//复审合同名
         agreementAudit.setType(agreementAuditDto.getAgreementType());
         agreementAudit.setEndLawyerId(agreementAuditDto.getLawyerId());
+        agreementAudit.setFirstAuditTime(null);
         int res = agreementAuditMapper.updateById(agreementAudit);
         if (res<=0){
             throw new RuntimeException("回复合同失败");
+        }
+        return new APIResponse();
+    }
+
+    @Override
+    public APIResponse changeAgreement(BusChangeRecordDto changeRecord) {
+        //将审批表律师改为转移律师
+//        BusAgreementAudit busAgreementAudit = agreementAuditMapper.selectById(changeRecord.getAgreementAuditId());
+//        if (busAgreementAudit == null ){
+//            return new APIResponse<>(Config.RE_DATA_NOT_EXIST_ERROR_CODE,Config.RE_DATA_NOT_EXIST_ERROR_MSG);
+//        }
+//        busAgreementAudit.setLawyerId(changeRecord.getLawyerId());
+//        int res1 = agreementAuditMapper.updateById(busAgreementAudit);
+//        if (res1 <= 0){
+//            throw new RuntimeException("修改审批表原律师失败");
+//        }
+        //将合同状态改为5：转移中
+        BusAgreementAudit busAgreementAudit = agreementAuditMapper.selectById(changeRecord.getAgreementAuditId());
+        if (busAgreementAudit == null ){
+            return new APIResponse<>(Config.RE_DATA_NOT_EXIST_ERROR_CODE,Config.RE_DATA_NOT_EXIST_ERROR_MSG);
+        }
+        BusAgreement agreement = agreementService.getById(busAgreementAudit.getAgreementId());
+        if (busAgreementAudit == null ){
+            return new APIResponse<>(Config.RE_DATA_NOT_EXIST_ERROR_CODE,Config.RE_DATA_NOT_EXIST_ERROR_MSG);
+        }
+        agreement.setState(5);
+        boolean res = agreementService.updateById(agreement);
+        if (!res){
+            throw  new RuntimeException("修改合同状态失败");
+        }
+        BusChangeRecord changeRecord1 = new BusChangeRecord();
+        changeRecord1.setType(2);//类型为转移
+        changeRecord1.setAgreementAuditId(changeRecord.getAgreementAuditId());//审批表id
+        changeRecord1.setLawyerId(changeRecord.getLawyerId());//律师id
+        changeRecord1.setOldOrAssignLawyerId(changeRecord.getAdminId());//原律师、分配律师
+        changeRecord1.setState(1);
+        res = busChangeRecordService.save(changeRecord1);
+        if (!res){
+            throw  new RuntimeException("转移合同失败");
+        }
+        return new APIResponse();
+    }
+
+    @Override
+    public APIResponse agreeChangeAgreement(BusChangeRecordDto changeRecord) {
+        //修改合同审核表信息
+        BusAgreementAudit agreementAudit = agreementAuditMapper.selectById(changeRecord.getAgreementAuditId());
+        if (agreementAudit == null ){
+            return new APIResponse<>(Config.RE_DATA_NOT_EXIST_ERROR_CODE,Config.RE_DATA_NOT_EXIST_ERROR_MSG);
+        }
+        agreementAudit.setLawyerId(changeRecord.getAdminId());
+        int res = agreementAuditMapper.updateById(agreementAudit);
+        if (res <= 0 ){
+            throw new RuntimeException("修改合同转移信息失败");
+        }
+        //修改合同信息
+        BusAgreement agreement = agreementService.getById(agreementAudit.getAgreementId());
+        if (agreementAudit == null ){
+            return new APIResponse<>(Config.RE_DATA_NOT_EXIST_ERROR_CODE,Config.RE_DATA_NOT_EXIST_ERROR_MSG);
+        }
+        agreement.setState(2);
+        boolean res1 = agreementService.updateById(agreement);
+        if (!res1){
+            throw new RuntimeException("修改合同状态失败");
+        }
+        //修改转移纪律表信息
+        BusChangeRecord changeRecord1 = busChangeRecordService.getOne(new QueryWrapper<BusChangeRecord>()
+                                                                     .eq("is_delete",0)
+                                                                     .eq("lawyer_id",changeRecord.getAdminId())
+                                                                     .eq("agreement_audit_id",changeRecord.getAgreementAuditId())
+                                                                     .eq("type",2));
+        changeRecord1.setState(2);
+        boolean res2 = busChangeRecordService.updateById(changeRecord1);
+        if (!res2){
+            throw new RuntimeException("修改转移分配表状态失败");
         }
         return new APIResponse();
     }

@@ -6,13 +6,16 @@ import com.xinou.lawfrim.common.util.APIResponse;
 import com.xinou.lawfrim.web.config.WebLoginToken;
 import com.xinou.lawfrim.web.dto.BusAgreementAuditDto;
 import com.xinou.lawfrim.web.dto.BusAgreementDto;
+import com.xinou.lawfrim.web.dto.BusChangeRecordDto;
 import com.xinou.lawfrim.web.service.IBusAgreementAuditService;
 import com.xinou.lawfrim.web.service.IBusAgreementService;
 import com.xinou.lawfrim.web.vo.agreement.AgreementInfoVo;
 import com.xinou.lawfrim.web.vo.agreement.AgreementListVo;
 import com.xinou.lawfrim.web.vo.agreement.AgreementVo;
+import com.xinou.lawfrim.web.vo.agreement.LawyerAgreementListVo;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
+import io.swagger.models.auth.In;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -52,6 +55,17 @@ public class BusAgreementController {
         return agreementService.listAgreement(agreementDto);
     }
 
+    @PostMapping("AllAgreementList")
+//    @RequiresPermissions("/admin/agreement/AllAgreementList")
+    @ApiOperation(httpMethod = "POST", value = "我的-合同列表")
+    @ApiOperationSupport(includeParameters = {"agreementDto.state","agreementDto.name"})
+    APIResponse<LawyerAgreementListVo> AllAgreementList(HttpServletRequest request, @RequestBody BusAgreementDto agreementDto) {
+        HttpSession session = request.getSession();
+        Integer adminId  = (Integer) session.getAttribute("sysUserId");
+        agreementDto.setLawyerId(adminId);
+        return agreementService.AllAgreementList(agreementDto);
+    }
+
     @PostMapping("acceptAgreement")
 //    @RequiresPermissions("/admin/agreement/acceptAgreement")
     @ApiOperation(httpMethod = "POST", value = "接受合同")
@@ -88,5 +102,27 @@ public class BusAgreementController {
     @ApiOperationSupport(includeParameters = {"agreementAudit.agreementId","agreementAudit.lawyerId","agreementAudit.agreementType","agreementAudit.firstAgreementName","agreementAudit.secondAgreementName"})
     APIResponse agreementInfo(@RequestBody BusAgreementAuditDto agreementAudit) {
         return agreementAuditService.answerAgreement(agreementAudit);
+    }
+
+    @PostMapping("changeAgreement")
+    @ApiOperation(httpMethod = "POST", value = "申请合同转移")
+    //    @RequiresPermissions("/admin/lawyer/changeAgreement")
+    @ApiOperationSupport(includeParameters = {"changeRecord.lawyerId","changeRecord.agreementAuditId"})
+    APIResponse changeAgreement(HttpServletRequest request,@RequestBody BusChangeRecordDto changeRecord) {
+        HttpSession session = request.getSession();
+        Integer adminId = (Integer) session.getAttribute("sysUserId");
+        changeRecord.setAdminId(adminId);
+        return agreementAuditService.changeAgreement(changeRecord);
+    }
+
+    @PostMapping("agreeChangeAgreement")
+    @ApiOperation(httpMethod = "POST", value = "接受转移合同")
+    //    @RequiresPermissions("/admin/lawyer/agreeChangeAgreement")
+    @ApiOperationSupport(includeParameters = {"changeRecord.agreementAuditId"})
+    APIResponse agreeChangeAgreement(HttpServletRequest request,@RequestBody BusChangeRecordDto changeRecord) {
+        HttpSession session = request.getSession();
+        Integer adminId = (Integer) session.getAttribute("sysUserId");
+        changeRecord.setAdminId(adminId);
+        return agreementAuditService.agreeChangeAgreement(changeRecord);
     }
 }

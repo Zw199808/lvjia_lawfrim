@@ -1,8 +1,16 @@
 package com.xinou.lawfrim.web.mapper;
 
+import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
+import com.xinou.lawfrim.web.dto.BusAgreementAuditDto;
+import com.xinou.lawfrim.web.dto.BusAgreementDto;
 import com.xinou.lawfrim.web.entity.BusChangeRecord;
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
+import com.xinou.lawfrim.web.vo.agreement.AgreementListVo;
+import com.xinou.lawfrim.web.vo.agreement.LawyerAgreementListVo;
+import org.apache.ibatis.annotations.Param;
 import org.springframework.stereotype.Repository;
+
+import java.util.List;
 
 /**
  * <p>
@@ -15,4 +23,18 @@ import org.springframework.stereotype.Repository;
 @Repository
 public interface BusChangeRecordMapper extends BaseMapper<BusChangeRecord> {
 
+    /**
+     * 列表-分页
+     * @param page
+     * @param agreementDto
+     * @return
+     */
+    List<LawyerAgreementListVo> getList(Page<BusAgreementDto> page, @Param("condition") BusAgreementDto agreementDto);
+
+    /**
+     * 总数
+     * @param agreementDto
+     * @return
+     */
+    Integer getTotal(@Param("condition") BusAgreementDto agreementDto);
 }
