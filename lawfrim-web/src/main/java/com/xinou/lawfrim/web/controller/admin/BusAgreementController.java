@@ -6,6 +6,7 @@ import com.xinou.lawfrim.common.util.APIResponse;
 import com.xinou.lawfrim.web.config.WebLoginToken;
 import com.xinou.lawfrim.web.dto.BusAgreementAuditDto;
 import com.xinou.lawfrim.web.dto.BusAgreementDto;
+import com.xinou.lawfrim.web.dto.BusAgreementScoreDto;
 import com.xinou.lawfrim.web.dto.BusChangeRecordDto;
 import com.xinou.lawfrim.web.service.IBusAgreementAuditService;
 import com.xinou.lawfrim.web.service.IBusAgreementService;
@@ -124,5 +125,16 @@ public class BusAgreementController {
         Integer adminId = (Integer) session.getAttribute("sysUserId");
         changeRecord.setAdminId(adminId);
         return agreementAuditService.agreeChangeAgreement(changeRecord);
+    }
+
+    @PostMapping("endAuditAgreement")
+    @ApiOperation(httpMethod = "POST", value = "复审评分")
+    //    @RequiresPermissions("/admin/lawyer/endAuditAgreement")
+    @ApiOperationSupport(includeParameters = {"agreementScore.agreementAuditId","agreementScore.score"})
+    APIResponse endAuditAgreement(HttpServletRequest request,@RequestBody BusAgreementScoreDto agreementScore) {
+//        HttpSession session = request.getSession();
+//        Integer adminId = (Integer) session.getAttribute("sysUserId");
+//        agreementScore.setAdminId(adminId);
+        return agreementAuditService.endAuditAgreement(agreementScore);
     }
 }

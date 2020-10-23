@@ -4,6 +4,7 @@ import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.xinou.lawfrim.common.util.APIResponse;
 import com.xinou.lawfrim.common.util.Config;
 import com.xinou.lawfrim.web.dto.BusAgreementAuditDto;
+import com.xinou.lawfrim.web.dto.BusAgreementScoreDto;
 import com.xinou.lawfrim.web.dto.BusChangeRecordDto;
 import com.xinou.lawfrim.web.dto.BusLawyerDto;
 import com.xinou.lawfrim.web.entity.BusAgreement;
@@ -197,6 +198,20 @@ public class BusAgreementAuditServiceImpl extends ServiceImpl<BusAgreementAuditM
     public APIResponse<ScoreVo> getStatisticMyScore(BusLawyerDto lawyerDto) {
         ScoreVo scoreVo = agreementAuditMapper.getStatisticScore(lawyerDto);
         return new APIResponse<>(scoreVo);
+    }
+
+    @Override
+    public APIResponse endAuditAgreement(BusAgreementScoreDto agreementScore) {
+        BusAgreementAudit agreementAudit = getById(agreementScore.getAgreementAuditId());
+        if (agreementAudit == null){
+            return new APIResponse(Config.RE_DATA_NOT_EXIST_ERROR_CODE,Config.RE_DATA_NOT_EXIST_ERROR_MSG);
+        }
+        agreementAudit.setScore(agreementScore.getScore());
+        int res = agreementAuditMapper.updateById(agreementAudit);
+        if (res <= 0){
+            throw new RuntimeException("评分失败");
+        }
+        return new APIResponse();
     }
 
 }

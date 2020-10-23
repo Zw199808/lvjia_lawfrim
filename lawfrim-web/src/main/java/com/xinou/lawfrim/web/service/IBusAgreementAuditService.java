@@ -2,6 +2,7 @@ package com.xinou.lawfrim.web.service;
 
 import com.xinou.lawfrim.common.util.APIResponse;
 import com.xinou.lawfrim.web.dto.BusAgreementAuditDto;
+import com.xinou.lawfrim.web.dto.BusAgreementScoreDto;
 import com.xinou.lawfrim.web.dto.BusChangeRecordDto;
 import com.xinou.lawfrim.web.dto.BusLawyerDto;
 import com.xinou.lawfrim.web.entity.BusAgreementAudit;
@@ -61,4 +62,11 @@ public interface IBusAgreementAuditService extends IService<BusAgreementAudit> {
      * @return
      */
     APIResponse<ScoreVo> getStatisticMyScore(BusLawyerDto lawyerDto);
+
+    /**
+     * 复审合同
+     * @param
+     * @return
+     */
+    APIResponse endAuditAgreement(BusAgreementScoreDto agreementScore);
 }
