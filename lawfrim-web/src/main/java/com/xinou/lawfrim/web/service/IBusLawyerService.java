@@ -6,6 +6,7 @@ import com.xinou.lawfrim.web.entity.BusLawyer;
 import com.baomidou.mybatisplus.extension.service.IService;
 import com.xinou.lawfrim.web.vo.UserNumberVo;
 import com.xinou.lawfrim.web.vo.lawyer.LawyerVo;
+import com.xinou.lawfrim.web.vo.lawyer.endLawyerVo;
 
 /**
  * <p>
@@ -23,6 +24,13 @@ public interface IBusLawyerService extends IService<BusLawyer> {
      * @return
      */
     APIResponse<LawyerVo> listLawyer(BusLawyerDto busLawyer);
+
+    /**
+     * 复审回复律师列表
+     * @param
+     * @return
+     */
+    APIResponse<endLawyerVo> endListLawyer();
 
     /**
      * 添加律师

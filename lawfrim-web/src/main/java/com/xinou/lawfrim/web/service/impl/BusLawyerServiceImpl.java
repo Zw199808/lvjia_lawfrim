@@ -24,6 +24,7 @@ import com.xinou.lawfrim.web.service.IBusLawyerService;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.xinou.lawfrim.web.vo.UserNumberVo;
 import com.xinou.lawfrim.web.vo.lawyer.LawyerVo;
+import com.xinou.lawfrim.web.vo.lawyer.endLawyerVo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Primary;
 import org.springframework.stereotype.Service;
@@ -88,6 +89,27 @@ public class BusLawyerServiceImpl extends ServiceImpl<BusLawyerMapper, BusLawyer
         }
         map.put("dataList", list);
         map.put("total", total);
+        return new APIResponse(map);
+    }
+
+    @Override
+    public APIResponse<endLawyerVo> endListLawyer() {
+        List<BusLawyer> list1 = busLawyerMapper.selectList(new QueryWrapper<BusLawyer>()
+                                                         .eq("is_delete",0));
+        List<endLawyerVo> list = new ArrayList<>();
+        for (BusLawyer lawyer : list1){
+            endLawyerVo endLawyerVo = new endLawyerVo();
+            endLawyerVo.setId(lawyer.getId());
+            endLawyerVo.setName(lawyer.getName());
+            list.add(endLawyerVo);
+        }
+        Map<String, Object> map = new HashMap<>(2);
+        if (list.size() == 0) {
+            map.put("dataList", new ArrayList<>());
+            map.put("total", 0);
+            return new APIResponse(map);
+        }
+        map.put("dataList", list);
         return new APIResponse(map);
     }
 

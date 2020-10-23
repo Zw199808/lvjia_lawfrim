@@ -54,6 +54,7 @@ public class BusAgreementController {
     private IBusLawyerService lawyerService;
 
 
+
     @PostMapping("list")
 //    @RequiresPermissions("/admin/agreement/list")
     @ApiOperation(httpMethod = "POST", value = "未领取合同列表")
@@ -110,15 +111,22 @@ public class BusAgreementController {
 
     @PostMapping("downloadAgreement")
     @ApiOperation(httpMethod = "POST", value = "下载合同")
-    //    @RequiresPermissions("/admin/lawyer/downloadAgreement")
+    //    @RequiresPermissions("/admin/agreement/downloadAgreement")
     @ApiOperationSupport(includeParameters = {"agreementDto.id"})
     APIResponse<AgreementVo> downloadAgreement(@RequestBody BusAgreementDto agreementDto) {
         return agreementService.downloadAgreement(agreementDto);
     }
 
+    @PostMapping("endLawyerList")
+    @ApiOperation(httpMethod = "POST", value = "复审律师列表")
+    //    @RequiresPermissions("/admin/agreement/endLawyerList")
+    APIResponse endLawyerList() {
+        return lawyerService.endListLawyer();
+    }
+
     @PostMapping("answerAgreement")
     @ApiOperation(httpMethod = "POST", value = "回复合同")
-    //    @RequiresPermissions("/admin/lawyer/answerAgreement")
+    //    @RequiresPermissions("/admin/agreement/answerAgreement")
     @ApiOperationSupport(includeParameters = {"agreementAudit.agreementId","agreementAudit.lawyerId","agreementAudit.agreementType","agreementAudit.firstAgreementName","agreementAudit.secondAgreementName"})
     APIResponse agreementInfo(@RequestBody BusAgreementAuditDto agreementAudit) {
         return agreementAuditService.answerAgreement(agreementAudit);
@@ -126,7 +134,7 @@ public class BusAgreementController {
 
     @PostMapping("changeAgreement")
     @ApiOperation(httpMethod = "POST", value = "申请合同转移")
-    //    @RequiresPermissions("/admin/lawyer/changeAgreement")
+    //    @RequiresPermissions("/admin/agreement/changeAgreement")
     @ApiOperationSupport(includeParameters = {"changeRecord.lawyerId","changeRecord.agreementAuditId"})
     APIResponse changeAgreement(HttpServletRequest request,@RequestBody BusChangeRecordDto changeRecord) {
         HttpSession session = request.getSession();
@@ -163,5 +171,16 @@ public class BusAgreementController {
     @ApiOperationSupport(includeParameters = {"agreementDto.state","agreementDto.name"})
     APIResponse<LawyerAgreementListVo> AdminAgreementList(HttpServletRequest request, @RequestBody BusAgreementDto agreementDto) {
         return agreementService.AllAgreementList(agreementDto);
+    }
+
+    @PostMapping("assignAgreement")
+    @ApiOperation(httpMethod = "POST", value = "管理员-分配合同")
+    //    @RequiresPermissions("/admin/lawyer/assignAgreement")
+    @ApiOperationSupport(includeParameters = {"agreementDto.lawyerId","agreementDto.id"})
+    APIResponse assignAgreement(HttpServletRequest request,@RequestBody BusAgreementDto agreementDto) {
+        HttpSession session = request.getSession();
+        Integer adminId = (Integer) session.getAttribute("sysUserId");
+        agreementDto.setAdminId(adminId);
+        return agreementAuditService.assignAgreement(agreementDto);
     }
 }

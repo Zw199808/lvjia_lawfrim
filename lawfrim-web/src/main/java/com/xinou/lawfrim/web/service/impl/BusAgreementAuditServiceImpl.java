@@ -3,10 +3,7 @@ package com.xinou.lawfrim.web.service.impl;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.xinou.lawfrim.common.util.APIResponse;
 import com.xinou.lawfrim.common.util.Config;
-import com.xinou.lawfrim.web.dto.BusAgreementAuditDto;
-import com.xinou.lawfrim.web.dto.BusAgreementScoreDto;
-import com.xinou.lawfrim.web.dto.BusChangeRecordDto;
-import com.xinou.lawfrim.web.dto.BusLawyerDto;
+import com.xinou.lawfrim.web.dto.*;
 import com.xinou.lawfrim.web.entity.BusAgreement;
 import com.xinou.lawfrim.web.entity.BusAgreementAudit;
 import com.xinou.lawfrim.web.entity.BusChangeRecord;
@@ -224,6 +221,42 @@ public class BusAgreementAuditServiceImpl extends ServiceImpl<BusAgreementAuditM
         int res = agreementAuditMapper.updateById(agreementAudit);
         if (res <= 0){
             throw new RuntimeException("评分失败");
+        }
+        return new APIResponse();
+    }
+
+    @Override
+    public APIResponse assignAgreement(BusAgreementDto agreementDto) {
+        BusAgreement busAgreement = agreementService.getById(agreementDto.getId());
+        if (busAgreement == null){
+            return new APIResponse<>(Config.RE_DATA_NOT_EXIST_ERROR_CODE,Config.RE_DATA_NOT_EXIST_ERROR_MSG);
+        }
+        busAgreement.setState(2);//将合同修改为初审状态
+        boolean res = agreementService.updateById(busAgreement);
+        if (!res){
+            throw new RuntimeException("修改合同领取状态失败");
+        }
+        BusAgreementAudit busAgreementAudit = new BusAgreementAudit();
+        busAgreementAudit.setAgreementId(busAgreement.getId());
+        busAgreementAudit.setLawyerId(agreementDto.getLawyerId());
+        res = save(busAgreementAudit);
+        if (!res){
+            throw new RuntimeException("分配合同失败");
+        }
+        //根据adminId获取lawyerId
+        BusLawyer lawyer1 = lawyerMapper.selectOne(new QueryWrapper<BusLawyer>().eq("sys_user_id",agreementDto.getAdminId())
+                .eq("is_delete",0));
+        if (lawyer1 == null ){
+            return new APIResponse<>(Config.RE_DATA_NOT_EXIST_ERROR_CODE,Config.RE_DATA_NOT_EXIST_ERROR_MSG);
+        }
+        BusChangeRecord changeRecord = new BusChangeRecord();
+        changeRecord.setLawyerId(busAgreement.getId());
+        changeRecord.setAgreementAuditId(busAgreementAudit.getId());
+        changeRecord.setOldOrAssignLawyerId(lawyer1.getId());
+        changeRecord.setType(3);
+        res = busChangeRecordService.save(changeRecord);
+        if (!res){
+            throw new RuntimeException("分配合同失败");
         }
         return new APIResponse();
     }
