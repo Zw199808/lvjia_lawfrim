@@ -142,11 +142,17 @@ public class BusAgreementAuditServiceImpl extends ServiceImpl<BusAgreementAuditM
         if (!res){
             throw  new RuntimeException("修改合同状态失败");
         }
+        //根据adminId获取lawyerId
+        BusLawyer lawyer = lawyerMapper.selectOne(new QueryWrapper<BusLawyer>().eq("is_delete",0)
+                .eq("sys_user_id",changeRecord.getAdminId()));
+        if (lawyer == null){
+            return new APIResponse<>(Config.RE_DATA_NOT_EXIST_ERROR_CODE,Config.RE_DATA_NOT_EXIST_ERROR_MSG);
+        }
         BusChangeRecord changeRecord1 = new BusChangeRecord();
         changeRecord1.setType(2);//类型为转移
         changeRecord1.setAgreementAuditId(changeRecord.getAgreementAuditId());//审批表id
         changeRecord1.setLawyerId(changeRecord.getLawyerId());//律师id
-        changeRecord1.setOldOrAssignLawyerId(changeRecord.getAdminId());//原律师、分配律师
+        changeRecord1.setOldOrAssignLawyerId(lawyer.getId());//原律师、分配律师
         changeRecord1.setState(1);
         res = busChangeRecordService.save(changeRecord1);
         if (!res){
