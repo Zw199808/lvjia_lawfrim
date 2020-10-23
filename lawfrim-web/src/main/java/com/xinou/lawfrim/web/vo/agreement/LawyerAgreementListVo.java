@@ -25,6 +25,12 @@ public class LawyerAgreementListVo implements Serializable {
     @ApiModelProperty("合同id")
     private Integer agreeId;
 
+    @ApiModelProperty("初审律师Id")
+    private Integer firstLawyerId;
+
+    @ApiModelProperty("复审律师Id")
+    private Integer endLawyerId;
+
     @ApiModelProperty("合同名称")
     private String agreeName;
 

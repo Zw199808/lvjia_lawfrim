@@ -3,27 +3,28 @@
 <mapper namespace="com.xinou.lawfrim.web.mapper.BusChangeRecordMapper">
 
     <select id="getList" resultType="com.xinou.lawfrim.web.vo.agreement.LawyerAgreementListVo">
-        SELECT cr.state as getState,
-        aa.id as agreementAuditId,
-        cus.name as customName,
+        SELECT aa.id as agreementAuditId,
+        aa.lawyer_id as firstLawyerId,
+        aa.end_lawyer_id as endLawyerId,
+        aa.state as getState,
+        agree.id as agreeId,
+        agree.name as agreeName,
         agree.state as agreeState,
         agree.end_time as endTime,
-        agree.name as agreeName,
-        agree.id as agreeId
-        FROM bus_change_record cr
-        left join bus_agreement_audit aa on aa.id = cr.agreement_audit_id
+        cus.name as customName
+        FROM bus_agreement_audit aa
         left join bus_agreement agree on agree.id = aa.agreement_id
         left join bus_custom cus on cus.id = agree.custom_id
-        where cr.is_delete = 0
-        <if test = " condition.lawyerId != null and condition.lawyerId != '' ">
-            and cr.lawyer_id = #{ condition.lawyerId }
-        </if>
+        where aa.is_delete = 0
         <if test = " condition.state != null and condition.state != '' ">
             and agree.state = #{ condition.state }
         </if>
         <if test = " condition.name != null and condition.name != '' ">
             <bind name="name" value="'%'+condition.name+'%'"/>
             and agree.name like #{ name }
+        </if>
+        <if test = " condition.lawyerId != null and condition.lawyerId != '' ">
+            and aa.lawyer_id = #{ condition.lawyerId } or aa.end_lawyer_id = #{ condition.lawyerId }
         </if>
         order by agree.gmt_create desc
     </select>
@@ -32,20 +33,19 @@
 
     <select id="getTotal" resultType="java.lang.Integer">
         select count(*)
-        FROM bus_change_record cr
-        left join bus_agreement_audit aa on aa.id = cr.agreement_audit_id
+        FROM bus_agreement_audit aa
         left join bus_agreement agree on agree.id = aa.agreement_id
         left join bus_custom cus on cus.id = agree.custom_id
-        where cr.is_delete = 0
-        <if test = " condition.lawyerId != null and condition.lawyerId != '' ">
-            and cr.lawyer_id = #{ condition.lawyerId }
-        </if>
+        where aa.is_delete = 0
         <if test = " condition.state != null and condition.state != '' ">
             and agree.state = #{ condition.state }
         </if>
         <if test = " condition.name != null and condition.name != '' ">
             <bind name="name" value="'%'+condition.name+'%'"/>
             and agree.name like #{ name }
+        </if>
+        <if test = " condition.lawyerId != null and condition.lawyerId != '' ">
+            and aa.lawyer_id = #{ condition.lawyerId } or aa.end_lawyer_id = #{ condition.lawyerId }
         </if>
     </select>
 </mapper>

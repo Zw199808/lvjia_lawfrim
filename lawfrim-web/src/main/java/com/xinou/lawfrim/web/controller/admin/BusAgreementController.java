@@ -1,15 +1,19 @@
 package com.xinou.lawfrim.web.controller.admin;
 
 
+import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.github.xiaoymin.knife4j.annotations.ApiOperationSupport;
 import com.xinou.lawfrim.common.util.APIResponse;
+import com.xinou.lawfrim.common.util.Config;
 import com.xinou.lawfrim.web.config.WebLoginToken;
 import com.xinou.lawfrim.web.dto.BusAgreementAuditDto;
 import com.xinou.lawfrim.web.dto.BusAgreementDto;
 import com.xinou.lawfrim.web.dto.BusAgreementScoreDto;
 import com.xinou.lawfrim.web.dto.BusChangeRecordDto;
+import com.xinou.lawfrim.web.entity.BusLawyer;
 import com.xinou.lawfrim.web.service.IBusAgreementAuditService;
 import com.xinou.lawfrim.web.service.IBusAgreementService;
+import com.xinou.lawfrim.web.service.IBusLawyerService;
 import com.xinou.lawfrim.web.vo.agreement.AgreementInfoVo;
 import com.xinou.lawfrim.web.vo.agreement.AgreementListVo;
 import com.xinou.lawfrim.web.vo.agreement.AgreementVo;
@@ -46,6 +50,9 @@ public class BusAgreementController {
     @Autowired
     private IBusAgreementAuditService agreementAuditService;
 
+    @Autowired
+    private IBusLawyerService lawyerService;
+
 
     @PostMapping("list")
 //    @RequiresPermissions("/admin/agreement/list")
@@ -63,7 +70,13 @@ public class BusAgreementController {
     APIResponse<LawyerAgreementListVo> AllAgreementList(HttpServletRequest request, @RequestBody BusAgreementDto agreementDto) {
         HttpSession session = request.getSession();
         Integer adminId  = (Integer) session.getAttribute("sysUserId");
-        agreementDto.setLawyerId(adminId);
+        //根据adminId获取lawyerId
+        BusLawyer lawyer = lawyerService.getOne(new QueryWrapper<BusLawyer>().eq("sys_user_id",adminId)
+                .eq("is_delete",0));
+        if (lawyer == null ){
+            return new APIResponse<>(Config.RE_DATA_NOT_EXIST_ERROR_CODE,Config.RE_DATA_NOT_EXIST_ERROR_MSG);
+        }
+        agreementDto.setLawyerId(lawyer.getId());
         return agreementService.AllAgreementList(agreementDto);
     }
 
@@ -75,7 +88,13 @@ public class BusAgreementController {
         HttpSession session = request.getSession();
         Integer adminId = (Integer)session.getAttribute("sysUserId");
         BusAgreementAuditDto agreementAudit = new BusAgreementAuditDto();
-        agreementAudit.setLawyerId(adminId);
+        //根据adminId获取lawyerId
+        BusLawyer lawyer = lawyerService.getOne(new QueryWrapper<BusLawyer>().eq("sys_user_id",adminId)
+                .eq("is_delete",0));
+        if (lawyer == null ){
+            return new APIResponse<>(Config.RE_DATA_NOT_EXIST_ERROR_CODE,Config.RE_DATA_NOT_EXIST_ERROR_MSG);
+        }
+        agreementAudit.setLawyerId(lawyer.getId());
         agreementAudit.setAgreementId(agreement.getId());
         return agreementAuditService.acceptAgreement(agreementAudit);
     }
@@ -136,5 +155,13 @@ public class BusAgreementController {
 //        Integer adminId = (Integer) session.getAttribute("sysUserId");
 //        agreementScore.setAdminId(adminId);
         return agreementAuditService.endAuditAgreement(agreementScore);
+    }
+
+    @PostMapping("AdminAgreementList")
+//    @RequiresPermissions("/admin/agreement/AdminAgreementList")
+    @ApiOperation(httpMethod = "POST", value = "管理员-合同列表")
+    @ApiOperationSupport(includeParameters = {"agreementDto.state","agreementDto.name"})
+    APIResponse<LawyerAgreementListVo> AdminAgreementList(HttpServletRequest request, @RequestBody BusAgreementDto agreementDto) {
+        return agreementService.AllAgreementList(agreementDto);
     }
 }

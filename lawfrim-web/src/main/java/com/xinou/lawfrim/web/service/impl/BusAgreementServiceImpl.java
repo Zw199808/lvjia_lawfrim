@@ -246,7 +246,7 @@ public class BusAgreementServiceImpl extends ServiceImpl<BusAgreementMapper, Bus
 
     @Override
     public APIResponse<LawyerAgreementListVo> AllAgreementList(BusAgreementDto agreement) {
-        //
+
         Page<BusAgreementDto> page = new Page<>(agreement.getPageNumber(), agreement.getPageSize());
         List<LawyerAgreementListVo> list = changeRecordMapper.getList(page, agreement);
         Integer total = changeRecordMapper.getTotal(agreement);

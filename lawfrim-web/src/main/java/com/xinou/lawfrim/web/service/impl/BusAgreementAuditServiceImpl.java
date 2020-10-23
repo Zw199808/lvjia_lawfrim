@@ -155,6 +155,13 @@ public class BusAgreementAuditServiceImpl extends ServiceImpl<BusAgreementAuditM
         if (!res){
             throw  new RuntimeException("转移合同失败");
         }
+        //将审批表律师修改为转移律师
+        busAgreementAudit.setLawyerId(changeRecord.getLawyerId());
+        busAgreementAudit.setState(1);//将审批表转移状态改为未接收
+        int res1 = agreementAuditMapper.updateById(busAgreementAudit);
+        if (res1 <= 0 ){
+            throw  new RuntimeException("转移合同-修改审批信息失败");
+        }
         return new APIResponse();
     }
 
@@ -165,14 +172,21 @@ public class BusAgreementAuditServiceImpl extends ServiceImpl<BusAgreementAuditM
         if (agreementAudit == null ){
             return new APIResponse<>(Config.RE_DATA_NOT_EXIST_ERROR_CODE,Config.RE_DATA_NOT_EXIST_ERROR_MSG);
         }
-        agreementAudit.setLawyerId(changeRecord.getAdminId());
+        //根据adminId获取lawyerId
+        BusLawyer lawyer = lawyerMapper.selectOne(new QueryWrapper<BusLawyer>().eq("sys_user_id",changeRecord.getAdminId())
+                                                 .eq("is_delete",0));
+        if (lawyer == null ){
+            return new APIResponse<>(Config.RE_DATA_NOT_EXIST_ERROR_CODE,Config.RE_DATA_NOT_EXIST_ERROR_MSG);
+        }
+//        agreementAudit.setLawyerId(lawyer.getId());
+        agreementAudit.setState(2);//将合同状态改为已接收
         int res = agreementAuditMapper.updateById(agreementAudit);
         if (res <= 0 ){
             throw new RuntimeException("修改合同转移信息失败");
         }
         //修改合同信息
         BusAgreement agreement = agreementService.getById(agreementAudit.getAgreementId());
-        if (agreementAudit == null ){
+        if (agreement == null ){
             return new APIResponse<>(Config.RE_DATA_NOT_EXIST_ERROR_CODE,Config.RE_DATA_NOT_EXIST_ERROR_MSG);
         }
         agreement.setState(2);
@@ -183,7 +197,7 @@ public class BusAgreementAuditServiceImpl extends ServiceImpl<BusAgreementAuditM
         //修改转移纪律表信息
         BusChangeRecord changeRecord1 = busChangeRecordService.getOne(new QueryWrapper<BusChangeRecord>()
                                                                      .eq("is_delete",0)
-                                                                     .eq("lawyer_id",changeRecord.getAdminId())
+                                                                     .eq("lawyer_id",lawyer.getId())
                                                                      .eq("agreement_audit_id",changeRecord.getAgreementAuditId())
                                                                      .eq("type",2));
         changeRecord1.setState(2);
