@@ -17,7 +17,7 @@
                 max(aa.score) as maxScore,
                 min(aa.score) as minScore
                 from bus_agreement_audit aa
-         where agree.is_delete = 0 and aa.end_lawyer_id != 0
+         where aa.is_delete = 0 and aa.end_lawyer_id != 0
          <if test = " condition.id != null and condition.id != '' ">
              and aa.lawyer_id = #{condition.id}
          </if>

@@ -9,13 +9,12 @@ import com.xinou.lawfrim.web.dto.BusLawyerDto;
 import com.xinou.lawfrim.web.entity.BusAgreement;
 import com.xinou.lawfrim.web.entity.BusAgreementAudit;
 import com.xinou.lawfrim.web.entity.BusChangeRecord;
+import com.xinou.lawfrim.web.entity.BusLawyer;
 import com.xinou.lawfrim.web.mapper.BusAgreementAuditMapper;
 import com.xinou.lawfrim.web.mapper.BusChangeRecordMapper;
-import com.xinou.lawfrim.web.service.IBusAgreementAuditService;
+import com.xinou.lawfrim.web.mapper.BusLawyerMapper;
+import com.xinou.lawfrim.web.service.*;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
-import com.xinou.lawfrim.web.service.IBusAgreementService;
-import com.xinou.lawfrim.web.service.IBusChangeRecordService;
-import com.xinou.lawfrim.web.service.IBusCustomService;
 import com.xinou.lawfrim.web.vo.agreementAudit.ScoreVo;
 import com.xinou.lawfrim.web.vo.custom.CustomNumVo;
 import org.apache.ibatis.annotations.Param;
@@ -44,8 +43,18 @@ public class BusAgreementAuditServiceImpl extends ServiceImpl<BusAgreementAuditM
     @Autowired
     private IBusAgreementService agreementService;
 
+    @Autowired
+    private BusLawyerMapper lawyerMapper;
+
     @Override
     public APIResponse<CustomNumVo> getLawyerAgreementCount(BusAgreementAuditDto agreementAuditDto) {
+        //根据adminId获取lawyerId
+        BusLawyer lawyer = lawyerMapper.selectOne(new QueryWrapper<BusLawyer>().eq("is_delete",0)
+                                                  .eq("sys_user_id",agreementAuditDto.getSysUserId()));
+        if (lawyer == null){
+            return new APIResponse<>(Config.RE_DATA_NOT_EXIST_ERROR_CODE,Config.RE_DATA_NOT_EXIST_ERROR_MSG);
+        }
+        agreementAuditDto.setLawyerId(lawyer.getId());
         CustomNumVo customNumVo = agreementAuditMapper.getLawyerAgreementCount(agreementAuditDto);
         return new APIResponse<>(customNumVo);
     }

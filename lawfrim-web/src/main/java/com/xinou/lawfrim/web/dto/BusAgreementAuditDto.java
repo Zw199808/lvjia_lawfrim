@@ -22,6 +22,9 @@ import java.util.Date;
 @NoArgsConstructor
 public class BusAgreementAuditDto extends PageDto implements Serializable {
 
+    @ApiModelProperty(value = "管理员表id")
+    private Integer sysUserId;
+
     @ApiModelProperty(value = "律师id")
     private Integer lawyerId;
 
