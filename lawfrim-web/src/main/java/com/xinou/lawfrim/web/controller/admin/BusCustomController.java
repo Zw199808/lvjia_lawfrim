@@ -49,7 +49,7 @@ public class BusCustomController {
 
 
     @PostMapping("add")
-//    @RequiresPermissions("/web/custom/add")
+//    @RequiresPermissions("/admin/custom/add")
     @ApiOperation(httpMethod = "POST", value = "添加客户")
     @ApiOperationSupport(ignoreParameters = {"customDto.id","customDto.oldPassword"})
     APIResponse customAdd(@RequestBody BusCustomDto customDto) {
@@ -58,7 +58,7 @@ public class BusCustomController {
 
 
     @PostMapping("info")
-//    @RequiresPermissions("/web/custom/info")
+//    @RequiresPermissions("/admin/custom/info")
     @ApiOperation(httpMethod = "POST", value = "客户信息")
     @ApiOperationSupport(includeParameters = {"customDto.id"})
     APIResponse<CustomVo> customInfo(@RequestBody BusCustomDto customDto) {
@@ -68,10 +68,10 @@ public class BusCustomController {
 
     @PostMapping("update")
 //    @RequiresPermissions("/admin/custom/update")
-    @ApiOperation(httpMethod = "POST", value = "修改客户信息")
-    @ApiOperationSupport(includeParameters = {"customDto.password","customDto.id"})
+    @ApiOperation(httpMethod = "POST", value = "修改客户密码")
+    @ApiOperationSupport(includeParameters = {"customDto.id","customDto.password"})
     APIResponse customUpdate(@RequestBody BusCustomDto customDto) {
-        return customService.updateCustom(customDto);
+        return customService.AdminUpdateCustom(customDto);
     }
 
 }

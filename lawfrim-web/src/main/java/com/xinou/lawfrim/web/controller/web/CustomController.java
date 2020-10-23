@@ -52,5 +52,14 @@ public class CustomController {
         return customService.getCustomInfo(busCustomDto);
     }
 
+    @PostMapping("update")
+    @ApiOperation(httpMethod = "POST", value = "客户修改密码")
+    @WebLoginToken
+    @ApiOperationSupport(includeParameters = {"customDto.password","customDto.oldPassword"})
+    APIResponse<CustomVo> updateCustomPassword(HttpServletRequest request,@RequestBody BusCustomDto customDto) {
+        customDto.setId(Integer.parseInt(HeadersUtil.getUserId(request).toString()));
+        return customService.updateCustom(customDto);
+    }
+
 
 }

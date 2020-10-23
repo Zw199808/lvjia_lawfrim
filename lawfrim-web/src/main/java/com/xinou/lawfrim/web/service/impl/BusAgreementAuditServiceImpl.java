@@ -5,6 +5,7 @@ import com.xinou.lawfrim.common.util.APIResponse;
 import com.xinou.lawfrim.common.util.Config;
 import com.xinou.lawfrim.web.dto.BusAgreementAuditDto;
 import com.xinou.lawfrim.web.dto.BusChangeRecordDto;
+import com.xinou.lawfrim.web.dto.BusLawyerDto;
 import com.xinou.lawfrim.web.entity.BusAgreement;
 import com.xinou.lawfrim.web.entity.BusAgreementAudit;
 import com.xinou.lawfrim.web.entity.BusChangeRecord;
@@ -15,6 +16,7 @@ import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.xinou.lawfrim.web.service.IBusAgreementService;
 import com.xinou.lawfrim.web.service.IBusChangeRecordService;
 import com.xinou.lawfrim.web.service.IBusCustomService;
+import com.xinou.lawfrim.web.vo.agreementAudit.ScoreVo;
 import com.xinou.lawfrim.web.vo.custom.CustomNumVo;
 import org.apache.ibatis.annotations.Param;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -181,4 +183,11 @@ public class BusAgreementAuditServiceImpl extends ServiceImpl<BusAgreementAuditM
         }
         return new APIResponse();
     }
+
+    @Override
+    public APIResponse<ScoreVo> getStatisticMyScore(BusLawyerDto lawyerDto) {
+        ScoreVo scoreVo = agreementAuditMapper.getStatisticScore(lawyerDto);
+        return new APIResponse<>(scoreVo);
+    }
+
 }

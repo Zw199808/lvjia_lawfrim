@@ -46,6 +46,13 @@ public interface IBusCustomService extends IService<BusCustom> {
      * @param custom 客户信息
      * @return
      */
+    APIResponse AdminUpdateCustom(BusCustomDto custom);
+
+    /**
+     * 修改客户信息
+     * @param custom 客户信息
+     * @return
+     */
     APIResponse updateCustom(BusCustomDto custom);
 
 

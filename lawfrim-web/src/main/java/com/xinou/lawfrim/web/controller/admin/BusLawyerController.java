@@ -39,7 +39,7 @@ import javax.servlet.http.HttpSession;
  */
 @RestController
 @RequestMapping("/admin/lawyer")
-@Api(tags = {"律师法务"})
+@Api(tags = {"管理员-律师法务"})
 public class BusLawyerController {
 
     @Autowired
@@ -75,44 +75,15 @@ public class BusLawyerController {
     }
 
 
-    @PostMapping("updateState")
-//    @RequiresPermissions("/admin/lawyer/updateState")
-    @ApiOperation(httpMethod = "POST", value = "修改律师在线状态")
-    @ApiOperationSupport(includeParameters = {"lawyerDto.state"})
-    APIResponse lawyerUpdate(HttpServletRequest request,@RequestBody BusLawyerDto lawyerDto) {
-        HttpSession session = request.getSession();
-        int adminId = (Integer) session.getAttribute("sysUserId");
-        BusLawyer lawyer = busLawyerService.getOne(new QueryWrapper<BusLawyer>().eq("sys_user_id",adminId));
-        lawyerDto.setId(lawyer.getId());
-        return busLawyerService.updateBusLawyer(lawyerDto);
-    }
-
-
     @PostMapping("updatePassword")
 //    @RequiresPermissions("/admin/lawyer/updatePassword")
     @ApiOperation(httpMethod = "POST", value = "修改律师、管理员登录密码")
-    @ApiOperationSupport(includeParameters = {"lawyerDto.password","lawyerDto.oldPassword"})
+    @ApiOperationSupport(includeParameters = {"lawyerDto.id","lawyerDto.password"})
     APIResponse lawyerUpdatePassword(HttpServletRequest request,@RequestBody BusLawyerDto lawyerDto) {
-        HttpSession session = request.getSession();
-        int adminId = (Integer) session.getAttribute("sysUserId");
-        lawyerDto.setSysUserId(adminId);
-        return busLawyerService.updateBusLawyerPassword(lawyerDto);
-    }
-
-
-    @PostMapping("get")
-//    @RequiresPermissions("/admin/lawyer/get")
-    @ApiOperation("获取律师姓名、职务、个人信息")
-    APIResponse<LawyerVo> getLawyer(HttpServletRequest request) {
-        BusLawyerDto lawyerDto = new BusLawyerDto();
-        HttpSession session = request.getSession();
-        int adminId = (Integer) session.getAttribute("sysUserId");
-        BusLawyer lawyer = busLawyerService.getOne(new QueryWrapper<BusLawyer>().eq("sys_user_id",adminId));
-        lawyerDto.setId(lawyer.getId());
-        return busLawyerService.getBusLawyer(lawyerDto);
-//        LawyerSimpleVo vo = new LawyerSimpleVo();
-//        BeanUtil.copyProperties(busLawyerService.getBusLawyer(lawyerDto).getDataInfo(), vo);
-//        return new APIResponse<>(vo);
+//        HttpSession session = request.getSession();
+//        int adminId = (Integer) session.getAttribute("sysUserId");
+//        lawyerDto.setSysUserId(adminId);
+        return busLawyerService.AdminUpdateBusLawyerPassword(lawyerDto);
     }
 
 

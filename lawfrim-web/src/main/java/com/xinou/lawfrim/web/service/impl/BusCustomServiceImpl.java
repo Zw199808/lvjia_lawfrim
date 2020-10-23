@@ -116,7 +116,7 @@ public class BusCustomServiceImpl extends ServiceImpl<BusCustomMapper, BusCustom
     }
 
     @Override
-    public APIResponse updateCustom(BusCustomDto custom) {
+    public APIResponse AdminUpdateCustom(BusCustomDto custom) {
         BusCustom busCustom = getById(custom.getId());
         busCustom.setPassword(custom.getPassword());
 //        busCustom.setName(custom.getName());
@@ -126,6 +126,23 @@ public class BusCustomServiceImpl extends ServiceImpl<BusCustomMapper, BusCustom
         boolean res = updateById(busCustom);
         if (!res) {
             throw new RuntimeException("修改客户信息失败");
+        }
+        return new APIResponse();
+    }
+
+    @Override
+    public APIResponse updateCustom(BusCustomDto custom) {
+        BusCustom busCustom = getById(custom.getId());
+        if (!busCustom.getPassword().equals(custom.getOldPassword())){
+            return new APIResponse(Config.RE_OLD_PASSWORD_ERROR_CODE,Config.RE_OLD_PASSWORD_ERROR_MSG);
+        }
+        busCustom.setPassword(custom.getPassword());
+        busCustom.setGmtModified(null);
+
+        // 数据插入
+        boolean res = updateById(busCustom);
+        if (!res) {
+            throw new RuntimeException("修改客户密码失败");
         }
         return new APIResponse();
     }

@@ -15,6 +15,7 @@ import com.xinou.lawfrim.web.service.IBusAgreementService;
 import com.xinou.lawfrim.web.service.IBusLawyerService;
 import com.xinou.lawfrim.web.util.HeadersUtil;
 import com.xinou.lawfrim.web.vo.agreement.AgreementTypeVo;
+import com.xinou.lawfrim.web.vo.agreementAudit.ScoreVo;
 import com.xinou.lawfrim.web.vo.custom.CustomNumVo;
 import com.xinou.lawfrim.web.vo.lawyer.LawyerVo;
 import io.swagger.annotations.Api;
@@ -77,4 +78,16 @@ public class StatisticsController {
         BusAgreementDto agreementDto = new BusAgreementDto();
         return agreementService.getAgreementTypeStatistic(agreementDto);
     }
+
+    @PostMapping("statisticMyScore")
+    //    @RequiresPermissions("/admin/statistics/statisticMyScore")
+    @ApiOperation(httpMethod = "POST", value = "我的评分统计")
+    APIResponse<ScoreVo> getStatisticMyScore(HttpServletRequest request) {
+        HttpSession session = request.getSession();
+        Integer adminId = (Integer) session.getAttribute("sysUerId");
+        BusLawyerDto lawyerDto = new BusLawyerDto();
+        lawyerDto.setId(adminId);
+        return agreementAuditService.getStatisticMyScore(lawyerDto);
+    }
+
 }

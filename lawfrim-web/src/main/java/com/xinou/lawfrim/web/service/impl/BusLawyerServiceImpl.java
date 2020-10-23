@@ -165,7 +165,8 @@ public class BusLawyerServiceImpl extends ServiceImpl<BusLawyerMapper, BusLawyer
         lawyerVo.setId(busLawyer.getId());
         lawyerVo.setAccount(sysUser.getAccount());
         lawyerVo.setName(busLawyer.getName());
-        lawyerVo.setPassword(sysUser.getPassword());
+        lawyerVo.setPassword("****");
+//        lawyerVo.setPassword(sysUser.getPassword());
         lawyerVo.setState(busLawyer.getState());
         lawyerVo.setRoleId(reSYSUserRole.getRoleId());
         lawyerVo.setRoleName(role.getName());
@@ -217,6 +218,23 @@ public class BusLawyerServiceImpl extends ServiceImpl<BusLawyerMapper, BusLawyer
         if (!sysUser.getPassword().equals(lawyer.getOldPassword())){
             return new APIResponse<>(Config.RE_OLD_PASSWORD_ERROR_CODE,Config.RE_OLD_PASSWORD_ERROR_MSG);
         }
+//        sysUser.setRealName(lawyer.getName());
+        sysUser.setPassword(lawyer.getPassword());
+        boolean res = userSSOService.updateById(sysUser);
+        if (!res) {
+            throw new RuntimeException("修改律师登录密码失败");
+        }
+        return new APIResponse();
+    }
+
+    @Override
+    public APIResponse AdminUpdateBusLawyerPassword(BusLawyerDto lawyer) {
+        BusLawyer lawyer1 = getById(lawyer);
+        if (lawyer1 == null){
+            return new APIResponse<>(Config.RE_DATA_NOT_EXIST_ERROR_CODE,Config.RE_DATA_NOT_EXIST_ERROR_MSG);
+        }
+        //修改sys_user表中密码
+        SYSUser sysUser = userSSOService.getById(lawyer1.getSysUserId());
 //        sysUser.setRealName(lawyer.getName());
         sysUser.setPassword(lawyer.getPassword());
         boolean res = userSSOService.updateById(sysUser);

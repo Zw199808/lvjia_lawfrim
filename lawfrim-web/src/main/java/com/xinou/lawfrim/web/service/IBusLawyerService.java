@@ -51,4 +51,11 @@ public interface IBusLawyerService extends IService<BusLawyer> {
      */
     APIResponse updateBusLawyerPassword(BusLawyerDto lawyer);
 
+    /**
+     * 修改律师登录密码
+     * @param lawyer 律师信息
+     * @return
+     */
+    APIResponse AdminUpdateBusLawyerPassword(BusLawyerDto lawyer);
+
 }

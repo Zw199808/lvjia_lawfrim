@@ -3,9 +3,11 @@ package com.xinou.lawfrim.web.service;
 import com.xinou.lawfrim.common.util.APIResponse;
 import com.xinou.lawfrim.web.dto.BusAgreementAuditDto;
 import com.xinou.lawfrim.web.dto.BusChangeRecordDto;
+import com.xinou.lawfrim.web.dto.BusLawyerDto;
 import com.xinou.lawfrim.web.entity.BusAgreementAudit;
 import com.baomidou.mybatisplus.extension.service.IService;
 import com.xinou.lawfrim.web.entity.BusChangeRecord;
+import com.xinou.lawfrim.web.vo.agreementAudit.ScoreVo;
 import com.xinou.lawfrim.web.vo.custom.CustomNumVo;
 
 /**
@@ -53,5 +55,10 @@ public interface IBusAgreementAuditService extends IService<BusAgreementAudit> {
      */
     APIResponse agreeChangeAgreement(BusChangeRecordDto changeRecord);
 
-
+    /**
+     * 接受转移合同
+     * @param
+     * @return
+     */
+    APIResponse<ScoreVo> getStatisticMyScore(BusLawyerDto lawyerDto);
 }
