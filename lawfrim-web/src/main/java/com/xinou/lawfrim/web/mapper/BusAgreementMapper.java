@@ -5,6 +5,7 @@ import com.xinou.lawfrim.web.dto.BusAgreementDto;
 import com.xinou.lawfrim.web.entity.BusAgreement;
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 import com.xinou.lawfrim.web.vo.agreement.AgreementListVo;
+import com.xinou.lawfrim.web.vo.agreement.AgreementNumVo;
 import com.xinou.lawfrim.web.vo.agreement.AgreementTypeVo;
 import org.apache.ibatis.annotations.Param;
 import org.springframework.stereotype.Repository;
@@ -43,5 +44,20 @@ public interface BusAgreementMapper extends BaseMapper<BusAgreement> {
      * @return
      */
     List<AgreementTypeVo> getAgreementTypeStatistic(@Param("condition") BusAgreementDto agreementDto);
+
+    /**
+     * 合同数量统计
+     * @param
+     * @return
+     */
+    List<AgreementNumVo> getAgreementNumber();
+
+    /**
+     * 当前月份之前合同数量
+     * @param
+     * @return
+     */
+    Integer getAgreementNumByTime(@Param("condition") BusAgreementDto agreementDto);
+
 
 }

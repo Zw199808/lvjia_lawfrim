@@ -4,6 +4,7 @@ import com.xinou.lawfrim.common.util.APIResponse;
 import com.xinou.lawfrim.web.dto.BusLawyerDto;
 import com.xinou.lawfrim.web.entity.BusLawyer;
 import com.baomidou.mybatisplus.extension.service.IService;
+import com.xinou.lawfrim.web.vo.UserNumberVo;
 import com.xinou.lawfrim.web.vo.lawyer.LawyerVo;
 
 /**
@@ -57,5 +58,12 @@ public interface IBusLawyerService extends IService<BusLawyer> {
      * @return
      */
     APIResponse AdminUpdateBusLawyerPassword(BusLawyerDto lawyer);
+
+    /**
+     * 用户数量统计
+     * @param
+     * @return
+     */
+    APIResponse<UserNumberVo> statisticUserNumber();
 
 }

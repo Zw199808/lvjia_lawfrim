@@ -15,11 +15,14 @@ import com.xinou.lawfrim.sso.service.RoleSSOService;
 import com.xinou.lawfrim.sso.service.UserSSOService;
 import com.xinou.lawfrim.web.dto.BusLawyerDto;
 import com.xinou.lawfrim.web.entity.BusAgreementAudit;
+import com.xinou.lawfrim.web.entity.BusCustom;
 import com.xinou.lawfrim.web.entity.BusLawyer;
 import com.xinou.lawfrim.web.mapper.BusLawyerMapper;
 import com.xinou.lawfrim.web.service.IBusAgreementAuditService;
+import com.xinou.lawfrim.web.service.IBusCustomService;
 import com.xinou.lawfrim.web.service.IBusLawyerService;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
+import com.xinou.lawfrim.web.vo.UserNumberVo;
 import com.xinou.lawfrim.web.vo.lawyer.LawyerVo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Primary;
@@ -60,6 +63,9 @@ public class BusLawyerServiceImpl extends ServiceImpl<BusLawyerMapper, BusLawyer
 
     @Autowired
     private IBusAgreementAuditService agreementAuditService;
+
+    @Autowired
+    private IBusCustomService customService;
 
     @Override
     public APIResponse<LawyerVo> listLawyer(BusLawyerDto busLawyer) {
@@ -242,5 +248,18 @@ public class BusLawyerServiceImpl extends ServiceImpl<BusLawyerMapper, BusLawyer
             throw new RuntimeException("修改律师登录密码失败");
         }
         return new APIResponse();
+    }
+
+    @Override
+    public APIResponse<UserNumberVo> statisticUserNumber() {
+        //查询用户数量
+        Integer customNumber = customService.count(new QueryWrapper<BusCustom>()
+                                                  .eq("is_delete",0));
+        Integer lawyerNumber = count(new QueryWrapper<BusLawyer>()
+                                    .eq("is_delete",0));
+        UserNumberVo userNumberVo = new UserNumberVo();
+        userNumberVo.setCustomNumber(customNumber);
+        userNumberVo.setLawyerNumber(lawyerNumber);
+        return new APIResponse<>(userNumberVo);
     }
 }

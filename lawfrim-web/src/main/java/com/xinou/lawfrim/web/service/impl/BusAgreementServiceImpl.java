@@ -261,4 +261,24 @@ public class BusAgreementServiceImpl extends ServiceImpl<BusAgreementMapper, Bus
         return new APIResponse(map);
     }
 
+    @Override
+    public APIResponse<AgreementNumVo> getAgreementNumber() {
+        //合同数量统计
+        List<AgreementNumVo> list = agreementMapper.getAgreementNumber();
+        //遍历查询每个月加每月之前总数
+        for (AgreementNumVo agreementNumVo1 : list){
+            BusAgreementDto agreementDto = new BusAgreementDto();
+            agreementDto.setEndTime(agreementNumVo1.getGroupYear());
+            Integer num = agreementMapper.getAgreementNumByTime(agreementDto);
+            agreementNumVo1.setTotalNumber(num);
+        }
+        Map<String, Object> map = new HashMap<>(2);
+        if (list.size() == 0) {
+            map.put("dataList", new ArrayList<>());
+            return new APIResponse(map);
+        }
+        map.put("dataList", list);
+        return new APIResponse(map);
+    }
+
 }
