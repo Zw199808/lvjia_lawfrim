@@ -262,6 +262,35 @@ public class BusAgreementServiceImpl extends ServiceImpl<BusAgreementMapper, Bus
     }
 
     @Override
+    public APIResponse<LawyerAgreementListVo> getAllAgreementList(BusAgreementDto agreement) {
+        Page<BusAgreementDto> page = new Page<>(agreement.getPageNumber(), agreement.getPageSize());
+        List<LawyerAgreementListVo> list = changeRecordMapper.getAllList(page, agreement);
+        Integer total = changeRecordMapper.getAllTotal(agreement);
+        //领取过得合同要查询审批信息
+        for (LawyerAgreementListVo lawyerAgreementListVo :list){
+            if (lawyerAgreementListVo.getAgreeState() != 1){
+                //去查询审批表信息
+                BusAgreementAudit agreementAudit = agreementAuditMapper.selectOne(new QueryWrapper<BusAgreementAudit>()
+                                                                       .eq("is_delete",0)
+                                                                       .eq("agreement_id",lawyerAgreementListVo.getAgreeId()));
+            lawyerAgreementListVo.setGetState(agreementAudit.getState());
+            lawyerAgreementListVo.setAgreementAuditId(agreementAudit.getId());
+            lawyerAgreementListVo.setEndLawyerId(agreementAudit.getEndLawyerId());
+            lawyerAgreementListVo.setFirstLawyerId(agreementAudit.getLawyerId());
+            }
+        }
+        Map<String, Object> map = new HashMap<>(2);
+        if (list.size() == 0) {
+            map.put("dataList", new ArrayList<>());
+            map.put("total", 0);
+            return new APIResponse(map);
+        }
+        map.put("dataList", list);
+        map.put("total", total);
+        return new APIResponse(map);
+    }
+
+    @Override
     public APIResponse<AgreementNumVo> getAgreementNumber() {
         //合同数量统计
         List<AgreementNumVo> list = agreementMapper.getAgreementNumber();

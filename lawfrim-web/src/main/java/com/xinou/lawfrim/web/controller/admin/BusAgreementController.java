@@ -170,7 +170,7 @@ public class BusAgreementController {
     @ApiOperation(httpMethod = "POST", value = "管理员-合同列表")
     @ApiOperationSupport(includeParameters = {"agreementDto.state","agreementDto.name"})
     APIResponse<LawyerAgreementListVo> AdminAgreementList(HttpServletRequest request, @RequestBody BusAgreementDto agreementDto) {
-        return agreementService.AllAgreementList(agreementDto);
+        return agreementService.getAllAgreementList(agreementDto);
     }
 
     @PostMapping("assignAgreement")

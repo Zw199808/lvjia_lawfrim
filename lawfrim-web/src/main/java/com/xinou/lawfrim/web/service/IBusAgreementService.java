@@ -83,9 +83,15 @@ public interface IBusAgreementService extends IService<BusAgreement> {
      */
     APIResponse<LawyerAgreementListVo> AllAgreementList(BusAgreementDto agreement);
 
+    /**
+     * 管理员-合同列表
+     * @param
+     * @return
+     */
+    APIResponse<LawyerAgreementListVo> getAllAgreementList(BusAgreementDto agreement);
 
     /**
-     * 我的-合同列表
+     * 合同数统计
      * @param
      * @return
      */

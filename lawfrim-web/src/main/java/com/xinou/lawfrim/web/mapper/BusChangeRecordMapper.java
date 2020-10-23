@@ -37,4 +37,20 @@ public interface BusChangeRecordMapper extends BaseMapper<BusChangeRecord> {
      * @return
      */
     Integer getTotal(@Param("condition") BusAgreementDto agreementDto);
+
+    /**
+     * 管理员-列表
+     * @param page
+     * @param agreementDto
+     * @return
+     */
+    List<LawyerAgreementListVo> getAllList(Page<BusAgreementDto> page, @Param("condition") BusAgreementDto agreementDto);
+
+
+    /**
+     * 管理员-总数
+     * @param agreementDto
+     * @return
+     */
+    Integer getAllTotal(@Param("condition") BusAgreementDto agreementDto);
 }

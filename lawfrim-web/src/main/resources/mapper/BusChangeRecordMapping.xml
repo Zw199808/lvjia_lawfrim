@@ -48,4 +48,41 @@
             and aa.lawyer_id = #{ condition.lawyerId } or aa.end_lawyer_id = #{ condition.lawyerId }
         </if>
     </select>
+
+    <select id="getAllList" resultType="com.xinou.lawfrim.web.vo.agreement.LawyerAgreementListVo">
+        SELECT
+        agree.id as agreeId,
+        agree.name as agreeName,
+        agree.state as agreeState,
+        agree.end_time as endTime,
+        cus.name as customName
+        FROM bus_agreement agree
+        left join bus_custom cus on cus.id = agree.custom_id
+        where agree.is_delete = 0
+        <if test = " condition.state != null and condition.state != '' ">
+            and agree.state = #{ condition.state }
+        </if>
+        <if test = " condition.name != null and condition.name != '' ">
+            <bind name="name" value="'%'+condition.name+'%'"/>
+            and agree.name like #{ name }
+        </if>
+        order by agree.gmt_create desc
+    </select>
+
+    <!-- 获取数据总数 -->
+
+    <select id="getAllTotal" resultType="java.lang.Integer">
+        select count(*)
+        FROM bus_agreement agree
+        left join bus_custom cus on cus.id = agree.custom_id
+        where agree.is_delete = 0
+        <if test = " condition.state != null and condition.state != '' ">
+            and agree.state = #{ condition.state }
+        </if>
+        <if test = " condition.name != null and condition.name != '' ">
+            <bind name="name" value="'%'+condition.name+'%'"/>
+            and agree.name like #{ name }
+        </if>
+    </select>
+
 </mapper>
