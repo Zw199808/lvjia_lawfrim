@@ -142,6 +142,9 @@ public class BusLawyerServiceImpl extends ServiceImpl<BusLawyerMapper, BusLawyer
         busLawyer.setName(lawyer.getName());
         busLawyer.setState(1);
         busLawyer.setSysUserId(user.getId());
+        if (lawyer.getRoleId() == 1){
+            busLawyer.setAdviser(1);//顾问法务标记
+        }
         res = save(busLawyer);
         if (!res) {
             throw new RuntimeException("新增用户失败");
