@@ -228,6 +228,16 @@ public class BusAgreementAuditServiceImpl extends ServiceImpl<BusAgreementAuditM
         if (res <= 0){
             throw new RuntimeException("评分失败");
         }
+        //修改合同表状态为4
+        BusAgreement agreement = agreementService.getById(agreementAudit.getAgreementId());
+        if (agreement == null){
+            return new APIResponse(Config.RE_DATA_NOT_EXIST_ERROR_CODE,Config.RE_DATA_NOT_EXIST_ERROR_MSG);
+        }
+        agreement.setState(4);//将合同状态修改为4
+        boolean res1 = agreementService.updateById(agreement);
+        if (!res1){
+            throw new RuntimeException("修改合同状态失败");
+        }
         return new APIResponse();
     }
 

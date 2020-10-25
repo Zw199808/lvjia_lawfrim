@@ -2,8 +2,10 @@ package com.xinou.lawfrim.web.mapper;
 
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.xinou.lawfrim.web.dto.BusLawyerDto;
+import com.xinou.lawfrim.web.dto.SortRuleDto;
 import com.xinou.lawfrim.web.entity.BusLawyer;
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
+import com.xinou.lawfrim.web.vo.lawyer.AssignLawyerVo;
 import com.xinou.lawfrim.web.vo.lawyer.LawyerVo;
 import org.apache.ibatis.annotations.Param;
 import org.springframework.stereotype.Repository;
@@ -36,6 +38,21 @@ public interface BusLawyerMapper extends BaseMapper<BusLawyer> {
      */
     Integer getTotal(@Param("condition") BusLawyerDto busLawyerDto);
 
+
+    /**
+     * 分配律师列表
+     * @param page
+     * @param sortRuleDto
+     * @return
+     */
+    List<AssignLawyerVo> getAssignLawyerList(Page<SortRuleDto> page, @Param("condition") SortRuleDto sortRuleDto);
+
+    /**
+     * 总数
+     * @param sortRuleDto
+     * @return
+     */
+    Integer getAssignLawyerTotal(@Param("condition") SortRuleDto sortRuleDto);
 
 
 }

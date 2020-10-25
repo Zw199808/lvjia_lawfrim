@@ -1,22 +1,13 @@
 package com.xinou.lawfrim.web.controller.admin;
 
 
-import cn.hutool.core.bean.BeanUtil;
-import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.github.xiaoymin.knife4j.annotations.ApiOperationSupport;
 import com.xinou.lawfrim.common.util.APIResponse;
-import com.xinou.lawfrim.sso.entity.SYSUser;
-import com.xinou.lawfrim.web.config.WebLoginToken;
-import com.xinou.lawfrim.web.controller.QNUtilController;
-import com.xinou.lawfrim.web.dto.BusAgreementDto;
 import com.xinou.lawfrim.web.dto.BusLawyerDto;
-import com.xinou.lawfrim.web.entity.BusLawyer;
+import com.xinou.lawfrim.web.dto.SortRuleDto;
 import com.xinou.lawfrim.web.service.IBusAgreementService;
 import com.xinou.lawfrim.web.service.IBusLawyerService;
-import com.xinou.lawfrim.web.util.HeadersUtil;
-import com.xinou.lawfrim.web.vo.agreement.AgreementVo;
-import com.xinou.lawfrim.web.vo.custom.CustomNumVo;
-import com.xinou.lawfrim.web.vo.lawyer.LawyerSimpleVo;
+import com.xinou.lawfrim.web.vo.lawyer.AssignLawyerVo;
 import com.xinou.lawfrim.web.vo.lawyer.LawyerVo;
 import io.swagger.annotations.*;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -27,7 +18,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpSession;
 
 /**
  * <p>
@@ -84,6 +74,14 @@ public class BusLawyerController {
 //        int adminId = (Integer) session.getAttribute("sysUserId");
 //        lawyerDto.setSysUserId(adminId);
         return busLawyerService.AdminUpdateBusLawyerPassword(lawyerDto);
+    }
+
+
+    @PostMapping("assignLawyerList")
+//    @RequiresPermissions("/admin/lawyer/assignLawyerList")
+    @ApiOperation(httpMethod = "POST", value = "分配律师列表")
+    APIResponse<AssignLawyerVo> assignLawyerList(@RequestBody SortRuleDto sortRule) {
+        return busLawyerService.getAssignLawyerList(sortRule);
     }
 
 

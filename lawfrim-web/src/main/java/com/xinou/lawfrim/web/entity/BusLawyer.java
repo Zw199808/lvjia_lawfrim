@@ -39,4 +39,9 @@ public class BusLawyer extends BaseEntity {
     private Integer state;
 
 
+    @ApiModelProperty(value = "是否顾问法务 0：- 1：是")
+    @TableField("adviser")
+    private Integer adviser;
+
+
 }

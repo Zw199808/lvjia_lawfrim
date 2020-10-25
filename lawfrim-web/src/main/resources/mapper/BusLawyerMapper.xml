@@ -33,4 +33,50 @@
             and lawyer.name like #{ name }
         </if>
     </select>
+
+
+<!--获取分配律师列表-->
+    <select id="getAssignLawyerList" resultType="com.xinou.lawfrim.web.vo.lawyer.AssignLawyerVo">
+       SELECT law.id as lawyerId,
+              law.name as lawyerName,
+              law.adviser as isAdviser,
+              a.score,
+              a.notAuditNum,
+              a.auditNum
+	   FROM bus_lawyer law
+       left join (select la.id,
+               avg(aa.score) as score,
+			   count(case when ba.state in(1,2,3)then 1 end) as notAuditNum,
+               count(case when ba.state=4 then 1 end) as auditNum
+        from bus_lawyer la left join bus_agreement_audit aa on aa.lawyer_id = la.id
+                           left join bus_agreement ba on ba.id = aa.agreement_id
+                           group by la.id
+    )as a on a.id = law.id order by 1
+    <if test="condition.notAuditNum == 1">
+    , notAuditNum
+    </if>
+    <if test="condition.isAdviser == 1">
+    ,isAdviser desc
+    </if>
+    <if test="condition.auditNum == 1">
+    , auditNum desc
+    </if>
+    <if test="condition.score == 1">
+        , score desc
+    </if>
+    </select>
+
+
+    <select id="getAssignLawyerTotal" resultType="java.lang.Integer">
+        select count(*)
+        FROM bus_lawyer law
+        left join (select la.id,
+        avg(aa.score) as score,
+        count(case when ba.state in(1,2,3)then 1 end) as notAuditNum,
+        count(case when ba.state=4 then 1 end) as auditNum
+        from bus_lawyer la left join bus_agreement_audit aa on aa.lawyer_id = la.id
+        left join bus_agreement ba on ba.id = aa.agreement_id
+        group by la.id
+        )as a on a.id = law.id
+    </select>
 </mapper>

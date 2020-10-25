@@ -14,6 +14,7 @@ import com.xinou.lawfrim.sso.service.ReUserRoleSSOService;
 import com.xinou.lawfrim.sso.service.RoleSSOService;
 import com.xinou.lawfrim.sso.service.UserSSOService;
 import com.xinou.lawfrim.web.dto.BusLawyerDto;
+import com.xinou.lawfrim.web.dto.SortRuleDto;
 import com.xinou.lawfrim.web.entity.BusAgreementAudit;
 import com.xinou.lawfrim.web.entity.BusCustom;
 import com.xinou.lawfrim.web.entity.BusLawyer;
@@ -23,6 +24,7 @@ import com.xinou.lawfrim.web.service.IBusCustomService;
 import com.xinou.lawfrim.web.service.IBusLawyerService;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.xinou.lawfrim.web.vo.UserNumberVo;
+import com.xinou.lawfrim.web.vo.lawyer.AssignLawyerVo;
 import com.xinou.lawfrim.web.vo.lawyer.LawyerVo;
 import com.xinou.lawfrim.web.vo.lawyer.endLawyerVo;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -283,5 +285,21 @@ public class BusLawyerServiceImpl extends ServiceImpl<BusLawyerMapper, BusLawyer
         userNumberVo.setCustomNumber(customNumber);
         userNumberVo.setLawyerNumber(lawyerNumber);
         return new APIResponse<>(userNumberVo);
+    }
+
+    @Override
+    public APIResponse<AssignLawyerVo> getAssignLawyerList(SortRuleDto sortRuleDto) {
+        Page<SortRuleDto> page = new Page<>(sortRuleDto.getPageNumber(), sortRuleDto.getPageSize());
+        List<AssignLawyerVo> list = busLawyerMapper.getAssignLawyerList(page, sortRuleDto);
+        Integer total = busLawyerMapper.getAssignLawyerTotal(sortRuleDto);
+        Map<String, Object> map = new HashMap<>(2);
+        if (list.size() == 0) {
+            map.put("dataList", new ArrayList<>());
+            map.put("total", 0);
+            return new APIResponse(map);
+        }
+        map.put("dataList", list);
+        map.put("total", total);
+        return new APIResponse(map);
     }
 }

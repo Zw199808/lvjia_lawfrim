@@ -2,9 +2,11 @@ package com.xinou.lawfrim.web.service;
 
 import com.xinou.lawfrim.common.util.APIResponse;
 import com.xinou.lawfrim.web.dto.BusLawyerDto;
+import com.xinou.lawfrim.web.dto.SortRuleDto;
 import com.xinou.lawfrim.web.entity.BusLawyer;
 import com.baomidou.mybatisplus.extension.service.IService;
 import com.xinou.lawfrim.web.vo.UserNumberVo;
+import com.xinou.lawfrim.web.vo.lawyer.AssignLawyerVo;
 import com.xinou.lawfrim.web.vo.lawyer.LawyerVo;
 import com.xinou.lawfrim.web.vo.lawyer.endLawyerVo;
 
@@ -73,5 +75,14 @@ public interface IBusLawyerService extends IService<BusLawyer> {
      * @return
      */
     APIResponse<UserNumberVo> statisticUserNumber();
+
+
+    /**
+     * 分配律师列表
+     * @param
+     * @return
+     */
+    APIResponse<AssignLawyerVo> getAssignLawyerList(SortRuleDto sortRuleDto);
+
 
 }
