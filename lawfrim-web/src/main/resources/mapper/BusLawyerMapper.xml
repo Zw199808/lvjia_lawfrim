@@ -45,24 +45,24 @@
               a.auditNum
 	   FROM bus_lawyer law
        left join (select la.id,
-               avg(aa.score) as score,
+               avg(case when ba.state=4 then aa.score end) as score,
 			   count(case when ba.state in(1,2,3)then 1 end) as notAuditNum,
                count(case when ba.state=4 then 1 end) as auditNum
         from bus_lawyer la left join bus_agreement_audit aa on aa.lawyer_id = la.id
                            left join bus_agreement ba on ba.id = aa.agreement_id
                            group by la.id
-    )as a on a.id = law.id order by 1
-    <if test="condition.notAuditNum == 1">
+    )as a on a.id = law.id order by is_delete
+    <if test="condition.notAuditNum != null and condition.notAuditNum!='' ">
     , notAuditNum
     </if>
-    <if test="condition.isAdviser == 1">
+    <if test="condition.isAdviser != null and  condition.isAdviser != '' ">
     ,isAdviser desc
     </if>
-    <if test="condition.auditNum == 1">
-    , auditNum desc
+    <if test="condition.auditNum != null and condition.auditNum != '' ">
+    ,auditNum desc
     </if>
-    <if test="condition.score == 1">
-        , score desc
+    <if test="condition.score != null and condition.score != '' ">
+     , score desc
     </if>
     </select>
 
@@ -71,12 +71,24 @@
         select count(*)
         FROM bus_lawyer law
         left join (select la.id,
-        avg(aa.score) as score,
+        avg(case when ba.state=4 then aa.score end) as score,
         count(case when ba.state in(1,2,3)then 1 end) as notAuditNum,
         count(case when ba.state=4 then 1 end) as auditNum
         from bus_lawyer la left join bus_agreement_audit aa on aa.lawyer_id = la.id
         left join bus_agreement ba on ba.id = aa.agreement_id
         group by la.id
-        )as a on a.id = law.id
+        )as a on a.id = law.id order by is_delete
+        <if test="condition.notAuditNum != null and condition.notAuditNum!='' ">
+            , notAuditNum
+        </if>
+        <if test="condition.isAdviser != null and  condition.isAdviser != '' ">
+            ,isAdviser desc
+        </if>
+        <if test="condition.auditNum != null and condition.auditNum != '' ">
+            ,auditNum desc
+        </if>
+        <if test="condition.score != null and condition.score != '' ">
+            , score desc
+        </if>
     </select>
 </mapper>
