@@ -10,6 +10,7 @@ import com.xinou.lawfrim.web.dto.BusAgreementAuditDto;
 import com.xinou.lawfrim.web.dto.BusAgreementDto;
 import com.xinou.lawfrim.web.dto.BusAgreementScoreDto;
 import com.xinou.lawfrim.web.dto.BusChangeRecordDto;
+import com.xinou.lawfrim.web.entity.BusAgreement;
 import com.xinou.lawfrim.web.entity.BusLawyer;
 import com.xinou.lawfrim.web.service.IBusAgreementAuditService;
 import com.xinou.lawfrim.web.service.IBusAgreementService;
@@ -21,6 +22,7 @@ import com.xinou.lawfrim.web.vo.agreement.LawyerAgreementListVo;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import io.swagger.models.auth.In;
+import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -29,6 +31,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
 /**
@@ -182,5 +185,43 @@ public class BusAgreementController {
         Integer adminId = (Integer) session.getAttribute("sysUserId");
         agreementDto.setAdminId(adminId);
         return agreementAuditService.assignAgreement(agreementDto);
+    }
+
+    @PostMapping("LawyerNewExcelAgreement")
+//    @RequiresPermissions("/admin/agreement/LawyerNewExcelAgreement")
+    @ApiOperation(httpMethod = "POST", value = "律师法务-导出-今日新合同")
+    public APIResponse LawyerNewExcelAgreement(HttpServletRequest request)  {
+        BusAgreementDto agreementDto = new BusAgreementDto();
+        HttpSession session = request.getSession();
+        Integer adminId  = (Integer) session.getAttribute("sysUserId");
+        //根据adminId获取lawyerId
+        BusLawyer lawyer = lawyerService.getOne(new QueryWrapper<BusLawyer>().eq("sys_user_id",adminId)
+                .eq("is_delete",0));
+        if (lawyer == null ){
+            return new APIResponse<>(Config.RE_DATA_NOT_EXIST_ERROR_CODE,Config.RE_DATA_NOT_EXIST_ERROR_MSG);
+        }
+        agreementDto.setLawyerId(lawyer.getId());
+        String fileName = agreementService.LawyerExcelAgreement(agreementDto);
+        return new APIResponse(Config.SERVICE_IMG_URL+fileName);
+    }
+
+    @PostMapping("LawyerExcelAgreement")
+//    @RequiresPermissions("/admin/agreement/LawyerExcelAgreement")
+    @ApiOperation(httpMethod = "POST", value = "律师法务-导出-未回复")
+    public APIResponse LawyerExcelAgreement(HttpServletRequest request)  {
+        BusAgreementDto agreementDto = new BusAgreementDto();
+        HttpSession session = request.getSession();
+        Integer adminId  = (Integer) session.getAttribute("sysUserId");
+        //根据adminId获取lawyerId
+        BusLawyer lawyer = lawyerService.getOne(new QueryWrapper<BusLawyer>().eq("sys_user_id",adminId)
+                .eq("is_delete",0));
+        if (lawyer == null ){
+            return new APIResponse<>(Config.RE_DATA_NOT_EXIST_ERROR_CODE,Config.RE_DATA_NOT_EXIST_ERROR_MSG);
+        }
+        agreementDto.setLawyerId(lawyer.getId());
+        agreementDto.setState(2);
+        agreementDto.setTag(1);
+        String fileName = agreementService.LawyerExcelAgreement(agreementDto);
+        return new APIResponse(Config.SERVICE_IMG_URL+fileName);
     }
 }

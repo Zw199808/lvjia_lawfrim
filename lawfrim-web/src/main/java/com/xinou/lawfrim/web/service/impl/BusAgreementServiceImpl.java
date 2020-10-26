@@ -12,14 +12,19 @@ import com.xinou.lawfrim.web.mapper.*;
 import com.xinou.lawfrim.web.service.IBusAgreementAuditService;
 import com.xinou.lawfrim.web.service.IBusAgreementService;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
+import com.xinou.lawfrim.web.util.ExcelUtil2;
 import com.xinou.lawfrim.web.util.upLoadFile;
 import com.xinou.lawfrim.web.vo.agreement.*;
 import com.xinou.lawfrim.web.vo.custom.CustomNumVo;
+import com.xinou.lawfrim.web.vo.lawyer.LawyerAgreementExcel;
+import com.xinou.lawfrim.web.vo.lawyer.LawyerAgreementVo;
 import com.xinou.lawfrim.web.vo.lawyer.LawyerChangeVo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Primary;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -250,6 +255,18 @@ public class BusAgreementServiceImpl extends ServiceImpl<BusAgreementMapper, Bus
         Page<BusAgreementDto> page = new Page<>(agreement.getPageNumber(), agreement.getPageSize());
         List<LawyerAgreementListVo> list = changeRecordMapper.getList(page, agreement);
         Integer total = changeRecordMapper.getTotal(agreement);
+        for (LawyerAgreementListVo lawyerAgreementListVo : list){
+            BusLawyer lawyer = lawyerMapper.selectById(lawyerAgreementListVo.getFirstLawyerId());
+            if (lawyer == null){
+                return new APIResponse<>(Config.RE_DATA_NOT_EXIST_ERROR_CODE,Config.RE_DATA_NOT_EXIST_ERROR_MSG);
+            }
+            lawyerAgreementListVo.setFirstLawyerName(lawyer.getName());
+            BusLawyer lawyer1 = lawyerMapper.selectById(lawyerAgreementListVo.getFirstLawyerId());
+            if (lawyer1 == null){
+                return new APIResponse<>(Config.RE_DATA_NOT_EXIST_ERROR_CODE,Config.RE_DATA_NOT_EXIST_ERROR_MSG);
+            }
+            lawyerAgreementListVo.setEndLawyerName(lawyer1.getName());
+        }
         Map<String, Object> map = new HashMap<>(2);
         if (list.size() == 0) {
             map.put("dataList", new ArrayList<>());
@@ -308,6 +325,65 @@ public class BusAgreementServiceImpl extends ServiceImpl<BusAgreementMapper, Bus
         }
         map.put("dataList", list);
         return new APIResponse(map);
+    }
+
+
+    @Override
+    public String LawyerExcelAgreement(BusAgreementDto agreement) {
+        if(agreement.getTag() != 1){
+            //获取当前时间
+            getTime(agreement);
+        }
+        List<LawyerAgreementListVo> list1 = changeRecordMapper.getLawyerExcelList(agreement);
+        List<LawyerAgreementVo> list = new ArrayList();
+        int i = 1;
+        for (LawyerAgreementListVo lawyerAgreementListVo : list1){
+            //
+            LawyerAgreementVo lawyerAgreementVo = new LawyerAgreementVo();
+            lawyerAgreementVo.setIndex(i++);
+            lawyerAgreementVo.setAgreeName(lawyerAgreementListVo.getAgreeName());
+            lawyerAgreementVo.setCustomName(lawyerAgreementListVo.getCustomName());
+            lawyerAgreementVo.setEndTime(lawyerAgreementListVo.getEndTime().substring(0,11));
+            lawyerAgreementVo.setRemark("");
+            if (("").equals(lawyerAgreementListVo.getFirstLawyerName()) || lawyerAgreementListVo.getFirstLawyerName() == null){
+                lawyerAgreementVo.setFirstLawyerName(lawyerAgreementListVo.getFirstLawyerName());
+            }
+            if (("").equals(lawyerAgreementListVo.getEndLawyerName()) || lawyerAgreementListVo.getEndLawyerName() == null){
+                lawyerAgreementVo.setEndLawyerName(lawyerAgreementListVo.getEndLawyerName());
+            }
+//            if (lawyer != ""){
+//                lawyerAgreementVo.setFirstLawyerName(lawyer.getName());
+//            }else {
+//                lawyerAgreementVo.setFirstLawyerName("");
+//            }
+//            if (lawyer1 != null){
+//                lawyerAgreementVo.setEndLawyerName(lawyer1.getName());
+//            }else {
+//                lawyerAgreementVo.setEndLawyerName("");
+//            }
+            //合同初审复审完成情况
+            if (lawyerAgreementListVo.getAgreeState()==1){
+                lawyerAgreementVo.setFirst("");
+                lawyerAgreementVo.setSecond("");
+            }else if (lawyerAgreementListVo.getAgreeState()==2){
+                lawyerAgreementVo.setFirst("");
+                lawyerAgreementVo.setSecond("");
+            }else if (lawyerAgreementListVo.getAgreeState()==3){
+                lawyerAgreementVo.setFirst("√");
+                lawyerAgreementVo.setSecond("");
+            }else if (lawyerAgreementListVo.getAgreeState()==4){
+                lawyerAgreementVo.setFirst("√");
+                lawyerAgreementVo.setSecond("√");
+            }
+            list.add(lawyerAgreementVo);
+        }
+        return ExcelUtil2.simplyExcel(LawyerAgreementExcel.class,list,"Agreement");
+    }
+
+    private void getTime(BusAgreementDto agreement) {
+        LocalDateTime now = LocalDateTime.now();
+        String nowString = now.format(DateTimeFormatter.ofPattern("yyyy-MM-dd"));
+        agreement.setGmtTime(nowString);
     }
 
 }

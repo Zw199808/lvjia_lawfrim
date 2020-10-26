@@ -55,4 +55,10 @@ public class BusAgreementDto extends PageDto implements Serializable {
 
     @ApiModelProperty(value = "合同状态0:- 1:发布 2:初审 3:终审 4:审核完成")
     private List<Integer> stateList;
+
+    @ApiModelProperty(value = "领取合同时间")
+    private String gmtTime;
+
+    @ApiModelProperty(value = "是否今日标签 1:不按时间查询")
+    private Integer tag;
 }

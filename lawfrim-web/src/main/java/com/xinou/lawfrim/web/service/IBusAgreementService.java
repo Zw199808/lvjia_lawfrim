@@ -8,6 +8,8 @@ import com.baomidou.mybatisplus.extension.service.IService;
 import com.xinou.lawfrim.web.vo.agreement.*;
 import com.xinou.lawfrim.web.vo.custom.CustomNumVo;
 
+import javax.servlet.http.HttpServletResponse;
+
 /**
  * <p>
  *  服务类
@@ -97,5 +99,11 @@ public interface IBusAgreementService extends IService<BusAgreement> {
      */
     APIResponse<AgreementNumVo> getAgreementNumber();
 
+    /**
+     * 法务-今日新合同
+     * @param agreement
+     * @return
+     */
+    String LawyerExcelAgreement(BusAgreementDto agreement);
 
 }
