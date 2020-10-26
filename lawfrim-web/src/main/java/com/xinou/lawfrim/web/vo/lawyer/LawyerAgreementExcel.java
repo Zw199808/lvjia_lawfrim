@@ -2,6 +2,7 @@ package com.xinou.lawfrim.web.vo.lawyer;
 
 import com.alibaba.excel.annotation.ExcelProperty;
 import com.alibaba.excel.annotation.write.style.ColumnWidth;
+import com.alibaba.excel.annotation.write.style.HeadStyle;
 import lombok.Data;
 
 /**
@@ -10,6 +11,7 @@ import lombok.Data;
  * Description:
  */
 @Data
+@HeadStyle(fillBackgroundColor = 13)
 public class LawyerAgreementExcel {
     /**
      * 合同名
@@ -40,7 +42,7 @@ public class LawyerAgreementExcel {
      */
     @ExcelProperty(value = "复审", index = 4)
     @ColumnWidth(15)
-    private double endLawyerName;
+    private String endLawyerName;
     /**
      * 要的时间
      */

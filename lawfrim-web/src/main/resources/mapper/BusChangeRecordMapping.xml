@@ -94,14 +94,14 @@
         agree.name as agreeName,
         agree.state as agreeState,
         agree.end_time as endTime,
-        lawyer1.name as firstLawyerName,
-        lawyer2.name as endLawyerName,
+        ifnull(lawyer1.name,"") as firstLawyerName,
+        ifnull(lawyer2.name,"") as endLawyerName,
         cus.name as customName
         FROM bus_agreement_audit aa
         left join bus_agreement agree on agree.id = aa.agreement_id
         left join bus_custom cus on cus.id = agree.custom_id
         left join bus_lawyer lawyer1 on lawyer1.id = aa.lawyer_id
-        left join bus_lawyer lawyer2 on lawyer2.id = aa.lawyer_id
+        left join bus_lawyer lawyer2 on lawyer2.id = aa.end_lawyer_id
         where aa.is_delete = 0
         <if test = " condition.gmtTime != null and condition.gmtTime != '' ">
             and DATE_FORMAT(aa.gmt_create, '%Y-%m-%d') = #{ condition.gmtTime }

@@ -75,4 +75,7 @@ public class AgreementInfoVo implements Serializable {
 
     @ApiModelProperty("转移律师")
     private List<LawyerChangeVo> lawyerChangeVoList;
+
+    @ApiModelProperty("分数")
+    private double score;
 }

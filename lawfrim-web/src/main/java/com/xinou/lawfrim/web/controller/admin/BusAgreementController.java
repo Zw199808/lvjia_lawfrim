@@ -201,6 +201,7 @@ public class BusAgreementController {
             return new APIResponse<>(Config.RE_DATA_NOT_EXIST_ERROR_CODE,Config.RE_DATA_NOT_EXIST_ERROR_MSG);
         }
         agreementDto.setLawyerId(lawyer.getId());
+        agreementDto.setTag(2);
         String fileName = agreementService.LawyerExcelAgreement(agreementDto);
         return new APIResponse(Config.SERVICE_IMG_URL+fileName);
     }
@@ -220,6 +221,37 @@ public class BusAgreementController {
         }
         agreementDto.setLawyerId(lawyer.getId());
         agreementDto.setState(2);
+        agreementDto.setTag(1);
+        String fileName = agreementService.LawyerExcelAgreement(agreementDto);
+        return new APIResponse(Config.SERVICE_IMG_URL+fileName);
+    }
+
+    @PostMapping("AdminExcelAgreement")
+//    @RequiresPermissions("/admin/agreement/AdminExcelAgreement")
+    @ApiOperation(httpMethod = "POST", value = "管理员-导出-未回复")
+    public APIResponse AdminExcelAgreement()  {
+        BusAgreementDto agreementDto = new BusAgreementDto();
+        agreementDto.setState(2);
+        agreementDto.setTag(1);
+        String fileName = agreementService.LawyerExcelAgreement(agreementDto);
+        return new APIResponse(Config.SERVICE_IMG_URL+fileName);
+    }
+
+    @PostMapping("AdminNewExcelAgreement")
+//    @RequiresPermissions("/admin/agreement/AdminNewExcelAgreement")
+    @ApiOperation(httpMethod = "POST", value = "管理员-导出-今日新合同")
+    public APIResponse AdminNewExcelAgreement()  {
+        BusAgreementDto agreementDto = new BusAgreementDto();
+        agreementDto.setTag(2);
+        String fileName = agreementService.LawyerExcelAgreement(agreementDto);
+        return new APIResponse(Config.SERVICE_IMG_URL+fileName);
+    }
+
+    @PostMapping("AdminAllExcelAgreement")
+//    @RequiresPermissions("/admin/agreement/AdminAllExcelAgreement")
+    @ApiOperation(httpMethod = "POST", value = "管理员-导出-所有合同")
+    public APIResponse AdminAllExcelAgreement()  {
+        BusAgreementDto agreementDto = new BusAgreementDto();
         agreementDto.setTag(1);
         String fileName = agreementService.LawyerExcelAgreement(agreementDto);
         return new APIResponse(Config.SERVICE_IMG_URL+fileName);

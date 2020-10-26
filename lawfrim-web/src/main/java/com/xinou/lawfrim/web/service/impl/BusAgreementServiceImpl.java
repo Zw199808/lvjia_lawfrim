@@ -216,6 +216,8 @@ public class BusAgreementServiceImpl extends ServiceImpl<BusAgreementMapper, Bus
             }
             //复审回复时间
             if (agreement.getState() == 4){
+                //复审分数
+                agreementInfoVo.setScore(agreementAudit.getScore());
                 agreementInfoVo.setGmtModified(TimeChange.timeChangeString(agreementAudit.getGmtModified()));//审核完成--修改时间为复审时间
             }else{
                 agreementInfoVo.setGmtModified("");//未审核完成复审时间为空
@@ -345,12 +347,8 @@ public class BusAgreementServiceImpl extends ServiceImpl<BusAgreementMapper, Bus
             lawyerAgreementVo.setCustomName(lawyerAgreementListVo.getCustomName());
             lawyerAgreementVo.setEndTime(lawyerAgreementListVo.getEndTime().substring(0,11));
             lawyerAgreementVo.setRemark("");
-            if (("").equals(lawyerAgreementListVo.getFirstLawyerName()) || lawyerAgreementListVo.getFirstLawyerName() == null){
-                lawyerAgreementVo.setFirstLawyerName(lawyerAgreementListVo.getFirstLawyerName());
-            }
-            if (("").equals(lawyerAgreementListVo.getEndLawyerName()) || lawyerAgreementListVo.getEndLawyerName() == null){
-                lawyerAgreementVo.setEndLawyerName(lawyerAgreementListVo.getEndLawyerName());
-            }
+            lawyerAgreementVo.setFirstLawyerName(lawyerAgreementListVo.getFirstLawyerName());
+            lawyerAgreementVo.setEndLawyerName(lawyerAgreementListVo.getEndLawyerName());
 //            if (lawyer != ""){
 //                lawyerAgreementVo.setFirstLawyerName(lawyer.getName());
 //            }else {
