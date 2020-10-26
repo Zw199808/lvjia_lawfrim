@@ -15,7 +15,7 @@ public class LawyerAgreementExcel {
      * 合同名
      */
     @ExcelProperty(value = "序号", index = 0)
-    @ColumnWidth(5)
+    @ColumnWidth(10)
     private Integer index;
     /**
      * 合同名
@@ -50,13 +50,13 @@ public class LawyerAgreementExcel {
     /**
      * 完成情况:初审
      */
-    @ExcelProperty(value = "完成情况:初审", index = 6)
+    @ExcelProperty(value = {"完成情况","初审"}, index = 6)
     @ColumnWidth(25)
     private String first;
     /**
      * 完成情况：终审
      */
-    @ExcelProperty(value = "完成情况：终审", index = 7)
+    @ExcelProperty(value = {"完成情况","终审"}, index = 7)
     @ColumnWidth(25)
     private String second;
 
