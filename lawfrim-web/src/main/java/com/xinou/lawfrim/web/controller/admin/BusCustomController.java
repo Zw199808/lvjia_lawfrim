@@ -3,9 +3,12 @@ package com.xinou.lawfrim.web.controller.admin;
 
 import com.github.xiaoymin.knife4j.annotations.ApiOperationSupport;
 import com.xinou.lawfrim.common.util.APIResponse;
+import com.xinou.lawfrim.common.util.Config;
 import com.xinou.lawfrim.web.config.WebLoginToken;
 import com.xinou.lawfrim.web.dto.BusAgreementDto;
 import com.xinou.lawfrim.web.dto.BusCustomDto;
+import com.xinou.lawfrim.web.dto.BusLawyerDto;
+import com.xinou.lawfrim.web.entity.BusCustom;
 import com.xinou.lawfrim.web.service.IBusAgreementService;
 import com.xinou.lawfrim.web.service.IBusCustomService;
 import com.xinou.lawfrim.web.util.HeadersUtil;
@@ -74,4 +77,13 @@ public class BusCustomController {
         return customService.AdminUpdateCustom(customDto);
     }
 
+
+    @PostMapping("AdminExcelCustom")
+//    @RequiresPermissions("/admin/agreement/AdminExcelCustom")
+    @ApiOperation(httpMethod = "POST", value = "管理员-导出-客户列表")
+    @ApiOperationSupport(includeParameters = {"customDto.name"})
+    public APIResponse AdminAllExcelAgreement(@RequestBody BusCustomDto customDto)  {
+        String fileName = customService.AdminExcelCustom(customDto);
+        return new APIResponse(Config.SERVICE_IMG_URL+fileName);
+    }
 }

@@ -23,10 +23,10 @@ import com.xinou.lawfrim.web.service.IBusAgreementAuditService;
 import com.xinou.lawfrim.web.service.IBusCustomService;
 import com.xinou.lawfrim.web.service.IBusLawyerService;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
+import com.xinou.lawfrim.web.util.ExcelUtil2;
 import com.xinou.lawfrim.web.vo.UserNumberVo;
-import com.xinou.lawfrim.web.vo.lawyer.AssignLawyerVo;
-import com.xinou.lawfrim.web.vo.lawyer.LawyerVo;
-import com.xinou.lawfrim.web.vo.lawyer.endLawyerVo;
+import com.xinou.lawfrim.web.vo.agreement.LawyerAgreementListVo;
+import com.xinou.lawfrim.web.vo.lawyer.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Primary;
 import org.springframework.stereotype.Service;
@@ -304,5 +304,28 @@ public class BusLawyerServiceImpl extends ServiceImpl<BusLawyerMapper, BusLawyer
         map.put("dataList", list);
         map.put("total", total);
         return new APIResponse(map);
+    }
+
+    @Override
+    public String AdminExcelLawyer(BusLawyerDto busLawyer) {
+        List<LawyerVo> list1 = busLawyerMapper.getExcelList(busLawyer);
+        List<ExcelLawyerVo> list = new ArrayList();
+        int i = 1;
+        for (LawyerVo lawyerVo : list1){
+            Integer count = agreementAuditService.count(new QueryWrapper<BusAgreementAudit>()
+                    .eq("lawyer_id",lawyerVo.getId())
+                    .eq("is_delete",0));
+            String time = TimeChange.timeChangeStringyMDHM(lawyerVo.getGmtCreate());
+
+            ExcelLawyerVo excelLawyerVo = new ExcelLawyerVo();
+            excelLawyerVo.setAccount(lawyerVo.getAccount());
+            excelLawyerVo.setAgreeNum(count);
+            excelLawyerVo.setCreateTime(time);
+            excelLawyerVo.setIndex(i++);
+            excelLawyerVo.setName(lawyerVo.getName());
+            excelLawyerVo.setRoleName(lawyerVo.getRoleName());
+            list.add(excelLawyerVo);
+        }
+        return ExcelUtil2.simplyExcel(LawyerExcel.class,list,"Lawyer");
     }
 }

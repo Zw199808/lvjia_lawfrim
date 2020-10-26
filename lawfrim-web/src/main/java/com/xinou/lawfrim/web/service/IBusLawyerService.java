@@ -1,6 +1,7 @@
 package com.xinou.lawfrim.web.service;
 
 import com.xinou.lawfrim.common.util.APIResponse;
+import com.xinou.lawfrim.web.dto.BusAgreementDto;
 import com.xinou.lawfrim.web.dto.BusLawyerDto;
 import com.xinou.lawfrim.web.dto.SortRuleDto;
 import com.xinou.lawfrim.web.entity.BusLawyer;
@@ -84,5 +85,10 @@ public interface IBusLawyerService extends IService<BusLawyer> {
      */
     APIResponse<AssignLawyerVo> getAssignLawyerList(SortRuleDto sortRuleDto);
 
-
+    /**
+     * 导出-律师列表
+     * @param lawyerDto
+     * @return
+     */
+    String AdminExcelLawyer(BusLawyerDto lawyerDto);
 }

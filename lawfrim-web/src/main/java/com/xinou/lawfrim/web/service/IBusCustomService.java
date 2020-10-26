@@ -3,6 +3,7 @@ package com.xinou.lawfrim.web.service;
 import com.xinou.lawfrim.common.util.APIResponse;
 import com.xinou.lawfrim.web.dto.BusAgreementDto;
 import com.xinou.lawfrim.web.dto.BusCustomDto;
+import com.xinou.lawfrim.web.dto.BusLawyerDto;
 import com.xinou.lawfrim.web.entity.BusCustom;
 import com.baomidou.mybatisplus.extension.service.IService;
 import com.xinou.lawfrim.web.vo.custom.CustomNumVo;
@@ -77,5 +78,12 @@ public interface IBusCustomService extends IService<BusCustom> {
      * @return
      */
     APIResponse addAgreement(BusAgreementDto agreement);
+
+    /**
+     * 导出-客户列表
+     * @param customDto
+     * @return
+     */
+    String AdminExcelCustom(BusCustomDto customDto);
 
 }

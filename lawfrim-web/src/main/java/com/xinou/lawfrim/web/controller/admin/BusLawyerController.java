@@ -3,6 +3,8 @@ package com.xinou.lawfrim.web.controller.admin;
 
 import com.github.xiaoymin.knife4j.annotations.ApiOperationSupport;
 import com.xinou.lawfrim.common.util.APIResponse;
+import com.xinou.lawfrim.common.util.Config;
+import com.xinou.lawfrim.web.dto.BusAgreementDto;
 import com.xinou.lawfrim.web.dto.BusLawyerDto;
 import com.xinou.lawfrim.web.dto.SortRuleDto;
 import com.xinou.lawfrim.web.service.IBusAgreementService;
@@ -82,6 +84,15 @@ public class BusLawyerController {
     @ApiOperation(httpMethod = "POST", value = "分配律师列表")
     APIResponse<AssignLawyerVo> assignLawyerList(@RequestBody SortRuleDto sortRule) {
         return busLawyerService.getAssignLawyerList(sortRule);
+    }
+
+    @PostMapping("AdminExcelLawyer")
+//    @RequiresPermissions("/admin/agreement/AdminExcelLawyer")
+    @ApiOperation(httpMethod = "POST", value = "管理员-导出-律师列表")
+    @ApiOperationSupport(includeParameters = {"lawyerDto.name"})
+    public APIResponse AdminAllExcelAgreement(@RequestBody BusLawyerDto lawyerDto)  {
+        String fileName = busLawyerService.AdminExcelLawyer(lawyerDto);
+        return new APIResponse(Config.SERVICE_IMG_URL+fileName);
     }
 
 

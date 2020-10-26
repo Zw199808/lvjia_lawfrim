@@ -15,10 +15,14 @@ import com.xinou.lawfrim.web.mapper.BusCustomMapper;
 import com.xinou.lawfrim.web.service.IBusAgreementService;
 import com.xinou.lawfrim.web.service.IBusCustomService;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
+import com.xinou.lawfrim.web.util.ExcelUtil2;
 import com.xinou.lawfrim.web.util.JwtUtil;
 import com.xinou.lawfrim.web.util.upLoadFile;
+import com.xinou.lawfrim.web.vo.custom.CustomExcel;
 import com.xinou.lawfrim.web.vo.custom.CustomNumVo;
 import com.xinou.lawfrim.web.vo.custom.CustomVo;
+import com.xinou.lawfrim.web.vo.custom.ExcelCustomVo;
+import com.xinou.lawfrim.web.vo.lawyer.LawyerExcel;
 import io.swagger.models.auth.In;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Primary;
@@ -198,5 +202,28 @@ public class BusCustomServiceImpl extends ServiceImpl<BusCustomMapper, BusCustom
             throw new RuntimeException("上传合同失败");
         }
         return new APIResponse();
+    }
+
+    @Override
+    public String AdminExcelCustom(BusCustomDto custom) {
+        List<BusCustom> list1 = busCustomMapper.getExcelList(custom);
+        Integer total = busCustomMapper.getTotal(custom);
+        List<ExcelCustomVo> list = new ArrayList<>();
+        int i=1;
+        for (BusCustom busCustom :list1){
+            ExcelCustomVo excelCustomVo = new ExcelCustomVo();
+            Integer count = agreementService.count(new QueryWrapper<BusAgreement>()
+                    .eq("is_delete",0)
+                    .eq("custom_id",busCustom.getId()));
+            String time = TimeChange.timeChangeStringyMDHM(busCustom.getGmtCreate());
+
+            excelCustomVo.setAgreeNum(count);
+            excelCustomVo.setIndex(i++);
+            excelCustomVo.setName(busCustom.getName());
+            excelCustomVo.setAccount(busCustom.getAccount());
+            excelCustomVo.setCreateTime(time);
+            list.add(excelCustomVo);
+        }
+        return ExcelUtil2.simplyExcel(CustomExcel.class,list,"Custom");
     }
 }

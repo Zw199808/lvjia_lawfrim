@@ -55,4 +55,11 @@ public interface BusLawyerMapper extends BaseMapper<BusLawyer> {
     Integer getAssignLawyerTotal(@Param("condition") SortRuleDto sortRuleDto);
 
 
+    /**
+     * 导出列表
+     * @param busLawyerDto
+     * @return
+     */
+    List<LawyerVo> getExcelList(@Param("condition") BusLawyerDto busLawyerDto);
+
 }

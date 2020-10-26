@@ -24,4 +24,15 @@
             and custom.name like #{ name }
         </if>
     </select>
+    <select id="getExcelList" resultType="com.xinou.lawfrim.web.entity.BusCustom">
+        select custom.*
+        from bus_custom custom
+        where custom.is_delete = 0
+        <if test = " condition.name != null and condition.name != '' ">
+            <bind name="name" value="'%'+condition.name+'%'"/>
+            and custom.name like #{ name }
+        </if>
+        order by custom.gmt_create desc
+    </select>
+
 </mapper>

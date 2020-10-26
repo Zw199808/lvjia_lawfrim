@@ -91,4 +91,22 @@
             , score desc
         </if>
     </select>
+
+
+    <select id="getExcelList" resultType="com.xinou.lawfrim.web.vo.lawyer.LawyerVo">
+        select lawyer.*,
+        sus.account,
+        rur.role_id as roleId,
+        role.name as roleName
+        from bus_lawyer lawyer
+        left join sys_user sus on lawyer.sys_user_id = sus.id
+        left join sys_re_user_role rur on rur.user_id = lawyer.sys_user_id
+        left join sys_role role on role.id = rur.role_id
+        where lawyer.is_delete = 0
+        <if test = " condition.name != null and condition.name != '' ">
+            <bind name="name" value="'%'+condition.name+'%'"/>
+            and lawyer.name like #{ name }
+        </if>
+        order by lawyer.gmt_create desc
+    </select>
 </mapper>

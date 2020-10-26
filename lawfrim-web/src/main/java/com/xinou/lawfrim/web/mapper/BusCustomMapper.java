@@ -35,4 +35,12 @@ public interface BusCustomMapper extends BaseMapper<BusCustom> {
      */
     Integer getTotal(@Param("condition") BusCustomDto busLawyerDto);
 
+    /**
+     * 导出-客户列表
+     * @param busLawyerDto
+     * @return
+     */
+    List<BusCustom> getExcelList(@Param("condition") BusCustomDto busLawyerDto);
+
+
 }
