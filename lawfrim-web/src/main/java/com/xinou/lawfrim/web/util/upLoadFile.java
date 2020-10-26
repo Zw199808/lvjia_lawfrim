@@ -200,7 +200,7 @@ public class upLoadFile {
     }
 
     public static String resourcesCode(String url){
-        return Config.SERVICE_IMG_URL+encodeURIComponent(url);
+        return Config.BASE_URL+encodeURIComponent(url)+"?attname=";
     }
 
     public static String encode(String str) {

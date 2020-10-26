@@ -9,7 +9,7 @@ import com.qiniu.storage.Region;
  */
 public class Config {
 
-    public static final String BASE_URL = "http://lvjia.s3-cn-south-1.qiniucs.com";
+    public static final String BASE_URL = "http://qig05me3p.hn-bkt.clouddn.com/";
     /**
      * xinouservice 相关
      */
