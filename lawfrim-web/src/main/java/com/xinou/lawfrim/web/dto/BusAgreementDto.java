@@ -59,6 +59,9 @@ public class BusAgreementDto extends PageDto implements Serializable {
     @ApiModelProperty(value = "领取合同时间")
     private String gmtTime;
 
+    @ApiModelProperty(value = "领取合同时间2")
+    private String gmtTime2;
+
     @ApiModelProperty(value = "是否今日标签 1:不按时间查询")
     private Integer tag;
 }

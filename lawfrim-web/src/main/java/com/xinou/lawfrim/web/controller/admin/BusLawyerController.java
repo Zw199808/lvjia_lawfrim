@@ -85,8 +85,13 @@ public class BusLawyerController {
 
     @PostMapping("assignLawyerList")
     @RequiresPermissions("/admin/lawyer/assignLawyerList")
+    @ApiOperationSupport(includeParameters = {"sortRule.notAuditNum","sortRule.auditNum","sortRule.isAdviser","sortRule.score"})
     @ApiOperation(httpMethod = "POST", value = "分配律师列表")
-    APIResponse<AssignLawyerVo> assignLawyerList(@RequestBody SortRuleDto sortRule) {
+    APIResponse<AssignLawyerVo> assignLawyerList(HttpServletRequest request,@RequestBody SortRuleDto sortRule) {
+        HttpSession session = request.getSession();
+        Integer adminId = (Integer)session.getAttribute("sysUserId");
+        BusLawyer lawyer = busLawyerService.getOne(new QueryWrapper<BusLawyer>().eq("sys_user_id",adminId));
+        sortRule.setLawyerId(lawyer.getId());
         return busLawyerService.getAssignLawyerList(sortRule);
     }
 

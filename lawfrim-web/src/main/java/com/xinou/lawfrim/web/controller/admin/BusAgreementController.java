@@ -252,8 +252,7 @@ public class BusAgreementController {
     @ApiOperation(httpMethod = "POST", value = "管理员-导出-所有合同")
     public APIResponse AdminAllExcelAgreement()  {
         BusAgreementDto agreementDto = new BusAgreementDto();
-        agreementDto.setTag(1);
-        String fileName = agreementService.LawyerExcelAgreement(agreementDto);
+        String fileName = agreementService.AdminExcelAgreement(agreementDto);
         return new APIResponse(Config.SERVICE_IMG_URL+fileName);
     }
 }

@@ -46,6 +46,9 @@ public class LawyerAgreementListVo implements Serializable {
     @ApiModelProperty("截止日期")
     private String endTime;
 
+    @ApiModelProperty("上传日期")
+    private String upTime;
+
     @ApiModelProperty("合同状态")
     private Integer agreeState;
 

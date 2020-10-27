@@ -32,4 +32,7 @@ public class SortRuleDto extends PageDto implements Serializable {
     @ApiModelProperty(value = "综合评分 1:按其排序")
     private Integer score;
 
+    @ApiModelProperty(value = "当前登录律师id")
+    private Integer lawyerId;
+
 }

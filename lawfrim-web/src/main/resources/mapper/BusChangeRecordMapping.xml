@@ -114,4 +114,34 @@
         </if>
         order by agree.gmt_create desc
     </select>
+
+    <select id="getAdminExcelList" resultType="com.xinou.lawfrim.web.vo.agreement.LawyerAgreementListVo">
+        SELECT
+        agree.id as agreeId,
+        agree.name as agreeName,
+        agree.state as agreeState,
+        agree.end_time as endTime,
+        DATE_FORMAT(agree.gmt_create, '%Y-%m-%d') as upTime,
+        cus.name as customName,
+        ifnull(aa.state,"") as getState,
+        ifnull(aa.id,"") as agreementAuditId,
+        ifnull(aa.end_lawyer_id,"") as endLawyerId,
+        ifnull(aa.lawyer_id,"") as firstLawyerId,
+        ifnull(lawyer1.name,"") as firstLawyerName,
+        ifnull(lawyer2.name,"") as endLawyerName
+        FROM bus_agreement agree
+        left join bus_custom cus on cus.id = agree.custom_id
+        left join bus_agreement_audit aa on aa.agreement_id = agree.id
+        left join bus_lawyer lawyer1 on lawyer1.id = aa.lawyer_id
+        left join bus_lawyer lawyer2 on lawyer2.id = aa.end_lawyer_id
+        where agree.is_delete = 0
+        <if test = " condition.state != null and condition.state != '' ">
+            and agree.state = #{ condition.state }
+        </if>
+        <if test = " condition.name != null and condition.name != '' ">
+            <bind name="name" value="'%'+condition.name+'%'"/>
+            and agree.name like #{ name }
+        </if>
+        order by agree.gmt_create desc
+    </select>
 </mapper>

@@ -1,15 +1,21 @@
 package com.xinou.lawfrim.web.util;
 
+import com.alibaba.excel.EasyExcel;
 import com.alibaba.excel.ExcelWriter;
 import com.alibaba.excel.metadata.BaseRowModel;
 import com.alibaba.excel.metadata.Sheet;
 import com.alibaba.excel.support.ExcelTypeEnum;
+import com.alibaba.excel.write.metadata.WriteSheet;
+import com.alibaba.excel.write.metadata.WriteTable;
 import com.xinou.lawfrim.common.util.Config;
+import com.xinou.lawfrim.web.vo.lawyer.LawyerAgreementExcel;
 
 import javax.servlet.http.HttpServletResponse;
+import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.OutputStream;
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -90,6 +96,49 @@ public class ExcelUtil2 {
 //        }
 
         return fileName;
+    }
+
+    /**
+     * 使用table去写入
+     * <p>1. 创建excel对应的实体对象 参照
+     * <p>2. 然后写入table即可
+     */
+    public static String twoSecondExcel(Class tClass,List data2,List data,String fileName) {
+        String excelPath = Config.EXCEL_PATH;
+        fileName = fileName + "-" + System.nanoTime() + ".xlsx";
+        // 这里直接写多个table的案例了，如果只有一个 也可以直一行代码搞定，参照其他案例
+        // 这里 需要指定写用哪个class去写
+        ExcelWriter excelWriter = null;
+        try {
+            excelWriter = EasyExcel.write(excelPath+fileName, tClass).build();
+            // 把sheet设置为不需要头 不然会输出sheet的头 这样看起来第一个table 就有2个头了
+            WriteSheet writeSheet = EasyExcel.writerSheet("sheet1").needHead(Boolean.FALSE).build();
+            // 这里必须指定需要头，table 会继承sheet的配置，sheet配置了不需要，table 默认也是不需要
+            WriteTable writeTable0 = EasyExcel.writerTable(0).needHead(Boolean.TRUE).build();
+            WriteTable writeTable1 = EasyExcel.writerTable(1).needHead(Boolean.TRUE).build();
+//            head(tClass);
+            // 第一次写入会创建头
+            excelWriter.write(data2, writeSheet, writeTable0);
+            // 第二次写如也会创建头，然后在第一次的后面写入数据
+            excelWriter.write(data, writeSheet, writeTable1);
+        } finally {
+            // 千万别忘记finish 会帮忙关闭流
+            if (excelWriter != null) {
+                excelWriter.finish();
+            }
+        }
+        return fileName;
+    }
+
+    private static List<List<String>> head(Class tClass) {
+        List<List<String>> list = new ArrayList<List<String>>();
+        List<String> head0 = new ArrayList<String>();
+        head0.add("历史完成合同" + tClass);
+        List<String> head1 = new ArrayList<String>();
+        head1.add("今日完成合同" + tClass);
+        list.add(head0);
+        list.add(head1);
+        return list;
     }
 
     public static void main(String[] args) {

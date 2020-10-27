@@ -378,6 +378,48 @@ public class BusAgreementServiceImpl extends ServiceImpl<BusAgreementMapper, Bus
         return ExcelUtil2.simplyExcel(LawyerAgreementExcel.class,list,"Agreement");
     }
 
+    @Override
+    public String AdminExcelAgreement(BusAgreementDto agreement) {
+        getTime(agreement);
+        List<LawyerAgreementListVo> list1 = changeRecordMapper.getAdminExcelList(agreement);
+        List<LawyerAgreementExcel> list = new ArrayList();
+        List<LawyerAgreementExcel> historyList = new ArrayList();
+        int i = 1;
+        for (LawyerAgreementListVo lawyerAgreementListVo : list1){
+            LawyerAgreementExcel lawyerAgreementVo = new LawyerAgreementExcel();
+            lawyerAgreementVo.setAgreeName(lawyerAgreementListVo.getAgreeName());
+            lawyerAgreementVo.setCustomName(lawyerAgreementListVo.getCustomName());
+            lawyerAgreementVo.setEndTime(lawyerAgreementListVo.getEndTime().substring(0,11));
+            lawyerAgreementVo.setRemark("");
+            if (lawyerAgreementListVo.getAgreeState()==1){
+                lawyerAgreementVo.setFirst("");
+                lawyerAgreementVo.setSecond("");
+            }
+            if (lawyerAgreementListVo.getAgreeState() != 1){
+                lawyerAgreementVo.setFirstLawyerName(lawyerAgreementListVo.getFirstLawyerName());
+                lawyerAgreementVo.setEndLawyerName(lawyerAgreementListVo.getEndLawyerName());
+                //合同初审复审完成情况
+                if (lawyerAgreementListVo.getAgreeState()==2){
+                    lawyerAgreementVo.setFirst("");
+                    lawyerAgreementVo.setSecond("");
+                }else if (lawyerAgreementListVo.getAgreeState()==3){
+                    lawyerAgreementVo.setFirst("√");
+                    lawyerAgreementVo.setSecond("");
+                }else if (lawyerAgreementListVo.getAgreeState()==4){
+                    lawyerAgreementVo.setFirst("√");
+                    lawyerAgreementVo.setSecond("√");
+                }
+            }
+            if (agreement.getGmtTime().equals(lawyerAgreementListVo.getUpTime())){
+                list.add(lawyerAgreementVo);//今日合同列表
+            }else{
+                historyList.add(lawyerAgreementVo);//历史合同列表
+            }
+
+        }
+        return ExcelUtil2.twoSecondExcel(LawyerAgreementExcel.class,historyList,list,"Agreement");
+    }
+
     private void getTime(BusAgreementDto agreement) {
         LocalDateTime now = LocalDateTime.now();
         String nowString = now.format(DateTimeFormatter.ofPattern("yyyy-MM-dd"));

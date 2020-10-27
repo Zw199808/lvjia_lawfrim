@@ -100,10 +100,17 @@ public interface IBusAgreementService extends IService<BusAgreement> {
     APIResponse<AgreementNumVo> getAgreementNumber();
 
     /**
-     * 法务-今日新合同
+     * 导出合同
      * @param agreement
      * @return
      */
     String LawyerExcelAgreement(BusAgreementDto agreement);
+
+    /**
+     * 管理员导出全部合同
+     * @param agreement
+     * @return
+     */
+    String AdminExcelAgreement(BusAgreementDto agreement);
 
 }

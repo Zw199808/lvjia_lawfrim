@@ -51,12 +51,14 @@
         from bus_lawyer la left join bus_agreement_audit aa on aa.lawyer_id = la.id
                            left join bus_agreement ba on ba.id = aa.agreement_id
                            group by la.id
-    )as a on a.id = law.id order by is_delete
+    )as a on a.id = law.id
+    where law.id != #{condition.lawyerId}
+    order by is_delete
     <if test="condition.notAuditNum != null and condition.notAuditNum!='' ">
     , notAuditNum
     </if>
     <if test="condition.isAdviser != null and  condition.isAdviser != '' ">
-    ,isAdviser desc
+    ,law.adviser desc
     </if>
     <if test="condition.auditNum != null and condition.auditNum != '' ">
     ,auditNum desc
@@ -77,12 +79,14 @@
         from bus_lawyer la left join bus_agreement_audit aa on aa.lawyer_id = la.id
         left join bus_agreement ba on ba.id = aa.agreement_id
         group by la.id
-        )as a on a.id = law.id order by is_delete
+        )as a on a.id = law.id
+        where law.id != #{condition.lawyerId}
+        order by is_delete
         <if test="condition.notAuditNum != null and condition.notAuditNum!='' ">
             , notAuditNum
         </if>
         <if test="condition.isAdviser != null and  condition.isAdviser != '' ">
-            ,isAdviser desc
+            ,law.adviser desc
         </if>
         <if test="condition.auditNum != null and condition.auditNum != '' ">
             ,auditNum desc
