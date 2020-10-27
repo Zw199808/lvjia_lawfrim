@@ -59,7 +59,7 @@ public class BusAgreementController {
 
 
     @PostMapping("list")
-//    @RequiresPermissions("/admin/agreement/list")
+    @RequiresPermissions("/admin/agreement/list")
     @ApiOperation(httpMethod = "POST", value = "未领取合同列表")
     APIResponse<AgreementListVo> listAgreement() {
         BusAgreementDto agreementDto = new BusAgreementDto();
@@ -68,7 +68,7 @@ public class BusAgreementController {
     }
 
     @PostMapping("AllAgreementList")
-//    @RequiresPermissions("/admin/agreement/AllAgreementList")
+    @RequiresPermissions("/admin/agreement/AllAgreementList")
     @ApiOperation(httpMethod = "POST", value = "我的-合同列表")
     @ApiOperationSupport(includeParameters = {"agreementDto.state","agreementDto.name"})
     APIResponse<LawyerAgreementListVo> AllAgreementList(HttpServletRequest request, @RequestBody BusAgreementDto agreementDto) {
@@ -85,7 +85,7 @@ public class BusAgreementController {
     }
 
     @PostMapping("acceptAgreement")
-//    @RequiresPermissions("/admin/agreement/acceptAgreement")
+    @RequiresPermissions("/admin/agreement/acceptAgreement")
     @ApiOperation(httpMethod = "POST", value = "接受合同")
     @ApiOperationSupport(includeParameters = {"agreement.id"})
     APIResponse acceptAgreement(HttpServletRequest request, @RequestBody BusAgreementDto agreement) {
@@ -105,7 +105,7 @@ public class BusAgreementController {
 
 
     @PostMapping("agreementInfo")
-//    @RequiresPermissions("/admin/agreement/agreementInfo")
+    @RequiresPermissions("/admin/agreement/agreementInfo")
     @ApiOperation(httpMethod = "POST", value = "合同详情")
     @ApiOperationSupport(includeParameters = {"agreement.id"})
     APIResponse<AgreementInfoVo> agreementInfo(@RequestBody BusAgreementDto agreement) {
@@ -114,7 +114,7 @@ public class BusAgreementController {
 
     @PostMapping("downloadAgreement")
     @ApiOperation(httpMethod = "POST", value = "下载合同")
-    //    @RequiresPermissions("/admin/agreement/downloadAgreement")
+    @RequiresPermissions("/admin/agreement/downloadAgreement")
     @ApiOperationSupport(includeParameters = {"agreementDto.id"})
     APIResponse<AgreementVo> downloadAgreement(@RequestBody BusAgreementDto agreementDto) {
         return agreementService.downloadAgreement(agreementDto);
@@ -122,14 +122,14 @@ public class BusAgreementController {
 
     @PostMapping("endLawyerList")
     @ApiOperation(httpMethod = "POST", value = "复审律师列表")
-    //    @RequiresPermissions("/admin/agreement/endLawyerList")
+        @RequiresPermissions("/admin/agreement/endLawyerList")
     APIResponse endLawyerList() {
         return lawyerService.endListLawyer();
     }
 
     @PostMapping("answerAgreement")
     @ApiOperation(httpMethod = "POST", value = "回复合同")
-    //    @RequiresPermissions("/admin/agreement/answerAgreement")
+    @RequiresPermissions("/admin/agreement/answerAgreement")
     @ApiOperationSupport(includeParameters = {"agreementAudit.agreementId","agreementAudit.lawyerId","agreementAudit.agreementType","agreementAudit.firstAgreementName","agreementAudit.secondAgreementName"})
     APIResponse agreementInfo(@RequestBody BusAgreementAuditDto agreementAudit) {
         return agreementAuditService.answerAgreement(agreementAudit);
@@ -137,7 +137,7 @@ public class BusAgreementController {
 
     @PostMapping("changeAgreement")
     @ApiOperation(httpMethod = "POST", value = "申请合同转移")
-    //    @RequiresPermissions("/admin/agreement/changeAgreement")
+    @RequiresPermissions("/admin/agreement/changeAgreement")
     @ApiOperationSupport(includeParameters = {"changeRecord.lawyerId","changeRecord.agreementAuditId"})
     APIResponse changeAgreement(HttpServletRequest request,@RequestBody BusChangeRecordDto changeRecord) {
         HttpSession session = request.getSession();
@@ -148,7 +148,7 @@ public class BusAgreementController {
 
     @PostMapping("agreeChangeAgreement")
     @ApiOperation(httpMethod = "POST", value = "接受转移合同")
-    //    @RequiresPermissions("/admin/lawyer/agreeChangeAgreement")
+        @RequiresPermissions("/admin/agreement/agreeChangeAgreement")
     @ApiOperationSupport(includeParameters = {"changeRecord.agreementAuditId"})
     APIResponse agreeChangeAgreement(HttpServletRequest request,@RequestBody BusChangeRecordDto changeRecord) {
         HttpSession session = request.getSession();
@@ -159,7 +159,7 @@ public class BusAgreementController {
 
     @PostMapping("endAuditAgreement")
     @ApiOperation(httpMethod = "POST", value = "复审评分")
-    //    @RequiresPermissions("/admin/lawyer/endAuditAgreement")
+        @RequiresPermissions("/admin/agreement/endAuditAgreement")
     @ApiOperationSupport(includeParameters = {"agreementScore.agreementAuditId","agreementScore.score"})
     APIResponse endAuditAgreement(HttpServletRequest request,@RequestBody BusAgreementScoreDto agreementScore) {
 //        HttpSession session = request.getSession();
@@ -169,7 +169,7 @@ public class BusAgreementController {
     }
 
     @PostMapping("AdminAgreementList")
-//    @RequiresPermissions("/admin/agreement/AdminAgreementList")
+    @RequiresPermissions("/admin/agreement/AdminAgreementList")
     @ApiOperation(httpMethod = "POST", value = "管理员-合同列表")
     @ApiOperationSupport(includeParameters = {"agreementDto.state","agreementDto.name"})
     APIResponse<LawyerAgreementListVo> AdminAgreementList(HttpServletRequest request, @RequestBody BusAgreementDto agreementDto) {
@@ -178,7 +178,7 @@ public class BusAgreementController {
 
     @PostMapping("assignAgreement")
     @ApiOperation(httpMethod = "POST", value = "管理员-分配合同")
-    //    @RequiresPermissions("/admin/lawyer/assignAgreement")
+        @RequiresPermissions("/admin/agreement/assignAgreement")
     @ApiOperationSupport(includeParameters = {"agreementDto.lawyerId","agreementDto.id"})
     APIResponse assignAgreement(HttpServletRequest request,@RequestBody BusAgreementDto agreementDto) {
         HttpSession session = request.getSession();
@@ -188,7 +188,7 @@ public class BusAgreementController {
     }
 
     @PostMapping("LawyerNewExcelAgreement")
-//    @RequiresPermissions("/admin/agreement/LawyerNewExcelAgreement")
+    @RequiresPermissions("/admin/agreement/LawyerNewExcelAgreement")
     @ApiOperation(httpMethod = "POST", value = "律师法务-导出-今日新合同")
     public APIResponse LawyerNewExcelAgreement(HttpServletRequest request)  {
         BusAgreementDto agreementDto = new BusAgreementDto();
@@ -207,7 +207,7 @@ public class BusAgreementController {
     }
 
     @PostMapping("LawyerExcelAgreement")
-//    @RequiresPermissions("/admin/agreement/LawyerExcelAgreement")
+    @RequiresPermissions("/admin/agreement/LawyerExcelAgreement")
     @ApiOperation(httpMethod = "POST", value = "律师法务-导出-未回复")
     public APIResponse LawyerExcelAgreement(HttpServletRequest request)  {
         BusAgreementDto agreementDto = new BusAgreementDto();
@@ -227,7 +227,7 @@ public class BusAgreementController {
     }
 
     @PostMapping("AdminExcelAgreement")
-//    @RequiresPermissions("/admin/agreement/AdminExcelAgreement")
+    @RequiresPermissions("/admin/agreement/AdminExcelAgreement")
     @ApiOperation(httpMethod = "POST", value = "管理员-导出-未回复")
     public APIResponse AdminExcelAgreement()  {
         BusAgreementDto agreementDto = new BusAgreementDto();
@@ -238,7 +238,7 @@ public class BusAgreementController {
     }
 
     @PostMapping("AdminNewExcelAgreement")
-//    @RequiresPermissions("/admin/agreement/AdminNewExcelAgreement")
+    @RequiresPermissions("/admin/agreement/AdminNewExcelAgreement")
     @ApiOperation(httpMethod = "POST", value = "管理员-导出-今日新合同")
     public APIResponse AdminNewExcelAgreement()  {
         BusAgreementDto agreementDto = new BusAgreementDto();
@@ -248,7 +248,7 @@ public class BusAgreementController {
     }
 
     @PostMapping("AdminAllExcelAgreement")
-//    @RequiresPermissions("/admin/agreement/AdminAllExcelAgreement")
+    @RequiresPermissions("/admin/agreement/AdminAllExcelAgreement")
     @ApiOperation(httpMethod = "POST", value = "管理员-导出-所有合同")
     public APIResponse AdminAllExcelAgreement()  {
         BusAgreementDto agreementDto = new BusAgreementDto();

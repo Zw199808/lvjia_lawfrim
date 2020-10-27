@@ -15,6 +15,7 @@ import com.xinou.lawfrim.web.vo.agreementAudit.ScoreVo;
 import com.xinou.lawfrim.web.vo.custom.CustomNumVo;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
+import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -51,7 +52,7 @@ public class StatisticsController {
 
     @PostMapping("lawyerAgreementNum")
     @ApiOperation(httpMethod = "POST", value = "律师合同数统计（已处理、待处理、全部）")
-        //    @RequiresPermissions("/web/statistics/lawyerAgreementNum")
+    @RequiresPermissions("/admin/LawyerStatistics/lawyerAgreementNum")
     APIResponse<CustomNumVo> getLawyerAgreementCount(HttpServletRequest request) {
         HttpSession session = request.getSession();
         Integer adminId = (Integer) session.getAttribute("sysUserId");
@@ -62,7 +63,7 @@ public class StatisticsController {
 
 
     @PostMapping("statisticMyScore")
-    //    @RequiresPermissions("/web/statistics/statisticMyScore")
+    @RequiresPermissions("/admin/LawyerStatistics/statisticMyScore")
     @ApiOperation(httpMethod = "POST", value = "我的评分统计")
     APIResponse<ScoreVo> getStatisticMyScore(HttpServletRequest request) {
         HttpSession session = request.getSession();

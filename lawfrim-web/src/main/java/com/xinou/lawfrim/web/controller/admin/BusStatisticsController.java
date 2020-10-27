@@ -23,6 +23,7 @@ import com.xinou.lawfrim.web.vo.lawyer.LawyerVo;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import io.swagger.models.auth.In;
+import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -57,14 +58,14 @@ public class BusStatisticsController {
 
     @PostMapping("allAgreementNum")
     @ApiOperation(httpMethod = "POST", value = "全部合同数统计（已处理、待处理、全部）")
-        //    @RequiresPermissions("/admin/statistics/allAgreementNum")
+    @RequiresPermissions("/admin/statistics/allAgreementNum")
     APIResponse<CustomNumVo> getAllAgreementCount() {
         return agreementService.getAllAgreementCount();
     }
 
 
     @PostMapping("statisticAgreementType")
-    //    @RequiresPermissions("/admin/statistics/statisticAgreementType")
+    @RequiresPermissions("/admin/statistics/statisticAgreementType")
     @ApiOperation(httpMethod = "POST", value = "合同类型分类统计")
     APIResponse<AgreementTypeVo> getAgreementTypeStatistic(HttpServletRequest request) {
         BusAgreementDto agreementDto = new BusAgreementDto();
@@ -72,7 +73,7 @@ public class BusStatisticsController {
     }
 
     @PostMapping("statisticMyScore")
-    //    @RequiresPermissions("/admin/statistics/statisticMyScore")
+    @RequiresPermissions("/admin/statistics/statisticMyScore")
     @ApiOperation(httpMethod = "POST", value = "全部评分统计")
     APIResponse<ScoreVo> getStatisticMyScore(HttpServletRequest request) {
 //        HttpSession session = request.getSession();
@@ -83,14 +84,14 @@ public class BusStatisticsController {
     }
 
     @PostMapping("userNumber")
-    //    @RequiresPermissions("/admin/statistics/userNumber")
+    @RequiresPermissions("/admin/statistics/userNumber")
     @ApiOperation(httpMethod = "POST", value = "用户数量统计")
     APIResponse<UserNumberVo> getUserNumber() {
         return lawyerService.statisticUserNumber();
     }
 
     @PostMapping("agreementNumber")
-    //    @RequiresPermissions("/admin/statistics/agreementNumber")
+    @RequiresPermissions("/admin/statistics/agreementNumber")
     @ApiOperation(httpMethod = "POST", value = "合同数量统计")
     APIResponse<AgreementNumVo> getAgreementNumber() {
         return agreementService.getAgreementNumber();

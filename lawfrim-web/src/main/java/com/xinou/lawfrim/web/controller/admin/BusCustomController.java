@@ -43,7 +43,7 @@ public class BusCustomController {
     private IBusCustomService customService;
 
     @PostMapping("list")
-//    @RequiresPermissions("/admin/custom/list")
+    @RequiresPermissions("/admin/custom/list")
     @ApiOperation(httpMethod = "POST", value = "客户列表")
     @ApiOperationSupport(includeParameters = {"customDto.name"})
     APIResponse<CustomVo> listCustom(@RequestBody BusCustomDto customDto) {
@@ -52,7 +52,7 @@ public class BusCustomController {
 
 
     @PostMapping("add")
-//    @RequiresPermissions("/admin/custom/add")
+    @RequiresPermissions("/admin/custom/add")
     @ApiOperation(httpMethod = "POST", value = "添加客户")
     @ApiOperationSupport(ignoreParameters = {"customDto.id","customDto.oldPassword"})
     APIResponse customAdd(@RequestBody BusCustomDto customDto) {
@@ -61,7 +61,7 @@ public class BusCustomController {
 
 
     @PostMapping("info")
-//    @RequiresPermissions("/admin/custom/info")
+    @RequiresPermissions("/admin/custom/info")
     @ApiOperation(httpMethod = "POST", value = "客户信息")
     @ApiOperationSupport(includeParameters = {"customDto.id"})
     APIResponse<CustomVo> customInfo(@RequestBody BusCustomDto customDto) {
@@ -70,7 +70,7 @@ public class BusCustomController {
 
 
     @PostMapping("update")
-//    @RequiresPermissions("/admin/custom/update")
+    @RequiresPermissions("/admin/custom/update")
     @ApiOperation(httpMethod = "POST", value = "修改客户密码")
     @ApiOperationSupport(includeParameters = {"customDto.id","customDto.password"})
     APIResponse customUpdate(@RequestBody BusCustomDto customDto) {
@@ -79,7 +79,7 @@ public class BusCustomController {
 
 
     @PostMapping("AdminExcelCustom")
-//    @RequiresPermissions("/admin/agreement/AdminExcelCustom")
+    @RequiresPermissions("/admin/custom/AdminExcelCustom")
     @ApiOperation(httpMethod = "POST", value = "管理员-导出-客户列表")
     @ApiOperationSupport(includeParameters = {"customDto.name"})
     public APIResponse AdminAllExcelAgreement(@RequestBody BusCustomDto customDto)  {

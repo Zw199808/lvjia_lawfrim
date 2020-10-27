@@ -14,6 +14,7 @@ import com.xinou.lawfrim.web.service.IBusLawyerService;
 import com.xinou.lawfrim.web.vo.lawyer.AssignLawyerVo;
 import com.xinou.lawfrim.web.vo.lawyer.LawyerVo;
 import io.swagger.annotations.*;
+import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -44,7 +45,7 @@ public class BusLawyerController {
     private IBusAgreementService agreementService;
 
     @PostMapping("list")
-//    @RequiresPermissions("/admin/lawyer/list")
+    @RequiresPermissions("/admin/lawyer/list")
     @ApiOperation(httpMethod = "POST", value = "律师列表")
     @ApiOperationSupport(includeParameters = {"lawyerDto.name"})
     APIResponse<LawyerVo> listLawyer(@RequestBody BusLawyerDto lawyerDto) {
@@ -53,7 +54,7 @@ public class BusLawyerController {
 
 
     @PostMapping("add")
-//    @RequiresPermissions("/admin/lawyer/add")
+    @RequiresPermissions("/admin/lawyer/add")
     @ApiOperation(httpMethod = "POST", value = "添加律师")
     @ApiOperationSupport(ignoreParameters = {"lawyerDto.id","lawyerDto.state","lawyerDto.pageNumber","lawyerDto.pageSize","lawyerDto.oldPassword","lawyerDto.sysUserId"})
     APIResponse lawyerAdd(@RequestBody BusLawyerDto lawyerDto) {
@@ -62,7 +63,7 @@ public class BusLawyerController {
 
 
     @PostMapping("info")
-//    @RequiresPermissions("/admin/lawyer/info")
+    @RequiresPermissions("/admin/lawyer/info")
     @ApiOperation(httpMethod = "POST", value = "获取律师信息")
     @ApiOperationSupport(includeParameters = {"lawyerDto.id"})
     APIResponse<LawyerVo> lawyerInfo(@RequestBody BusLawyerDto lawyerDto) {
@@ -71,7 +72,7 @@ public class BusLawyerController {
 
 
     @PostMapping("updatePassword")
-//    @RequiresPermissions("/admin/lawyer/updatePassword")
+    @RequiresPermissions("/admin/lawyer/updatePassword")
     @ApiOperation(httpMethod = "POST", value = "管理员-修改律师、管理员登录密码")
     @ApiOperationSupport(includeParameters = {"lawyerDto.id","lawyerDto.password"})
     APIResponse AdminUpdatePassword(HttpServletRequest request,@RequestBody BusLawyerDto lawyerDto) {
@@ -83,14 +84,14 @@ public class BusLawyerController {
 
 
     @PostMapping("assignLawyerList")
-//    @RequiresPermissions("/admin/lawyer/assignLawyerList")
+    @RequiresPermissions("/admin/lawyer/assignLawyerList")
     @ApiOperation(httpMethod = "POST", value = "分配律师列表")
     APIResponse<AssignLawyerVo> assignLawyerList(@RequestBody SortRuleDto sortRule) {
         return busLawyerService.getAssignLawyerList(sortRule);
     }
 
     @PostMapping("AdminExcelLawyer")
-//    @RequiresPermissions("/admin/agreement/AdminExcelLawyer")
+    @RequiresPermissions("/admin/lawyer/AdminExcelLawyer")
     @ApiOperation(httpMethod = "POST", value = "管理员-导出-律师列表")
     @ApiOperationSupport(includeParameters = {"lawyerDto.name"})
     public APIResponse AdminAllExcelAgreement(@RequestBody BusLawyerDto lawyerDto)  {
@@ -100,7 +101,6 @@ public class BusLawyerController {
 
 
     @PostMapping("updateState")
-//    @RequiresPermissions("/admin/lawyer/updateState")
     @ApiOperation(httpMethod = "POST", value = "修改律师在线状态")
     @ApiOperationSupport(includeParameters = {"lawyerDto.state"})
     APIResponse lawyerUpdate(HttpServletRequest request,@RequestBody BusLawyerDto lawyerDto) {
@@ -113,7 +113,6 @@ public class BusLawyerController {
 
 
     @PostMapping("LawyerUpdatePassword")
-//    @RequiresPermissions("/admin/lawyer/LawyerUpdatePassword")
     @ApiOperation(httpMethod = "POST", value = "当前登录律师-修改登录密码")
     @ApiOperationSupport(includeParameters = {"lawyerDto.password","lawyerDto.oldPassword"})
     APIResponse lawyerUpdatePassword(HttpServletRequest request,@RequestBody BusLawyerDto lawyerDto) {
