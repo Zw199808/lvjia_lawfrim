@@ -1,10 +1,12 @@
 package com.xinou.lawfrim.web.controller.web;
 
 
+import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.xinou.lawfrim.common.util.APIResponse;
 import com.xinou.lawfrim.web.dto.BusAgreementAuditDto;
 import com.xinou.lawfrim.web.dto.BusAgreementDto;
 import com.xinou.lawfrim.web.dto.BusLawyerDto;
+import com.xinou.lawfrim.web.entity.BusLawyer;
 import com.xinou.lawfrim.web.service.IBusAgreementAuditService;
 import com.xinou.lawfrim.web.service.IBusAgreementService;
 import com.xinou.lawfrim.web.service.IBusLawyerService;
@@ -43,6 +45,9 @@ public class StatisticsController {
     @Autowired
     private IBusAgreementService agreementService;
 
+    @Autowired
+    private IBusLawyerService busLawyerService;
+
 
     @PostMapping("lawyerAgreementNum")
     @ApiOperation(httpMethod = "POST", value = "律师合同数统计（已处理、待处理、全部）")
@@ -61,9 +66,10 @@ public class StatisticsController {
     @ApiOperation(httpMethod = "POST", value = "我的评分统计")
     APIResponse<ScoreVo> getStatisticMyScore(HttpServletRequest request) {
         HttpSession session = request.getSession();
-        Integer adminId = (Integer) session.getAttribute("sysUerId");
+        Integer adminId = (Integer) session.getAttribute("sysUserId");
         BusLawyerDto lawyerDto = new BusLawyerDto();
-        lawyerDto.setId(adminId);
+        BusLawyer lawyer = busLawyerService.getOne(new QueryWrapper<BusLawyer>().eq("sys_user_id",adminId));
+        lawyerDto.setId(lawyer.getId());
         return agreementAuditService.getStatisticMyScore(lawyerDto);
     }
 

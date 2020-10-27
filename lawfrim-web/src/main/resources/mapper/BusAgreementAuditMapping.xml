@@ -13,10 +13,11 @@
     </select>
 
     <select id="getStatisticScore" resultType="com.xinou.lawfrim.web.vo.agreementAudit.ScoreVo">
-         SELECT avg(aa.score) as averageScore,
-                max(aa.score) as maxScore,
-                min(aa.score) as minScore
+         SELECT avg(case when agree.state = 4 then aa.score end) as averageScore,
+                max(case when agree.state = 4 then aa.score end) as maxScore,
+                min(case when agree.state = 4 then aa.score end) as minScore
                 from bus_agreement_audit aa
+        left join bus_agreement agree on agree.id = aa.agreement_id
          where aa.is_delete = 0 and aa.end_lawyer_id != 0
          <if test = " condition.id != null and condition.id != '' ">
              and aa.lawyer_id = #{condition.id}
