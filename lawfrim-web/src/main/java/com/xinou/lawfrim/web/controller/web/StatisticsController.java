@@ -30,7 +30,7 @@ import javax.servlet.http.HttpSession;
  * @since 2020-10-23
  */
 @RestController
-@RequestMapping("/web/statistics")
+@RequestMapping("/admin/LawyerStatistics")
 @Api(tags = {"律师法务-统计"})
 public class StatisticsController {
 
