@@ -108,7 +108,7 @@ public class Config {
 
 
 
-            public static final String EXCEL_PATH = "D:\\ideaProject\\";
-//    public static final String EXCEL_PATH = "/root/xinou-upload/";
+//            public static final String EXCEL_PATH = "D:\\ideaProject\\";
+    public static final String EXCEL_PATH = "/root/xinou-upload/";
 
 }

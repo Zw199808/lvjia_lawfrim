@@ -17,6 +17,7 @@ import com.xinou.lawfrim.web.util.upLoadFile;
 import com.xinou.lawfrim.web.vo.agreement.*;
 import com.xinou.lawfrim.web.vo.custom.CustomNumVo;
 import com.xinou.lawfrim.web.vo.lawyer.LawyerAgreementExcel;
+import com.xinou.lawfrim.web.vo.lawyer.LawyerAgreementExcelv1;
 import com.xinou.lawfrim.web.vo.lawyer.LawyerAgreementVo;
 import com.xinou.lawfrim.web.vo.lawyer.LawyerChangeVo;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -383,8 +384,9 @@ public class BusAgreementServiceImpl extends ServiceImpl<BusAgreementMapper, Bus
         getTime(agreement);
         List<LawyerAgreementListVo> list1 = changeRecordMapper.getAdminExcelList(agreement);
         List<LawyerAgreementExcel> list = new ArrayList();
-        List<LawyerAgreementExcel> historyList = new ArrayList();
+        List<LawyerAgreementExcelv1> historyList = new ArrayList();
         int i = 1;
+        int m = 1;
         for (LawyerAgreementListVo lawyerAgreementListVo : list1){
             LawyerAgreementExcel lawyerAgreementVo = new LawyerAgreementExcel();
             lawyerAgreementVo.setAgreeName(lawyerAgreementListVo.getAgreeName());
@@ -410,14 +412,17 @@ public class BusAgreementServiceImpl extends ServiceImpl<BusAgreementMapper, Bus
                     lawyerAgreementVo.setSecond("√");
                 }
             }
+            LawyerAgreementExcelv1 lawyerAgreementVo1 = new LawyerAgreementExcelv1(lawyerAgreementVo);
             if (agreement.getGmtTime().equals(lawyerAgreementListVo.getUpTime())){
+                lawyerAgreementVo.setIndex(i++);
                 list.add(lawyerAgreementVo);//今日合同列表
             }else{
-                historyList.add(lawyerAgreementVo);//历史合同列表
+                lawyerAgreementVo.setIndex(m++);
+                historyList.add(lawyerAgreementVo1);//历史合同列表
             }
 
         }
-        return ExcelUtil2.twoSecondExcel(LawyerAgreementExcel.class,historyList,list,"Agreement");
+        return ExcelUtil2.twoSecondExcel(LawyerAgreementExcelv1.class,LawyerAgreementExcel.class,historyList,list,"Agreement");
     }
 
     private void getTime(BusAgreementDto agreement) {

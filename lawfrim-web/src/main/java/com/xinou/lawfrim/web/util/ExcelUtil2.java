@@ -68,7 +68,6 @@ public class ExcelUtil2 {
     public static String simplyExcel(Class tClass,List data,String fileName){
         String excelPath = Config.EXCEL_PATH;
          fileName =  fileName + "-" + System.nanoTime() + ".xlsx";
-
         OutputStream out = null;
         ExcelWriter excelWriter = null;
         try {
@@ -103,19 +102,19 @@ public class ExcelUtil2 {
      * <p>1. 创建excel对应的实体对象 参照
      * <p>2. 然后写入table即可
      */
-    public static String twoSecondExcel(Class tClass,List data2,List data,String fileName) {
+    public static String twoSecondExcel(Class tClass1,Class tClass,List data2,List data,String fileName) {
         String excelPath = Config.EXCEL_PATH;
         fileName = fileName + "-" + System.nanoTime() + ".xlsx";
         // 这里直接写多个table的案例了，如果只有一个 也可以直一行代码搞定，参照其他案例
         // 这里 需要指定写用哪个class去写
         ExcelWriter excelWriter = null;
         try {
-            excelWriter = EasyExcel.write(excelPath+fileName, tClass).build();
+            excelWriter = EasyExcel.write(excelPath+fileName).build();
             // 把sheet设置为不需要头 不然会输出sheet的头 这样看起来第一个table 就有2个头了
             WriteSheet writeSheet = EasyExcel.writerSheet("sheet1").needHead(Boolean.FALSE).build();
             // 这里必须指定需要头，table 会继承sheet的配置，sheet配置了不需要，table 默认也是不需要
-            WriteTable writeTable0 = EasyExcel.writerTable(0).needHead(Boolean.TRUE).build();
-            WriteTable writeTable1 = EasyExcel.writerTable(1).needHead(Boolean.TRUE).build();
+            WriteTable writeTable0 = EasyExcel.writerTable(0).needHead(Boolean.TRUE).head(tClass).build();
+            WriteTable writeTable1 = EasyExcel.writerTable(1).needHead(Boolean.TRUE).head(tClass1).build();
 //            head(tClass);
             // 第一次写入会创建头
             excelWriter.write(data2, writeSheet, writeTable0);
