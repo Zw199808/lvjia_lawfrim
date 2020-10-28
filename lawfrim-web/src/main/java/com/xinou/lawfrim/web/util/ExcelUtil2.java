@@ -76,14 +76,14 @@ public class ExcelUtil2 {
             Sheet sheet1 = new Sheet(1,0,tClass);
             sheet1.setSheetName("sheet1");
             excelWriter.write0(data,sheet1);
-            // 上传文件到七牛
-            upLoadFile.uploadFileQNUrlFile(toFile);
         } catch (IOException e) {
             e.printStackTrace();
         }finally {
             if (excelWriter != null) {
                 excelWriter.finish();
             }
+            // 上传文件到七牛
+            upLoadFile.uploadFileQNUrlFile(toFile);
             if (out != null) {
                 try {
                     out.flush();
@@ -138,9 +138,6 @@ public class ExcelUtil2 {
             excelWriter.write(data2, writeSheet, writeTable0);
             // 第二次写如也会创建头，然后在第一次的后面写入数据
             excelWriter.write(data, writeSheet, writeTable1);
-            // 上传文件到七牛
-            upLoadFile.uploadFileQNUrlFile(toFile);
-
         }catch (IOException ignored) {
 
         } finally {
@@ -148,6 +145,8 @@ public class ExcelUtil2 {
             if (excelWriter != null) {
                 excelWriter.finish();
             }
+            // 上传文件到七牛
+            upLoadFile.uploadFileQNUrlFile(toFile);
             if(toFile != null) {
                 toFile.deleteOnExit();
             }

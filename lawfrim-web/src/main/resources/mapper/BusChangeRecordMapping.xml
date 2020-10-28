@@ -24,7 +24,18 @@
             and agree.name like #{ name }
         </if>
         <if test = " condition.lawyerId != null and condition.lawyerId != '' ">
-            and aa.lawyer_id = #{ condition.lawyerId } or aa.end_lawyer_id = #{ condition.lawyerId }
+             <if test = " condition.state == 2">
+                 and aa.lawyer_id = #{ condition.lawyerId }
+             </if>
+            <if test = " condition.state == 3">
+                and aa.end_lawyer_id = #{ condition.lawyerId }
+            </if>
+            <if test = " condition.state == 4">
+                and aa.lawyer_id = #{ condition.lawyerId } or aa.end_lawyer_id = #{ condition.lawyerId }
+            </if>
+            <if test = " condition.state == 0">
+                and aa.lawyer_id = #{ condition.lawyerId } or aa.end_lawyer_id = #{ condition.lawyerId }
+            </if>
         </if>
         order by agree.gmt_create desc
     </select>
@@ -45,7 +56,18 @@
             and agree.name like #{ name }
         </if>
         <if test = " condition.lawyerId != null and condition.lawyerId != '' ">
-            and aa.lawyer_id = #{ condition.lawyerId } or aa.end_lawyer_id = #{ condition.lawyerId }
+            <if test = " condition.state == 2">
+                and aa.lawyer_id = #{ condition.lawyerId }
+            </if>
+            <if test = " condition.state == 3">
+                and aa.end_lawyer_id = #{ condition.lawyerId }
+            </if>
+            <if test = " condition.state == 4">
+                and aa.lawyer_id = #{ condition.lawyerId } or aa.end_lawyer_id = #{ condition.lawyerId }
+            </if>
+            <if test = " condition.state == 0">
+                and aa.lawyer_id = #{ condition.lawyerId } or aa.end_lawyer_id = #{ condition.lawyerId }
+            </if>
         </if>
     </select>
 
