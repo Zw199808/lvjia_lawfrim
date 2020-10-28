@@ -32,6 +32,9 @@ public class LawyerAgreementVo {
     @ApiModelProperty("截止日期")
     private String endTime;
 
+    @ApiModelProperty("截止时间")
+    private String endTime2;
+
     @ApiModelProperty("合同状态")
     private String first;
 

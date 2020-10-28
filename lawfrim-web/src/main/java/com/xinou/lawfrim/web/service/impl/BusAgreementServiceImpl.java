@@ -16,10 +16,7 @@ import com.xinou.lawfrim.web.util.ExcelUtil2;
 import com.xinou.lawfrim.web.util.upLoadFile;
 import com.xinou.lawfrim.web.vo.agreement.*;
 import com.xinou.lawfrim.web.vo.custom.CustomNumVo;
-import com.xinou.lawfrim.web.vo.lawyer.LawyerAgreementExcel;
-import com.xinou.lawfrim.web.vo.lawyer.LawyerAgreementExcelv1;
-import com.xinou.lawfrim.web.vo.lawyer.LawyerAgreementVo;
-import com.xinou.lawfrim.web.vo.lawyer.LawyerChangeVo;
+import com.xinou.lawfrim.web.vo.lawyer.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Primary;
 import org.springframework.stereotype.Service;
@@ -347,6 +344,7 @@ public class BusAgreementServiceImpl extends ServiceImpl<BusAgreementMapper, Bus
             lawyerAgreementVo.setAgreeName(lawyerAgreementListVo.getAgreeName());
             lawyerAgreementVo.setCustomName(lawyerAgreementListVo.getCustomName());
             lawyerAgreementVo.setEndTime(lawyerAgreementListVo.getEndTime().substring(0,11));
+            lawyerAgreementVo.setEndTime2(lawyerAgreementListVo.getEndTime().substring(11,19));
             lawyerAgreementVo.setRemark("");
             lawyerAgreementVo.setFirstLawyerName(lawyerAgreementListVo.getFirstLawyerName());
             lawyerAgreementVo.setEndLawyerName(lawyerAgreementListVo.getEndLawyerName());
@@ -383,15 +381,16 @@ public class BusAgreementServiceImpl extends ServiceImpl<BusAgreementMapper, Bus
     public String AdminExcelAgreement(BusAgreementDto agreement) {
         getTime(agreement);
         List<LawyerAgreementListVo> list1 = changeRecordMapper.getAdminExcelList(agreement);
-        List<LawyerAgreementExcel> list = new ArrayList();
+        List<LawyerAgreementExcelv2> list = new ArrayList();
         List<LawyerAgreementExcelv1> historyList = new ArrayList();
         int i = 1;
         int m = 1;
         for (LawyerAgreementListVo lawyerAgreementListVo : list1){
-            LawyerAgreementExcel lawyerAgreementVo = new LawyerAgreementExcel();
+            LawyerAgreementExcelv2 lawyerAgreementVo = new LawyerAgreementExcelv2();
             lawyerAgreementVo.setAgreeName(lawyerAgreementListVo.getAgreeName());
             lawyerAgreementVo.setCustomName(lawyerAgreementListVo.getCustomName());
             lawyerAgreementVo.setEndTime(lawyerAgreementListVo.getEndTime().substring(0,11));
+            lawyerAgreementVo.setEndTime2(lawyerAgreementListVo.getEndTime().substring(11,19));
             lawyerAgreementVo.setRemark("");
             if (lawyerAgreementListVo.getAgreeState()==1){
                 lawyerAgreementVo.setFirst("");
@@ -422,7 +421,7 @@ public class BusAgreementServiceImpl extends ServiceImpl<BusAgreementMapper, Bus
             }
 
         }
-        return ExcelUtil2.twoSecondExcel(LawyerAgreementExcelv1.class,LawyerAgreementExcel.class,historyList,list,"Agreement");
+        return ExcelUtil2.twoSecondExcel(LawyerAgreementExcelv1.class,LawyerAgreementExcelv2.class,historyList,list,"Agreement");
     }
 
     private void getTime(BusAgreementDto agreement) {
