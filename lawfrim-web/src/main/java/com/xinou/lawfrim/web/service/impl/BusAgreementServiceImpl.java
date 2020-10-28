@@ -416,7 +416,7 @@ public class BusAgreementServiceImpl extends ServiceImpl<BusAgreementMapper, Bus
                 lawyerAgreementVo.setIndex(i++);
                 list.add(lawyerAgreementVo);//今日合同列表
             }else{
-                lawyerAgreementVo.setIndex(m++);
+                lawyerAgreementVo1.setIndex(m++);
                 historyList.add(lawyerAgreementVo1);//历史合同列表
             }
 

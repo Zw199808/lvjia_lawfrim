@@ -203,7 +203,7 @@ public class BusAgreementController {
         agreementDto.setLawyerId(lawyer.getId());
         agreementDto.setTag(2);
         String fileName = agreementService.LawyerExcelAgreement(agreementDto);
-        return new APIResponse(Config.SERVICE_IMG_URL+fileName);
+        return new APIResponse(Config.BASE_URL+fileName);
     }
 
     @PostMapping("LawyerExcelAgreement")
@@ -223,7 +223,7 @@ public class BusAgreementController {
         agreementDto.setState(2);
         agreementDto.setTag(1);
         String fileName = agreementService.LawyerExcelAgreement(agreementDto);
-        return new APIResponse(Config.SERVICE_IMG_URL+fileName);
+        return new APIResponse(Config.BASE_URL+fileName);
     }
 
     @PostMapping("AdminExcelAgreement")
@@ -234,7 +234,7 @@ public class BusAgreementController {
         agreementDto.setState(2);
         agreementDto.setTag(1);
         String fileName = agreementService.LawyerExcelAgreement(agreementDto);
-        return new APIResponse(Config.SERVICE_IMG_URL+fileName);
+        return new APIResponse(Config.BASE_URL+fileName);
     }
 
     @PostMapping("AdminNewExcelAgreement")
@@ -244,7 +244,7 @@ public class BusAgreementController {
         BusAgreementDto agreementDto = new BusAgreementDto();
         agreementDto.setTag(2);
         String fileName = agreementService.LawyerExcelAgreement(agreementDto);
-        return new APIResponse(Config.SERVICE_IMG_URL+fileName);
+        return new APIResponse(Config.BASE_URL+fileName);
     }
 
     @PostMapping("AdminAllExcelAgreement")
@@ -253,6 +253,6 @@ public class BusAgreementController {
     public APIResponse AdminAllExcelAgreement()  {
         BusAgreementDto agreementDto = new BusAgreementDto();
         String fileName = agreementService.AdminExcelAgreement(agreementDto);
-        return new APIResponse(Config.SERVICE_IMG_URL+fileName);
+        return new APIResponse(Config.BASE_URL+fileName);
     }
 }
