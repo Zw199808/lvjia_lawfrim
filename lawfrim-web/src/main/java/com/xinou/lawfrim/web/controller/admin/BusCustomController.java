@@ -84,6 +84,6 @@ public class BusCustomController {
     @ApiOperationSupport(includeParameters = {"customDto.name"})
     public APIResponse AdminAllExcelAgreement(@RequestBody BusCustomDto customDto)  {
         String fileName = customService.AdminExcelCustom(customDto);
-        return new APIResponse(Config.SERVICE_IMG_URL+fileName);
+        return new APIResponse(Config.BASE_URL+fileName);
     }
 }

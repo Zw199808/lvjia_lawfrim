@@ -101,7 +101,7 @@ public class BusLawyerController {
     @ApiOperationSupport(includeParameters = {"lawyerDto.name"})
     public APIResponse AdminAllExcelAgreement(@RequestBody BusLawyerDto lawyerDto)  {
         String fileName = busLawyerService.AdminExcelLawyer(lawyerDto);
-        return new APIResponse(Config.SERVICE_IMG_URL+fileName);
+        return new APIResponse(Config.BASE_URL+fileName);
     }
 
 

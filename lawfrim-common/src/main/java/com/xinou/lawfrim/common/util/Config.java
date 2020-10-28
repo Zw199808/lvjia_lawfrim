@@ -10,9 +10,6 @@ import com.qiniu.storage.Region;
 public class Config {
 
     public static final String BASE_URL = "http://qig05me3p.hn-bkt.clouddn.com/";
-    public static final String BASE_URL1 = "http://lvjia.s3-cn-south-1.qiniucs.com";
-    public static final String SERVICE_URL1 = BASE_URL1 + "/xcloud-api/service/";
-    public static final String SERVICE_IMG_URL1 = SERVICE_URL1 + "file/get/";   //获取图片原图接口
     /**
      * xinouservice 相关
      */
