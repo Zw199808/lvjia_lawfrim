@@ -13,6 +13,7 @@ import com.qiniu.util.Auth;
 import com.xinou.lawfrim.common.util.Config;
 import org.springframework.web.multipart.MultipartFile;
 
+import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.UnsupportedEncodingException;
@@ -73,6 +74,25 @@ public class upLoadFile {
 
 
         return FileName;
+    }
+
+    /**
+     * 上传文件到七牛
+     * @param file 文件
+     * @return 成功失败
+     */
+    public static boolean uploadFileQNUrlFile(File file)  {
+        Configuration cfg = new Configuration(Config.BUCKET_ZONE_QN);
+        UploadManager uploadManager = new UploadManager(cfg);
+        Auth auth = Auth.create(Config.ACCESSKEY_QN, Config.SECRETKEY_QN);
+        String upToken = auth.uploadToken(Config.BUCKET_NAME_QN);
+        try {
+            uploadManager.put(file, file.getName(), upToken);
+            return true;
+        } catch (QiniuException ex) {
+            System.out.println("url==="+file.getName());
+        }
+        return true;
     }
 
     //上传文件到七牛（文件形式）

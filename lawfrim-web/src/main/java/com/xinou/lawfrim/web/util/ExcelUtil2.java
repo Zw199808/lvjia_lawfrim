@@ -7,14 +7,10 @@ import com.alibaba.excel.metadata.Sheet;
 import com.alibaba.excel.support.ExcelTypeEnum;
 import com.alibaba.excel.write.metadata.WriteSheet;
 import com.alibaba.excel.write.metadata.WriteTable;
-import com.xinou.lawfrim.common.util.Config;
-import com.xinou.lawfrim.web.vo.lawyer.LawyerAgreementExcel;
+import com.xinou.lawfrim.common.util.FileUtil;
 
 import javax.servlet.http.HttpServletResponse;
-import java.io.FileNotFoundException;
-import java.io.FileOutputStream;
-import java.io.IOException;
-import java.io.OutputStream;
+import java.io.*;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -66,12 +62,12 @@ public class ExcelUtil2 {
         return fileName;
     }
     public static String simplyExcel(Class tClass,List data,String fileName){
-        String excelPath = Config.EXCEL_PATH;
-         fileName =  fileName + "-" + System.nanoTime() + ".xlsx";
+        fileName = fileName + "-" + System.nanoTime() + ".xlsx";
+        File toFile = FileUtil.getOrCreateFile("lvjiaFile", fileName);
         OutputStream out = null;
         ExcelWriter excelWriter = null;
         try {
-            out = new FileOutputStream(excelPath+fileName);
+            out = new FileOutputStream(toFile);
             excelWriter = new ExcelWriter(out, ExcelTypeEnum.XLSX,true);
             Sheet sheet1 = new Sheet(1,0,tClass);
             sheet1.setSheetName("sheet1");
@@ -94,6 +90,8 @@ public class ExcelUtil2 {
 //            e.printStackTrace();
 //        }
 
+        // 上传文件到七牛
+        upLoadFile.uploadFileQNUrlFile(toFile);
         return fileName;
     }
 
@@ -103,13 +101,13 @@ public class ExcelUtil2 {
      * <p>2. 然后写入table即可
      */
     public static String twoSecondExcel(Class tClass1,Class tClass,List data2,List data,String fileName) {
-        String excelPath = Config.EXCEL_PATH;
         fileName = fileName + "-" + System.nanoTime() + ".xlsx";
+        File toFile = FileUtil.getOrCreateFile("lvjiaFile", fileName);
         // 这里直接写多个table的案例了，如果只有一个 也可以直一行代码搞定，参照其他案例
         // 这里 需要指定写用哪个class去写
         ExcelWriter excelWriter = null;
         try {
-            excelWriter = EasyExcel.write(excelPath+fileName).build();
+            excelWriter = EasyExcel.write(toFile).build();
             // 把sheet设置为不需要头 不然会输出sheet的头 这样看起来第一个table 就有2个头了
             WriteSheet writeSheet = EasyExcel.writerSheet("sheet1").needHead(Boolean.FALSE).build();
             // 这里必须指定需要头，table 会继承sheet的配置，sheet配置了不需要，table 默认也是不需要
@@ -126,6 +124,8 @@ public class ExcelUtil2 {
                 excelWriter.finish();
             }
         }
+        // 上传文件到七牛
+        upLoadFile.uploadFileQNUrlFile(toFile);
         return fileName;
     }
 
