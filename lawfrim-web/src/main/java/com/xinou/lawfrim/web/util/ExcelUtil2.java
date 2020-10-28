@@ -107,7 +107,7 @@ public class ExcelUtil2 {
 //        } catch (IOException e) {
 //            e.printStackTrace();
 //        }
-        return fileName;
+        return toFile.getName();
     }
 
     /**
@@ -152,7 +152,7 @@ public class ExcelUtil2 {
                 toFile.deleteOnExit();
             }
         }
-        return fileName;
+        return toFile.getName();
     }
 
     private static List<List<String>> head(Class tClass) {
