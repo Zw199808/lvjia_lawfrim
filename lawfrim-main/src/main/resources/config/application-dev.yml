@@ -1,7 +1,7 @@
 spring:
   datasource:
     driver-class-name: com.mysql.cj.jdbc.Driver
-    url: jdbc:mysql://578d7e0e5ca35.bj.cdb.myqcloud.com:3449/lvjia_lawfrim?useUnicode=true&characterEncoding=utf8&useSSL=false&&serverTimezone=Asia/Shanghai
+    url: jdbc:mysql://578d7e0e5ca35.bj.cdb.myqcloud.com:3449/lvjia_lawfrim?useUnicode=true&characterEncoding=utf8&useSSL=false&serverTimezone=Asia/Shanghai
     username: wangxin
     password: wangxin2020
 server:

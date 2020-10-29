@@ -35,7 +35,7 @@ public class ExcelLawyerVo implements Serializable {
     private String roleName;
 
     @ApiModelProperty("注册时间(字符串)")
-    private String createTime;
+    private Timestamp createTime;
 
     @ApiModelProperty("合同数")
     private Integer agreeNum;

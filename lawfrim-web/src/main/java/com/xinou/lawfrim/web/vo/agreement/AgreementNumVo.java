@@ -8,6 +8,7 @@ import lombok.experimental.SuperBuilder;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import java.io.Serializable;
+import java.sql.Timestamp;
 
 /**
  * <p>

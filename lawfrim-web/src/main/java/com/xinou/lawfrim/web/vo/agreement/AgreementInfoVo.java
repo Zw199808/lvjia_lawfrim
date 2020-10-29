@@ -41,10 +41,10 @@ public class AgreementInfoVo implements Serializable {
     private Integer agreeAudit;
 
     @ApiModelProperty("上传日期")
-    private String applyTime;
+    private Timestamp applyTime;
 
     @ApiModelProperty("截止日期")
-    private String endTime;
+    private Timestamp endTime;
 
     @ApiModelProperty("合同状态")
     private Integer state;
@@ -56,16 +56,16 @@ public class AgreementInfoVo implements Serializable {
     private Integer agreementAuditId;
 
     @ApiModelProperty("初审接受时间")
-    private String gmtCreate;
+    private Timestamp gmtCreate;
 
     @ApiModelProperty("初审回复时间/复审接受时间")
-    private String firstAuditTime;
+    private Timestamp firstAuditTime;
 
     @ApiModelProperty("复审律师")
-    private String endLawyerName;
+    private Timestamp endLawyerName;
 
     @ApiModelProperty("复审回复时间")
-    private String gmtModified;
+    private Timestamp gmtModified;
 
 //    @ApiModelProperty("转移律师")
 //    private String changeLawyerName;

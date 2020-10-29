@@ -17,13 +17,9 @@ import com.xinou.lawfrim.web.service.IBusCustomService;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.xinou.lawfrim.web.util.ExcelUtil2;
 import com.xinou.lawfrim.web.util.JwtUtil;
-import com.xinou.lawfrim.web.util.upLoadFile;
 import com.xinou.lawfrim.web.vo.custom.CustomExcel;
-import com.xinou.lawfrim.web.vo.custom.CustomNumVo;
 import com.xinou.lawfrim.web.vo.custom.CustomVo;
 import com.xinou.lawfrim.web.vo.custom.ExcelCustomVo;
-import com.xinou.lawfrim.web.vo.lawyer.LawyerExcel;
-import io.swagger.models.auth.In;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Primary;
 import org.springframework.stereotype.Service;
@@ -63,14 +59,13 @@ public class BusCustomServiceImpl extends ServiceImpl<BusCustomMapper, BusCustom
             Integer count = agreementService.count(new QueryWrapper<BusAgreement>()
                     .eq("is_delete",0)
                     .eq("custom_id",busCustom.getId()));
-            String time = TimeChange.timeChangeStringyMDHM(busCustom.getGmtCreate());
 
             customVo.setAgreeNum(count);
             customVo.setPassword(busCustom.getPassword());
             customVo.setId(busCustom.getId());
             customVo.setName(busCustom.getName());
             customVo.setAccount(busCustom.getAccount());
-            customVo.setCreateTime(time);
+            customVo.setCreateTime(busCustom.getGmtCreate());
             list.add(customVo);
         }
         Map<String, Object> map = new HashMap<>(2);
@@ -109,9 +104,9 @@ public class BusCustomServiceImpl extends ServiceImpl<BusCustomMapper, BusCustom
         CustomVo customVo = new CustomVo();
         customVo.setId(busCustom.getId());
         customVo.setAccount(busCustom.getAccount());
-        customVo.setCreateTime(TimeChange.timeChangeStringyMDHM(busCustom.getGmtCreate()));
+        customVo.setCreateTime(busCustom.getGmtCreate());
         customVo.setName(busCustom.getName());
-        customVo.setPassword(busCustom.getPassword());
+        customVo.setPassword("******");
         Integer count = agreementService.count(new QueryWrapper<BusAgreement>()
                                .eq("is_delete",0)
                                .eq("custom_id",busCustom.getId()));
@@ -183,7 +178,7 @@ public class BusCustomServiceImpl extends ServiceImpl<BusCustomMapper, BusCustom
         customVo.setName(busCustom.getName());
         customVo.setId(busCustom.getId());
         customVo.setPassword(busCustom.getPassword());
-        customVo.setCreateTime(TimeChange.timeStampChangeString(busCustom.getGmtCreate()));
+        customVo.setCreateTime(busCustom.getGmtCreate());
         return new APIResponse<>(customVo);
     }
 
@@ -215,13 +210,11 @@ public class BusCustomServiceImpl extends ServiceImpl<BusCustomMapper, BusCustom
             Integer count = agreementService.count(new QueryWrapper<BusAgreement>()
                     .eq("is_delete",0)
                     .eq("custom_id",busCustom.getId()));
-            String time = TimeChange.timeChangeStringyMDHM(busCustom.getGmtCreate());
-
             excelCustomVo.setAgreeNum(count);
             excelCustomVo.setIndex(i++);
             excelCustomVo.setName(busCustom.getName());
             excelCustomVo.setAccount(busCustom.getAccount());
-            excelCustomVo.setCreateTime(time);
+            excelCustomVo.setCreateTime(busCustom.getGmtCreate());
             list.add(excelCustomVo);
         }
         return ExcelUtil2.simplyExcel(CustomExcel.class,list,"Custom");

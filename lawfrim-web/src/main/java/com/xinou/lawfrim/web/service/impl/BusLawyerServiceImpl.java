@@ -4,7 +4,6 @@ import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.xinou.lawfrim.common.util.APIResponse;
 import com.xinou.lawfrim.common.util.Config;
-import com.xinou.lawfrim.common.util.TimeChange;
 import com.xinou.lawfrim.sso.entity.ReSYSUserApp;
 import com.xinou.lawfrim.sso.entity.ReSYSUserRole;
 import com.xinou.lawfrim.sso.entity.Role;
@@ -25,7 +24,6 @@ import com.xinou.lawfrim.web.service.IBusLawyerService;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.xinou.lawfrim.web.util.ExcelUtil2;
 import com.xinou.lawfrim.web.vo.UserNumberVo;
-import com.xinou.lawfrim.web.vo.agreement.LawyerAgreementListVo;
 import com.xinou.lawfrim.web.vo.lawyer.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Primary;
@@ -80,8 +78,7 @@ public class BusLawyerServiceImpl extends ServiceImpl<BusLawyerMapper, BusLawyer
                                         .eq("lawyer_id",lawyerVo.getId())
                                         .eq("is_delete",0));
             lawyerVo.setAgreeNum(count);
-            String time = TimeChange.timeChangeStringyMDHM(lawyerVo.getGmtCreate());
-            lawyerVo.setCreateTime(time);
+            lawyerVo.setCreateTime(lawyerVo.getGmtCreate());
         }
         Map<String, Object> map = new HashMap<>(2);
         if (list.size() == 0) {
@@ -193,7 +190,6 @@ public class BusLawyerServiceImpl extends ServiceImpl<BusLawyerMapper, BusLawyer
                 .eq("lawyer_id",busLawyer.getId())
                 .eq("is_delete",0));
 
-        String time = TimeChange.timeChangeStringyMDHM(busLawyer.getGmtCreate());
         LawyerVo lawyerVo = new LawyerVo();
         lawyerVo.setId(busLawyer.getId());
         lawyerVo.setAccount(sysUser.getAccount());
@@ -203,7 +199,7 @@ public class BusLawyerServiceImpl extends ServiceImpl<BusLawyerMapper, BusLawyer
         lawyerVo.setState(busLawyer.getState());
         lawyerVo.setRoleId(reSYSUserRole.getRoleId());
         lawyerVo.setRoleName(role.getName());
-        lawyerVo.setCreateTime(time);
+        lawyerVo.setCreateTime(busLawyer.getGmtCreate());
         lawyerVo.setAgreeNum(count);
         return new APIResponse<>(lawyerVo);
     }
@@ -315,12 +311,11 @@ public class BusLawyerServiceImpl extends ServiceImpl<BusLawyerMapper, BusLawyer
             Integer count = agreementAuditService.count(new QueryWrapper<BusAgreementAudit>()
                     .eq("lawyer_id",lawyerVo.getId())
                     .eq("is_delete",0));
-            String time = TimeChange.timeChangeStringyMDHM(lawyerVo.getGmtCreate());
 
             ExcelLawyerVo excelLawyerVo = new ExcelLawyerVo();
             excelLawyerVo.setAccount(lawyerVo.getAccount());
             excelLawyerVo.setAgreeNum(count);
-            excelLawyerVo.setCreateTime(time);
+            excelLawyerVo.setCreateTime(lawyerVo.getGmtCreate());
             excelLawyerVo.setIndex(i++);
             excelLawyerVo.setName(lawyerVo.getName());
             excelLawyerVo.setRoleName(lawyerVo.getRoleName());

@@ -1,5 +1,6 @@
 package com.xinou.lawfrim.web.vo.agreement;
 
+import com.xinou.lawfrim.common.util.TimeChange;
 import com.xinou.lawfrim.web.vo.lawyer.LawyerChangeVo;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
@@ -7,6 +8,7 @@ import lombok.NoArgsConstructor;
 import lombok.experimental.SuperBuilder;
 
 import java.io.Serializable;
+import java.sql.Timestamp;
 import java.util.List;
 
 /**

@@ -12,7 +12,7 @@ public class LawyerChangeVo {
     private String changeLawyerName;
 
     @ApiModelProperty("转移时间")
-    private String changeTime;
+    private Timestamp changeTime;
 
     @ApiModelProperty("获得方式2：转移 3：分配")
     private Integer type;

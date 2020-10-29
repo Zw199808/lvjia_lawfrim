@@ -9,7 +9,6 @@ import com.xinou.lawfrim.web.dto.BusAgreementDto;
 import com.xinou.lawfrim.web.dto.DownloadAgreementDto;
 import com.xinou.lawfrim.web.entity.*;
 import com.xinou.lawfrim.web.mapper.*;
-import com.xinou.lawfrim.web.service.IBusAgreementAuditService;
 import com.xinou.lawfrim.web.service.IBusAgreementService;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.xinou.lawfrim.web.util.ExcelUtil2;
@@ -23,10 +22,7 @@ import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 /**
  * <p>
@@ -179,8 +175,8 @@ public class BusAgreementServiceImpl extends ServiceImpl<BusAgreementMapper, Bus
         agreementInfoVo.setAgreeName(agreement.getName());
         agreementInfoVo.setCustomName(busCustom.getName());
         agreementInfoVo.setAgreeAudit(agreement.getAudit());
-        agreementInfoVo.setApplyTime(TimeChange.timeChangeString(agreement.getGmtCreate()));//上传时间
-        agreementInfoVo.setEndTime(TimeChange.timeChangeString(agreement.getEndTime()));//截止时间
+        agreementInfoVo.setApplyTime(agreement.getGmtCreate());//上传时间
+        agreementInfoVo.setEndTime(agreement.getEndTime());//截止时间
         agreementInfoVo.setState(agreement.getState());//合同状态
         if (agreement.getState() != 1){
             //查询合同初审律师   初审接受时间
@@ -204,9 +200,9 @@ public class BusAgreementServiceImpl extends ServiceImpl<BusAgreementMapper, Bus
             agreementInfoVo.setAgreementAuditId(agreementAudit.getId());
             agreementInfoVo.setAgreeType(agreementAudit.getType());//合同类型---回复后才会有
             //初审接受时间
-            agreementInfoVo.setGmtCreate(TimeChange.timeChangeString(agreementAudit.getGmtCreate()));
+            agreementInfoVo.setGmtCreate(agreementAudit.getGmtCreate());
             //初审回复时间
-            agreementInfoVo.setFirstAuditTime(TimeChange.timeChangeString(agreementAudit.getFirstAuditTime()));
+            agreementInfoVo.setFirstAuditTime(agreementAudit.getFirstAuditTime());
             //等待复审 或完成
             if (agreement.getState() == 3 || agreement.getState() == 4 ){
                 BusLawyer lawyer1 = lawyerMapper.selectById(agreementAudit.getEndLawyerId());
@@ -216,9 +212,9 @@ public class BusAgreementServiceImpl extends ServiceImpl<BusAgreementMapper, Bus
             if (agreement.getState() == 4){
                 //复审分数
                 agreementInfoVo.setScore(agreementAudit.getScore());
-                agreementInfoVo.setGmtModified(TimeChange.timeChangeString(agreementAudit.getGmtModified()));//审核完成--修改时间为复审时间
+                agreementInfoVo.setGmtModified(agreementAudit.getGmtModified());//审核完成--修改时间为复审时间
             }else{
-                agreementInfoVo.setGmtModified("");//未审核完成复审时间为空
+                agreementInfoVo.setGmtModified(null);//未审核完成复审时间为空
             }
 //            if (changeRecord.getType() == 2){//转移，查询转移律师
 //                BusLawyer lawyer2 = lawyerMapper.selectById(changeRecord.getOldOrAssignLawyerId());
@@ -230,7 +226,7 @@ public class BusAgreementServiceImpl extends ServiceImpl<BusAgreementMapper, Bus
                 BusLawyer lawyer2 = lawyerMapper.selectById(changeRecord.getOldOrAssignLawyerId());
                 LawyerChangeVo changeVo = new LawyerChangeVo();
                 changeVo.setChangeLawyerName(lawyer2.getName());
-                changeVo.setChangeTime(TimeChange.timeChangeString(changeRecord.getGmtCreate()));
+                changeVo.setChangeTime(changeRecord.getGmtCreate());
                 changeVo.setType(changeRecord.getType());
                 list.add(changeVo);
             }
@@ -428,6 +424,7 @@ public class BusAgreementServiceImpl extends ServiceImpl<BusAgreementMapper, Bus
         LocalDateTime now = LocalDateTime.now();
         String nowString = now.format(DateTimeFormatter.ofPattern("yyyy-MM-dd"));
         agreement.setGmtTime(nowString);
+//        agreement.setGmtTime(TimeChange.stringChangeTime(nowString));
     }
 
 }

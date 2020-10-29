@@ -35,7 +35,7 @@ public class CustomVo implements Serializable {
     private String password;
 
     @ApiModelProperty("注册时间(字符串)")
-    private String createTime;
+    private Timestamp createTime;
 
     @ApiModelProperty("上传合同数")
     private Integer agreeNum;

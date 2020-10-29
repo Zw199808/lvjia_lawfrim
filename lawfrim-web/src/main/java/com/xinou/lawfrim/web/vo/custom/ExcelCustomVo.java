@@ -6,6 +6,7 @@ import lombok.NoArgsConstructor;
 import lombok.experimental.SuperBuilder;
 
 import java.io.Serializable;
+import java.sql.Timestamp;
 
 /**
  * <p>
@@ -30,7 +31,7 @@ public class ExcelCustomVo implements Serializable {
     private String account;
 
     @ApiModelProperty("注册时间")
-    private String createTime;
+    private Timestamp createTime;
 
     @ApiModelProperty("上传合同数")
     private Integer agreeNum;

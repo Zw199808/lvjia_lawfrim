@@ -60,7 +60,7 @@
         aa.type
         FROM bus_agreement agree
         left join bus_agreement_audit aa on aa.agreement_id = agree.id
-        where agree.state = 4
+        where agree.state in (4,3)
         <if test = " condition.customId != null and condition.customId != '' ">
             and agree.custom_id = #{ condition.customId }
         </if>
