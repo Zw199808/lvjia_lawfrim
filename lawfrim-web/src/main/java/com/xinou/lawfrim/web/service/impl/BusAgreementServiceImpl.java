@@ -68,7 +68,7 @@ public class BusAgreementServiceImpl extends ServiceImpl<BusAgreementMapper, Bus
         Integer notAuditCount = count(new QueryWrapper<BusAgreement>()
                 .eq("is_delete",0)
                 .eq("custom_id",agreement.getCustomId())
-                .in("state",2,3));
+                .in("state",1,2,3,5));
         CustomNumVo customNumVo = new CustomNumVo();
         customNumVo.setAgreeNum(agreementCount);
         customNumVo.setAuditAgreement(auditCount);
