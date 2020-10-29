@@ -54,6 +54,6 @@ app:
     androidNowVersion: 3
     iosMinVersion: 3
     iosNowVersion: 3
-logging:
-  level:
-    com.xinou.lawfrim.web.mapper: debug
+#logging:
+#  level:
+#    com.xinou.lawfrim.web.mapper: debug

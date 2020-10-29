@@ -95,7 +95,7 @@ public class BusAgreementServiceImpl extends ServiceImpl<BusAgreementMapper, Bus
                 .eq("state",4));
         Integer notAuditCount = count(new QueryWrapper<BusAgreement>()
                 .eq("is_delete",0)
-                .in("state",2,3));
+                .in("state",1,2,3,5));
         CustomNumVo customNumVo = new CustomNumVo();
         customNumVo.setAgreeNum(agreementCount);
         customNumVo.setAuditAgreement(auditCount);
@@ -206,12 +206,12 @@ public class BusAgreementServiceImpl extends ServiceImpl<BusAgreementMapper, Bus
             //等待复审 或完成
             if (agreement.getState() == 3 || agreement.getState() == 4 ){
                 BusLawyer lawyer1 = lawyerMapper.selectById(agreementAudit.getEndLawyerId());
-                agreementInfoVo.setFirstLawyerName(lawyer1.getName());//复审律师姓名
+                agreementInfoVo.setEndLawyerName(lawyer1.getName());//复审律师姓名
             }
             //复审回复时间
             if (agreement.getState() == 4){
                 //复审分数
-                agreementInfoVo.setScore(agreementAudit.getScore());
+                agreementInfoVo.setScore(String.format("%.2f",agreementAudit.getScore()));
                 agreementInfoVo.setGmtModified(agreementAudit.getGmtModified());//审核完成--修改时间为复审时间
             }else{
                 agreementInfoVo.setGmtModified(null);//未审核完成复审时间为空

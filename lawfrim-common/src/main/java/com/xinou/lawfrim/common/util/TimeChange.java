@@ -418,4 +418,9 @@ public class TimeChange {
 
     }
 
+    public static void main(String[] args) {
+        Timestamp timestamp = new Timestamp(System.currentTimeMillis());
+        System.out.println();
+    }
+
 }

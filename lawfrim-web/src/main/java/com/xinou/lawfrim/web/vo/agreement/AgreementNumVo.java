@@ -1,5 +1,6 @@
 package com.xinou.lawfrim.web.vo.agreement;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import io.swagger.annotations.ApiModelProperty;
 import io.swagger.models.auth.In;
 import lombok.Data;
@@ -24,7 +25,8 @@ import java.sql.Timestamp;
 public class AgreementNumVo implements Serializable {
 
     @ApiModelProperty("月份")
-    private String groupYear;
+    @JsonFormat(shape = JsonFormat.Shape.STRING,pattern="yyyy-MM",timezone="GMT+8")
+    private Timestamp groupYear;
 
     @ApiModelProperty("每月总数")
     private Integer totalNumber;

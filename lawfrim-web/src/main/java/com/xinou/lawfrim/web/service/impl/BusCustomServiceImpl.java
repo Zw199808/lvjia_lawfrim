@@ -185,10 +185,12 @@ public class BusCustomServiceImpl extends ServiceImpl<BusCustomMapper, BusCustom
 
     @Override
     public APIResponse addAgreement(BusAgreementDto agreement) {
+//        System.out.println("时间："+System.currentTimeMillis());
         BusAgreement busAgreement = new BusAgreement();
         busAgreement.setAudit(agreement.getAudit());
         busAgreement.setCustomId(agreement.getCustomId());
-        busAgreement.setEndTime(TimeChange.stringChangeTime(agreement.getEndTime()));
+//        System.out.println("结束时间："+TimeChange.stringChangeTime(agreement.getEndTime()));
+        busAgreement.setEndTime(agreement.getEndTime());
         busAgreement.setName(agreement.getName());
         busAgreement.setRemark(agreement.getRemark());
         busAgreement.setState(1);

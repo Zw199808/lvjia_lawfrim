@@ -62,7 +62,7 @@ public class AgreementInfoVo implements Serializable {
     private Timestamp firstAuditTime;
 
     @ApiModelProperty("复审律师")
-    private Timestamp endLawyerName;
+    private String endLawyerName;
 
     @ApiModelProperty("复审回复时间")
     private Timestamp gmtModified;
@@ -77,5 +77,5 @@ public class AgreementInfoVo implements Serializable {
     private List<LawyerChangeVo> lawyerChangeVoList;
 
     @ApiModelProperty("分数")
-    private double score;
+    private String score;
 }

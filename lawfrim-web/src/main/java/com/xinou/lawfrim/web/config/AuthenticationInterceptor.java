@@ -77,9 +77,9 @@ public class AuthenticationInterceptor implements HandlerInterceptor {
             throw new BusException(Config.RE_ACCOUNT_NOT_EXIST_CODE, Config.RE_ACCOUNT_NOT_EXIST_MSG);
         }
         request.setAttribute("userId",jwtModel.getUserId().toString());
-        Map<String, String> map = new HashMap<>(2);
-        map.put("userId", jwtModel.getUserId().toString());
-        modifyHeaders(map,request);
+//        Map<String, String> map = new HashMap<>(2);
+//        map.put("userId", jwtModel.getUserId().toString());
+//        modifyHeaders(map,request);
         return true;
     }
 

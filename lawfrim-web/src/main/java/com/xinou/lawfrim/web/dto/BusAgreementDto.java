@@ -1,6 +1,7 @@
 package com.xinou.lawfrim.web.dto;
 
 import com.baomidou.mybatisplus.annotation.TableField;
+import com.fasterxml.jackson.annotation.JsonFormat;
 import io.swagger.annotations.ApiModelProperty;
 import io.swagger.models.auth.In;
 import lombok.Data;
@@ -36,7 +37,8 @@ public class BusAgreementDto extends PageDto implements Serializable {
     private Integer lawyerId;
 
     @ApiModelProperty(value = "截止日期")
-    private String endTime;
+    @JsonFormat(shape = JsonFormat.Shape.STRING,pattern="yyyy-MM-dd HH:mm:ss",timezone="GMT+8")
+    private Timestamp endTime;
 
     @ApiModelProperty(value = "备注")
     private String remark;

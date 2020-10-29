@@ -70,7 +70,7 @@
     <select id="getAgreementNumber" resultType="com.xinou.lawfrim.web.vo.agreement.AgreementNumVo">
         select count(agree.id) as increaseNumber,
                count(case when agree.state = 4 then 1  end ) as solveNumber,
-               date_format( agree.gmt_create,'%Y-%m') as groupYear
+               agree.gmt_create as groupYear
         from bus_agreement agree
         where agree.is_delete = 0
         GROUP BY date_format( agree.gmt_create,'%Y-%m') limit 12
