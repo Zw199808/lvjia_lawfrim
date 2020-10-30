@@ -118,8 +118,12 @@ public class BusCustomServiceImpl extends ServiceImpl<BusCustomMapper, BusCustom
     @Override
     public APIResponse AdminUpdateCustom(BusCustomDto custom) {
         BusCustom busCustom = getById(custom.getId());
-        busCustom.setPassword(custom.getPassword());
-//        busCustom.setName(custom.getName());
+        if (custom.getPassword() != null && !("").equals(custom.getPassword())){
+            busCustom.setPassword(custom.getPassword());
+        }
+        if (custom.getName() != null && !("").equals(custom.getName())){
+            busCustom.setName(custom.getName());
+        }
         busCustom.setGmtModified(null);
 
         // 数据插入

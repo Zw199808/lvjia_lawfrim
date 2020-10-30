@@ -77,6 +77,14 @@ public class BusCustomController {
         return customService.AdminUpdateCustom(customDto);
     }
 
+    @PostMapping("updateName")
+    @RequiresPermissions("/admin/custom/updateName")
+    @ApiOperation(httpMethod = "POST", value = "修改客户姓名")
+    @ApiOperationSupport(includeParameters = {"customDto.id","customDto.name"})
+    APIResponse customUpdateName(@RequestBody BusCustomDto customDto) {
+        return customService.AdminUpdateCustom(customDto);
+    }
+
 
     @PostMapping("AdminExcelCustom")
     @RequiresPermissions("/admin/custom/AdminExcelCustom")

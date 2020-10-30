@@ -274,7 +274,7 @@ public class BusLawyerServiceImpl extends ServiceImpl<BusLawyerMapper, BusLawyer
                 throw new RuntimeException("修改律师登录密码失败");
             }
         }
-        if(lawyer.getRoleId() != 0){
+        if(lawyer.getRoleId() != null && lawyer.getRoleId() != 0 && !("").equals(lawyer.getRoleId())){
             ReSYSUserRole sysUserRole = reUserRoleSSOService.getOne(new QueryWrapper<ReSYSUserRole>()
                                                                    .eq("user_id",sysUser.getId()));
 //        sysUser.setRealName(lawyer.getName());
@@ -282,6 +282,18 @@ public class BusLawyerServiceImpl extends ServiceImpl<BusLawyerMapper, BusLawyer
             boolean res = reUserRoleSSOService.updateById(sysUserRole);
             if (!res) {
                 throw new RuntimeException("修改律师角色失败");
+            }
+        }
+        if(lawyer.getName() != null && !("").equals(lawyer.getName())){
+            sysUser.setRealName(lawyer.getName());
+            boolean res = userSSOService.updateById(sysUser);
+            if (!res) {
+                throw new RuntimeException("修改律师姓名失败");
+            }
+            lawyer1.setName(lawyer.getName());
+            int res1 = busLawyerMapper.updateById(lawyer1);
+            if (res1 <= 0 ) {
+                throw new RuntimeException("修改律师姓名失败");
             }
         }
         return new APIResponse();
