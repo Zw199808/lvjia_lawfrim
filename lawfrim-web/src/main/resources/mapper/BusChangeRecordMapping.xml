@@ -31,7 +31,10 @@
                 and aa.end_lawyer_id = #{ condition.lawyerId }
             </if>
             <if test = " condition.state == 4">
-                and aa.lawyer_id = #{ condition.lawyerId } or aa.end_lawyer_id = #{ condition.lawyerId } and and agree.state = #{ condition.state }
+                and aa.lawyer_id = #{ condition.lawyerId } or aa.end_lawyer_id = #{ condition.lawyerId }  and agree.state = #{ condition.state }
+            </if>
+            <if test = " condition.state == 0">
+                and aa.lawyer_id = #{ condition.lawyerId } or aa.end_lawyer_id = #{ condition.lawyerId }
             </if>
         </if>
         order by agree.gmt_create desc
@@ -60,7 +63,7 @@
                 and aa.end_lawyer_id = #{ condition.lawyerId }
             </if>
             <if test = " condition.state == 4">
-                and aa.lawyer_id = #{ condition.lawyerId } or aa.end_lawyer_id = #{ condition.lawyerId }
+                and aa.lawyer_id = #{ condition.lawyerId } or aa.end_lawyer_id = #{ condition.lawyerId }  and agree.state = #{ condition.state }
             </if>
             <if test = " condition.state == 0">
                 and aa.lawyer_id = #{ condition.lawyerId } or aa.end_lawyer_id = #{ condition.lawyerId }

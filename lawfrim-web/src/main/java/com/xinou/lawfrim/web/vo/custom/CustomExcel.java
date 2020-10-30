@@ -43,7 +43,7 @@ public class CustomExcel {
     /**
      * 合同数
      */
-    @ExcelProperty(value = "上传合同数", index = 5)
+    @ExcelProperty(value = "上传合同数", index = 4)
     @ColumnWidth(15)
     private Integer agreeNum;
 

@@ -5,6 +5,7 @@ import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.xinou.lawfrim.common.enumeration.TokenTypeEnum;
 import com.xinou.lawfrim.common.util.APIResponse;
 import com.xinou.lawfrim.common.util.Config;
+import com.xinou.lawfrim.common.util.MD5Util;
 import com.xinou.lawfrim.common.util.TimeChange;
 import com.xinou.lawfrim.web.base.JwtModel;
 import com.xinou.lawfrim.web.dto.BusAgreementDto;
@@ -90,7 +91,7 @@ public class BusCustomServiceImpl extends ServiceImpl<BusCustomMapper, BusCustom
         BusCustom busCustom = new BusCustom();
         busCustom.setAccount(custom.getAccount());
         busCustom.setName(custom.getName());
-        busCustom.setPassword(custom.getPassword());
+        busCustom.setPassword(MD5Util.MD5("123456").toLowerCase());
         boolean res = save(busCustom);
         if (!res){
             throw new RuntimeException("新增客户失败");
@@ -216,7 +217,7 @@ public class BusCustomServiceImpl extends ServiceImpl<BusCustomMapper, BusCustom
             excelCustomVo.setIndex(i++);
             excelCustomVo.setName(busCustom.getName());
             excelCustomVo.setAccount(busCustom.getAccount());
-            excelCustomVo.setCreateTime(busCustom.getGmtCreate());
+            excelCustomVo.setCreateTime(TimeChange.timeChangeString(busCustom.getGmtCreate()));
             list.add(excelCustomVo);
         }
         return ExcelUtil2.simplyExcel(CustomExcel.class,list,"Custom");

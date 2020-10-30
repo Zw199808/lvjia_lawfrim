@@ -1,5 +1,6 @@
 package com.xinou.lawfrim.web.vo.custom;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -31,7 +32,7 @@ public class ExcelCustomVo implements Serializable {
     private String account;
 
     @ApiModelProperty("注册时间")
-    private Timestamp createTime;
+    private String createTime;
 
     @ApiModelProperty("上传合同数")
     private Integer agreeNum;

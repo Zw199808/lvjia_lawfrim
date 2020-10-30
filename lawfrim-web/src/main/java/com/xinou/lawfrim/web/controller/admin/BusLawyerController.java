@@ -56,7 +56,7 @@ public class BusLawyerController {
     @PostMapping("add")
     @RequiresPermissions("/admin/lawyer/add")
     @ApiOperation(httpMethod = "POST", value = "添加律师")
-    @ApiOperationSupport(ignoreParameters = {"lawyerDto.id","lawyerDto.state","lawyerDto.pageNumber","lawyerDto.pageSize","lawyerDto.oldPassword","lawyerDto.sysUserId"})
+    @ApiOperationSupport(ignoreParameters = {"lawyerDto.password","lawyerDto.id","lawyerDto.state","lawyerDto.pageNumber","lawyerDto.pageSize","lawyerDto.oldPassword","lawyerDto.sysUserId"})
     APIResponse lawyerAdd(@RequestBody BusLawyerDto lawyerDto) {
         return busLawyerService.addBusLawyer(lawyerDto);
     }
@@ -74,7 +74,7 @@ public class BusLawyerController {
     @PostMapping("updatePassword")
     @RequiresPermissions("/admin/lawyer/updatePassword")
     @ApiOperation(httpMethod = "POST", value = "管理员-修改律师、管理员登录密码")
-    @ApiOperationSupport(includeParameters = {"lawyerDto.id","lawyerDto.password"})
+    @ApiOperationSupport(includeParameters = {"lawyerDto.id","lawyerDto.password"," lawyerDto.roleId"})
     APIResponse AdminUpdatePassword(HttpServletRequest request,@RequestBody BusLawyerDto lawyerDto) {
 //        HttpSession session = request.getSession();
 //        int adminId = (Integer) session.getAttribute("sysUserId");
