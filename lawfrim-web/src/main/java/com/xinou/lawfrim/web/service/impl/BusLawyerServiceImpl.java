@@ -194,7 +194,7 @@ public class BusLawyerServiceImpl extends ServiceImpl<BusLawyerMapper, BusLawyer
         lawyerVo.setId(busLawyer.getId());
         lawyerVo.setAccount(sysUser.getAccount());
         lawyerVo.setName(busLawyer.getName());
-        lawyerVo.setPassword("****");
+        lawyerVo.setPassword("******");
 //        lawyerVo.setPassword(sysUser.getPassword());
         lawyerVo.setState(busLawyer.getState());
         lawyerVo.setRoleId(reSYSUserRole.getRoleId());

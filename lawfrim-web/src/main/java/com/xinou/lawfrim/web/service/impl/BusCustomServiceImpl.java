@@ -177,7 +177,7 @@ public class BusCustomServiceImpl extends ServiceImpl<BusCustomMapper, BusCustom
         customVo.setAccount(busCustom.getAccount());
         customVo.setName(busCustom.getName());
         customVo.setId(busCustom.getId());
-        customVo.setPassword(busCustom.getPassword());
+        customVo.setPassword("******");
         customVo.setCreateTime(busCustom.getGmtCreate());
         return new APIResponse<>(customVo);
     }
