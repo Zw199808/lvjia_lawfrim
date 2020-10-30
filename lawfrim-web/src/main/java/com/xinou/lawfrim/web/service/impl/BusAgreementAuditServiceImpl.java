@@ -214,6 +214,13 @@ public class BusAgreementAuditServiceImpl extends ServiceImpl<BusAgreementAuditM
     @Override
     public APIResponse<ScoreVo> getStatisticMyScore(BusLawyerDto lawyerDto) {
         ScoreVo scoreVo = agreementAuditMapper.getStatisticScore(lawyerDto);
+        if (scoreVo == null){
+            ScoreVo  scoreVo1 = new ScoreVo();
+            scoreVo1.setAverageScore(0);
+            scoreVo1.setMaxScore(0);
+            scoreVo1.setMinScore(0);
+            return new APIResponse<>(scoreVo1);
+        }
         return new APIResponse<>(scoreVo);
     }
 
@@ -222,6 +229,9 @@ public class BusAgreementAuditServiceImpl extends ServiceImpl<BusAgreementAuditM
         BusAgreementAudit agreementAudit = getById(agreementScore.getAgreementAuditId());
         if (agreementAudit == null){
             return new APIResponse(Config.RE_DATA_NOT_EXIST_ERROR_CODE,Config.RE_DATA_NOT_EXIST_ERROR_MSG);
+        }
+        if (agreementScore.getLawyerId() != agreementAudit.getEndLawyerId()){
+            return new APIResponse(Config.RE_AUDIT_SCORE_CODE,Config.RE_AUDIT_SCORE_MSG);
         }
         agreementAudit.setScore(agreementScore.getScore());
         int res = agreementAuditMapper.updateById(agreementAudit);

@@ -191,22 +191,28 @@ public class BusAgreementServiceImpl extends ServiceImpl<BusAgreementMapper, Bus
                                                                        .eq("is_delete",0)
                                                                        .eq("agreement_audit_id",agreementAudit.getId())
                                                                        .in("type",2,3));
-            //获取初审律师姓名
-            if (agreement.getState() != 2){
+            //获取初审律师姓名  sysUserId
                 BusLawyer lawyer = lawyerMapper.selectById(agreementAudit.getLawyerId());
                 agreementInfoVo.setFirstLawyerName(lawyer.getName());//初审律师姓名
-            }
+                agreementInfoVo.setFirstLawyerId(lawyer.getSysUserId());
+
+
             //审批表id
             agreementInfoVo.setAgreementAuditId(agreementAudit.getId());
-            agreementInfoVo.setAgreeType(agreementAudit.getType());//合同类型---回复后才会有
+
             //初审接受时间
             agreementInfoVo.setGmtCreate(agreementAudit.getGmtCreate());
-            //初审回复时间
-            agreementInfoVo.setFirstAuditTime(agreementAudit.getFirstAuditTime());
             //等待复审 或完成
             if (agreement.getState() == 3 || agreement.getState() == 4 ){
+
+                agreementInfoVo.setAgreeType(agreementAudit.getType());//合同类型---回复后才会有
+
+                //初审回复时间
+                agreementInfoVo.setFirstAuditTime(agreementAudit.getFirstAuditTime());
+
                 BusLawyer lawyer1 = lawyerMapper.selectById(agreementAudit.getEndLawyerId());
                 agreementInfoVo.setEndLawyerName(lawyer1.getName());//复审律师姓名
+                agreementInfoVo.setEndLawyerId(lawyer1.getSysUserId());
             }
             //复审回复时间
             if (agreement.getState() == 4){
@@ -257,11 +263,15 @@ public class BusAgreementServiceImpl extends ServiceImpl<BusAgreementMapper, Bus
                 return new APIResponse<>(Config.RE_DATA_NOT_EXIST_ERROR_CODE,Config.RE_DATA_NOT_EXIST_ERROR_MSG);
             }
             lawyerAgreementListVo.setFirstLawyerName(lawyer.getName());
-            BusLawyer lawyer1 = lawyerMapper.selectById(lawyerAgreementListVo.getFirstLawyerId());
-            if (lawyer1 == null){
-                return new APIResponse<>(Config.RE_DATA_NOT_EXIST_ERROR_CODE,Config.RE_DATA_NOT_EXIST_ERROR_MSG);
+            lawyerAgreementListVo.setFirstLawyerId(lawyer.getSysUserId());
+            if(lawyerAgreementListVo.getAgreeState() == 4 ||lawyerAgreementListVo.getAgreeState() == 3){
+                BusLawyer lawyer1 = lawyerMapper.selectById(lawyerAgreementListVo.getEndLawyerId());
+                if (lawyer1 == null){
+                    return new APIResponse<>(Config.RE_DATA_NOT_EXIST_ERROR_CODE,Config.RE_DATA_NOT_EXIST_ERROR_MSG);
+                }
+                lawyerAgreementListVo.setEndLawyerName(lawyer1.getName());
+                lawyerAgreementListVo.setEndLawyerId(lawyer1.getSysUserId());
             }
-            lawyerAgreementListVo.setEndLawyerName(lawyer1.getName());
         }
         Map<String, Object> map = new HashMap<>(2);
         if (list.size() == 0) {

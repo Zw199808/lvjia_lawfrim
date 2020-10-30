@@ -49,6 +49,9 @@ public class AgreementInfoVo implements Serializable {
     @ApiModelProperty("合同状态")
     private Integer state;
 
+    @ApiModelProperty("初审律师Id")
+    private Integer firstLawyerId;
+
     @ApiModelProperty("初审律师")
     private String firstLawyerName;
 
@@ -63,6 +66,9 @@ public class AgreementInfoVo implements Serializable {
 
     @ApiModelProperty("复审律师")
     private String endLawyerName;
+
+    @ApiModelProperty("复审律师Id")
+    private Integer endLawyerId;
 
     @ApiModelProperty("复审回复时间")
     private Timestamp gmtModified;

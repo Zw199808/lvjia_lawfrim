@@ -105,7 +105,8 @@ public class Config {
     public static final String RE_OLD_PASSWORD_ERROR_CODE = "4002";
     public static final String RE_OLD_PASSWORD_ERROR_MSG = "旧密码输入错误！";
 
-
+    public static final String RE_AUDIT_SCORE_CODE = "4003";
+    public static final String RE_AUDIT_SCORE_MSG = "只能复审律师进行评分";
 
 
             public static final String EXCEL_PATH = "D:\\ideaProject\\";

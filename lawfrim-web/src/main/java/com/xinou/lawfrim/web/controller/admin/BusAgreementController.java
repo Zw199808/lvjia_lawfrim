@@ -162,9 +162,14 @@ public class BusAgreementController {
         @RequiresPermissions("/admin/agreement/endAuditAgreement")
     @ApiOperationSupport(includeParameters = {"agreementScore.agreementAuditId","agreementScore.score"})
     APIResponse endAuditAgreement(HttpServletRequest request,@RequestBody BusAgreementScoreDto agreementScore) {
-//        HttpSession session = request.getSession();
-//        Integer adminId = (Integer) session.getAttribute("sysUserId");
-//        agreementScore.setAdminId(adminId);
+        HttpSession session = request.getSession();
+        Integer adminId = (Integer) session.getAttribute("sysUserId");
+        BusLawyer lawyer = lawyerService.getOne(new QueryWrapper<BusLawyer>().eq("sys_user_id",adminId)
+                .eq("is_delete",0));
+        if (lawyer == null ){
+            return new APIResponse<>(Config.RE_DATA_NOT_EXIST_ERROR_CODE,Config.RE_DATA_NOT_EXIST_ERROR_MSG);
+        }
+        agreementScore.setLawyerId(lawyer.getId());
         return agreementAuditService.endAuditAgreement(agreementScore);
     }
 

@@ -26,7 +26,7 @@ public class BusAgreementScoreDto extends PageDto implements Serializable {
     @ApiModelProperty(value = "评分")
     private double score;
 
-//    @ApiModelProperty(value = "管理员id")
-//    private Integer adminId;
+    @ApiModelProperty(value = "律师id")
+    private Integer lawyerId;
 
 }
