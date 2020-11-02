@@ -243,12 +243,29 @@ public class BusAgreementServiceImpl extends ServiceImpl<BusAgreementMapper, Bus
 
     @Override
     public APIResponse<DownloadAgreementVo> downloadTwoAgreement(DownloadAgreementDto agreement) {
-        String firstURL = upLoadFile.resourcesCode(agreement.getFirstAgreeName());
-        String secondURL = upLoadFile.resourcesCode(agreement.getEndAgreeName());
+        BusAgreement agreement1 = getById(agreement.getAgreeId());
+        if (agreement1 == null){
+            return new APIResponse<>(Config.RE_DATA_NOT_EXIST_ERROR_CODE,Config.RE_DATA_NOT_EXIST_ERROR_MSG);
+        }
+        String firstURL = "";
+        String secondURL = "";
+        BusAgreementAudit agreementAudit = agreementAuditMapper.selectOne(new QueryWrapper<BusAgreementAudit>()
+                .eq("is_delete",0)
+                .eq("agreement_id",agreement.getAgreeId()));
+        if (agreementAudit != null){
+            if (!("").equals(agreementAudit.getFirstAgreementName()) && agreementAudit.getFirstAgreementName() != null ){
+                firstURL = upLoadFile.resourcesCode(agreementAudit.getFirstAgreementName());
+            }
+            if(!("").equals(agreementAudit.getSecondAgreementName()) && agreementAudit.getSecondAgreementName() != null){
+                secondURL = upLoadFile.resourcesCode(agreementAudit.getSecondAgreementName());
+            }
+        }
+
         DownloadAgreementVo downloadAgreementVo = new DownloadAgreementVo();
         downloadAgreementVo.setFirstURL(firstURL);
         downloadAgreementVo.setSecondURL(secondURL);
         return new APIResponse<>(downloadAgreementVo);
+
     }
 
     @Override
@@ -428,6 +445,34 @@ public class BusAgreementServiceImpl extends ServiceImpl<BusAgreementMapper, Bus
 
         }
         return ExcelUtil2.twoSecondExcel(LawyerAgreementExcelv1.class,LawyerAgreementExcelv2.class,historyList,list,"Agreement");
+    }
+
+    @Override
+    public APIResponse<AdminDownloadAgreementVo> adminDownloadAgreement(DownloadAgreementDto agreementDto) {
+        BusAgreement agreement = getById(agreementDto.getAgreeId());
+        if (agreement == null){
+            return new APIResponse<>(Config.RE_DATA_NOT_EXIST_ERROR_CODE,Config.RE_DATA_NOT_EXIST_ERROR_MSG);
+        }
+        String url = upLoadFile.resourcesCode(agreement.getName());
+        String firstURL = "";
+        String secondURL = "";
+        BusAgreementAudit agreementAudit = agreementAuditMapper.selectOne(new QueryWrapper<BusAgreementAudit>()
+                                                                          .eq("is_delete",0)
+                                                                          .eq("agreement_id",agreementDto.getAgreeId()));
+        if (agreementAudit != null){
+            if (!("").equals(agreementAudit.getFirstAgreementName()) && agreementAudit.getFirstAgreementName() != null ){
+            firstURL = upLoadFile.resourcesCode(agreementAudit.getFirstAgreementName());
+            }
+            if(!("").equals(agreementAudit.getSecondAgreementName()) && agreementAudit.getSecondAgreementName() != null){
+                secondURL = upLoadFile.resourcesCode(agreementAudit.getSecondAgreementName());
+            }
+        }
+
+        AdminDownloadAgreementVo adminDownloadAgreementVo = new AdminDownloadAgreementVo();
+        adminDownloadAgreementVo.setURL(url);
+        adminDownloadAgreementVo.setFirstURL(firstURL);
+        adminDownloadAgreementVo.setSecondURL(secondURL);
+        return new APIResponse<>(adminDownloadAgreementVo);
     }
 
     private void getTime(BusAgreementDto agreement) {

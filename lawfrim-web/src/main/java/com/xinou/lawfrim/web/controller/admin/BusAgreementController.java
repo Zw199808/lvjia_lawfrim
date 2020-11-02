@@ -255,11 +255,11 @@ public class BusAgreementController {
         return new APIResponse(Config.BASE_URL+fileName);
     }
 
-    @PostMapping("downloadAgreement")
+    @PostMapping("adminDownloadAgreement")
     @ApiOperation(httpMethod = "POST", value = "管理员-下载回复合同")
-    @RequiresPermissions("/admin/agreement/downloadAgreement")
-    @ApiOperationSupport(includeParameters = {"agreement.agreeId","agreement.endAgreeName","agreement.firstAgreeName"})
-    APIResponse<DownloadAgreementVo> downloadAgreement(@RequestBody DownloadAgreementDto agreement) {
-        return agreementService.downloadTwoAgreement(agreement);
+    @RequiresPermissions("/admin/agreement/adminDownloadAgreement")
+    @ApiOperationSupport(includeParameters = {"agreement.agreeId"})
+    APIResponse<AdminDownloadAgreementVo> downloadAgreement(@RequestBody DownloadAgreementDto agreement) {
+        return agreementService.adminDownloadAgreement(agreement);
     }
 }

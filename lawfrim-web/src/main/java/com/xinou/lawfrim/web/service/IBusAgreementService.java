@@ -113,4 +113,12 @@ public interface IBusAgreementService extends IService<BusAgreement> {
      */
     String AdminExcelAgreement(BusAgreementDto agreement);
 
+
+    /**
+     * 下载合同
+     * @param
+     * @return
+     */
+    APIResponse<AdminDownloadAgreementVo> adminDownloadAgreement(DownloadAgreementDto agreementDto);
+
 }
