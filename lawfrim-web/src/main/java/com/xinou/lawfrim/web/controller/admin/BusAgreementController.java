@@ -6,19 +6,13 @@ import com.github.xiaoymin.knife4j.annotations.ApiOperationSupport;
 import com.xinou.lawfrim.common.util.APIResponse;
 import com.xinou.lawfrim.common.util.Config;
 import com.xinou.lawfrim.web.config.WebLoginToken;
-import com.xinou.lawfrim.web.dto.BusAgreementAuditDto;
-import com.xinou.lawfrim.web.dto.BusAgreementDto;
-import com.xinou.lawfrim.web.dto.BusAgreementScoreDto;
-import com.xinou.lawfrim.web.dto.BusChangeRecordDto;
+import com.xinou.lawfrim.web.dto.*;
 import com.xinou.lawfrim.web.entity.BusAgreement;
 import com.xinou.lawfrim.web.entity.BusLawyer;
 import com.xinou.lawfrim.web.service.IBusAgreementAuditService;
 import com.xinou.lawfrim.web.service.IBusAgreementService;
 import com.xinou.lawfrim.web.service.IBusLawyerService;
-import com.xinou.lawfrim.web.vo.agreement.AgreementInfoVo;
-import com.xinou.lawfrim.web.vo.agreement.AgreementListVo;
-import com.xinou.lawfrim.web.vo.agreement.AgreementVo;
-import com.xinou.lawfrim.web.vo.agreement.LawyerAgreementListVo;
+import com.xinou.lawfrim.web.vo.agreement.*;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import io.swagger.models.auth.In;
@@ -86,7 +80,7 @@ public class BusAgreementController {
 
     @PostMapping("acceptAgreement")
     @RequiresPermissions("/admin/agreement/acceptAgreement")
-    @ApiOperation(httpMethod = "POST", value = "接受合同")
+    @ApiOperation(httpMethod = "POST", value = "接受未领取合同")
     @ApiOperationSupport(includeParameters = {"agreement.id"})
     APIResponse acceptAgreement(HttpServletRequest request, @RequestBody BusAgreementDto agreement) {
         HttpSession session = request.getSession();
@@ -259,5 +253,13 @@ public class BusAgreementController {
         BusAgreementDto agreementDto = new BusAgreementDto();
         String fileName = agreementService.AdminExcelAgreement(agreementDto);
         return new APIResponse(Config.BASE_URL+fileName);
+    }
+
+    @PostMapping("downloadAgreement")
+    @ApiOperation(httpMethod = "POST", value = "管理员-下载回复合同")
+    @RequiresPermissions("/admin/agreement/downloadAgreement")
+    @ApiOperationSupport(includeParameters = {"agreement.agreeId","agreement.endAgreeName","agreement.firstAgreeName"})
+    APIResponse<DownloadAgreementVo> downloadAgreement(@RequestBody DownloadAgreementDto agreement) {
+        return agreementService.downloadTwoAgreement(agreement);
     }
 }

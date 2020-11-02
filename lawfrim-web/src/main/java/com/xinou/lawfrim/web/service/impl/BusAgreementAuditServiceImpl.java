@@ -160,6 +160,7 @@ public class BusAgreementAuditServiceImpl extends ServiceImpl<BusAgreementAuditM
         }
         //将审批表律师修改为转移律师
         busAgreementAudit.setLawyerId(changeRecord.getLawyerId());
+        busAgreementAudit.setGmtModified(null);
         busAgreementAudit.setState(1);//将审批表转移状态改为未接收
         int res1 = agreementAuditMapper.updateById(busAgreementAudit);
         if (res1 <= 0 ){
@@ -183,6 +184,7 @@ public class BusAgreementAuditServiceImpl extends ServiceImpl<BusAgreementAuditM
         }
 //        agreementAudit.setLawyerId(lawyer.getId());
         agreementAudit.setState(2);//将合同状态改为已接收
+        agreementAudit.setGmtModified(null);
         int res = agreementAuditMapper.updateById(agreementAudit);
         if (res <= 0 ){
             throw new RuntimeException("修改合同转移信息失败");
@@ -202,8 +204,10 @@ public class BusAgreementAuditServiceImpl extends ServiceImpl<BusAgreementAuditM
                                                                      .eq("is_delete",0)
                                                                      .eq("lawyer_id",lawyer.getId())
                                                                      .eq("agreement_audit_id",changeRecord.getAgreementAuditId())
-                                                                     .eq("type",2));
+                                                                     .eq("type",2)
+                                                                     .eq("state",1));
         changeRecord1.setState(2);
+        changeRecord1.setGmtModified(null);
         boolean res2 = busChangeRecordService.updateById(changeRecord1);
         if (!res2){
             throw new RuntimeException("修改转移分配表状态失败");

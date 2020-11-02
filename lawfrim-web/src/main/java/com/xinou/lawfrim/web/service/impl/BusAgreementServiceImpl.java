@@ -232,7 +232,7 @@ public class BusAgreementServiceImpl extends ServiceImpl<BusAgreementMapper, Bus
                 BusLawyer lawyer2 = lawyerMapper.selectById(changeRecord.getOldOrAssignLawyerId());
                 LawyerChangeVo changeVo = new LawyerChangeVo();
                 changeVo.setChangeLawyerName(lawyer2.getName());
-                changeVo.setChangeTime(changeRecord.getGmtCreate());
+                changeVo.setChangeTime(changeRecord.getGmtModified());
                 changeVo.setType(changeRecord.getType());
                 list.add(changeVo);
             }

@@ -33,7 +33,7 @@ public class AgreementListVo implements Serializable {
     private String endTime;
 
     @ApiModelProperty("合同状态")
-    private Integer state;
+    private Integer agreeState;
 
     @ApiModelProperty("初审合同名")
     private String firstAgreeName;

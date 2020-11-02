@@ -5,7 +5,7 @@
         SELECT agree.end_time as endTime,
         agree.id as agreeId,
         agree.name as agreeName,
-        agree.state,
+        agree.state as agreeState,
         custom.name as customName
         FROM bus_agreement agree
         left join bus_custom custom on custom.id = agree.custom_id
