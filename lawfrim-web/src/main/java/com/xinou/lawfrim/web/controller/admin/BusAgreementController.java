@@ -94,6 +94,10 @@ public class BusAgreementController {
         if (lawyer == null ){
             return new APIResponse<>(Config.RE_DATA_NOT_EXIST_ERROR_CODE,Config.RE_DATA_NOT_EXIST_ERROR_MSG);
         }
+        //不在线
+        if(lawyer.getState() == 2){
+            return new APIResponse<>(Config.RE_DATA_NOT_EXIST_ERROR_CODE,Config.RE_DATA_NOT_EXIST_ERROR_MSG);
+        }
         agreementAudit.setLawyerId(lawyer.getId());
         agreementAudit.setAgreementId(agreement.getId());
         return agreementAuditService.acceptAgreement(agreementAudit);

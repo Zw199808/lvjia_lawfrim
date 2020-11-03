@@ -53,6 +53,7 @@
                            group by la.id
     )as a on a.id = law.id
     where law.id != #{condition.lawyerId}
+    and law.state != 2
     order by is_delete
     <if test="condition.notAuditNum != null and condition.notAuditNum!='' ">
     , notAuditNum

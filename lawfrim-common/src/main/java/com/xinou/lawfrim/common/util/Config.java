@@ -146,6 +146,8 @@ public class Config {
     public static final String RE_STRING_IS_EMOJI_CODE = "4012";
     public static final String RE_STRING_IS_EMOJI_MSG = "请不要输入特殊表情！";
 
+    public static final String RE_STRING_NOT_ONLINE_CODE = "4013";
+    public static final String RE_STRING_NOT_ONLINE_MSG = "您处于不在线状态！不可接单！";
 
             public static final String EXCEL_PATH = "D:\\ideaProject\\";
 //    public static final String EXCEL_PATH = "/root/xinou-upload/";

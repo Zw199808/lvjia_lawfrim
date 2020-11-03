@@ -30,7 +30,7 @@ public class XssAndSqlFilter implements Filter {
     @Override
     public void doFilter(ServletRequest request, ServletResponse response,
                          FilterChain chain) throws IOException, ServletException {
-        System.out.println("进入过滤器");
+//        System.out.println("进入过滤器");
         request.setCharacterEncoding("utf-8");
         response.setContentType("text/html;charset=utf-8");
 //        //跨域设置

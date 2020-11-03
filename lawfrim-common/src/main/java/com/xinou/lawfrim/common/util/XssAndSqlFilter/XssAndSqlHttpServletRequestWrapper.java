@@ -87,7 +87,7 @@ public class XssAndSqlHttpServletRequestWrapper extends HttpServletRequestWrappe
 
 //        System.out.println("转化前参数：" + json);
         Map<String, Object> map = modifyParams(json);
-        System.out.println("转化后参数：" + JSON.toJSONString(map));
+//        System.out.println("转化后参数：" + JSON.toJSONString(map));
 
         ByteArrayInputStream bis = new ByteArrayInputStream(JSON.toJSONString(map).getBytes(ENCODING));
 
