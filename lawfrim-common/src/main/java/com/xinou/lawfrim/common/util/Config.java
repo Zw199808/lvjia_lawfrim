@@ -43,6 +43,12 @@ public class Config {
     public static final String RE_CODE_PARAM_ERROR = "102";
     public static final String RE_MSG_PARAM_ERROR = "参数错误";
 
+    public static final String RE_CODE_NAME_ERROR = "103";
+    public static final String RE_MSG_NAME_ERROR = "姓名未发生改变";
+
+    public static final String RE_CODE_PASSWORD_ERROR = "104";
+    public static final String RE_MSG_PASSWORD_ERROR = "密码未发生改变";
+
     public static final String RE_CODE_NO_HAVE_TOKEN = "1003";
     public static final String RE_MSG_NO_HAVE_TOKEN = "请携带token";
 

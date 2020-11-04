@@ -123,18 +123,44 @@ public class BusCustomServiceImpl extends ServiceImpl<BusCustomMapper, BusCustom
     @Override
     public APIResponse AdminUpdateCustom(BusCustomDto custom) {
         BusCustom busCustom = getById(custom.getId());
-        if (custom.getPassword() != null && !("").equals(custom.getPassword())){
-            busCustom.setPassword(custom.getPassword());
+        if (busCustom == null){
+            return new APIResponse<>(Config.RE_DATA_NOT_EXIST_ERROR_CODE,Config.RE_DATA_NOT_EXIST_ERROR_MSG);
         }
-        if (custom.getName() != null && !("").equals(custom.getName())){
-            busCustom.setName(custom.getName());
+        if (custom.getPassword() == null || ("").equals(custom.getPassword())){
+            return new APIResponse(Config.RE_CODE_PARAM_ERROR,Config.RE_MSG_PARAM_ERROR);
         }
+        if(busCustom.getPassword().equals(custom.getPassword())){
+            return new APIResponse(Config.RE_CODE_PASSWORD_ERROR,Config.RE_MSG_PASSWORD_ERROR);
+        }
+        busCustom.setPassword(custom.getPassword());
+        busCustom.setGmtModified(null);
+        // 数据插入
+        boolean res = updateById(busCustom);
+        if (!res) {
+            throw new RuntimeException("修改客户密码失败");
+        }
+        return new APIResponse();
+    }
+
+    @Override
+    public APIResponse AdminUpdateCustomName(BusCustomDto custom) {
+        BusCustom busCustom = getById(custom.getId());
+        if (busCustom == null){
+            return new APIResponse<>(Config.RE_DATA_NOT_EXIST_ERROR_CODE,Config.RE_DATA_NOT_EXIST_ERROR_MSG);
+        }
+        if (custom.getName() == null || ("").equals(custom.getName())){
+            return new APIResponse(Config.RE_CODE_PARAM_ERROR,Config.RE_MSG_PARAM_ERROR);
+        }
+        if(busCustom.getName().equals(custom.getName())){
+            return new APIResponse(Config.RE_CODE_NAME_ERROR,Config.RE_MSG_NAME_ERROR);
+        }
+        busCustom.setName(custom.getName());
         busCustom.setGmtModified(null);
 
         // 数据插入
         boolean res = updateById(busCustom);
         if (!res) {
-            throw new RuntimeException("修改客户信息失败");
+            throw new RuntimeException("修改客户姓名失败");
         }
         return new APIResponse();
     }
@@ -142,8 +168,19 @@ public class BusCustomServiceImpl extends ServiceImpl<BusCustomMapper, BusCustom
     @Override
     public APIResponse updateCustom(BusCustomDto custom) {
         BusCustom busCustom = getById(custom.getId());
+        if (busCustom == null){
+            return new APIResponse<>(Config.RE_DATA_NOT_EXIST_ERROR_CODE,Config.RE_DATA_NOT_EXIST_ERROR_MSG);
+        }
+        if(custom.getPassword() == null || ("").equals(custom.getPassword()) || custom.getOldPassword() == null || ("").equals(custom.getOldPassword())){
+            return new APIResponse<>(Config.RE_CODE_PARAM_ERROR,Config.RE_MSG_PARAM_ERROR);
+        }
+
         if (!busCustom.getPassword().equals(custom.getOldPassword())){
             return new APIResponse(Config.RE_OLD_PASSWORD_ERROR_CODE,Config.RE_OLD_PASSWORD_ERROR_MSG);
+        }
+        //密码未发生改变
+        if (!busCustom.getPassword().equals(custom.getPassword())){
+            return new APIResponse(Config.RE_CODE_PASSWORD_ERROR,Config.RE_MSG_PASSWORD_ERROR);
         }
         busCustom.setPassword(custom.getPassword());
         busCustom.setGmtModified(null);
