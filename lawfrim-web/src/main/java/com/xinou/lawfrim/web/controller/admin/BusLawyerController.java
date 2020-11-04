@@ -90,7 +90,7 @@ public class BusLawyerController {
 //        HttpSession session = request.getSession();
 //        int adminId = (Integer) session.getAttribute("sysUserId");
 //        lawyerDto.setSysUserId(adminId);
-        return busLawyerService.AdminUpdateBusLawyerPassword(lawyerDto);
+        return busLawyerService.AdminUpdateBusLawyer(lawyerDto);
     }
 
 

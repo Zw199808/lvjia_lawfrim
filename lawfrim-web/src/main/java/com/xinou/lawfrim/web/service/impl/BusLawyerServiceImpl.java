@@ -263,13 +263,19 @@ public class BusLawyerServiceImpl extends ServiceImpl<BusLawyerMapper, BusLawyer
 
     @Override
     public APIResponse AdminUpdateBusLawyerPassword(BusLawyerDto lawyer) {
+        if(lawyer.getPassword() == null || ("").equals(lawyer.getPassword())){
+            return new APIResponse<>(Config.RE_CODE_PARAM_ERROR,Config.RE_MSG_PARAM_ERROR);
+        }
         BusLawyer lawyer1 = getById(lawyer);
         if (lawyer1 == null){
             return new APIResponse<>(Config.RE_DATA_NOT_EXIST_ERROR_CODE,Config.RE_DATA_NOT_EXIST_ERROR_MSG);
         }
         SYSUser sysUser = userSSOService.getById(lawyer1.getSysUserId());
+        if (sysUser == null){
+            return new APIResponse<>(Config.RE_DATA_NOT_EXIST_ERROR_CODE,Config.RE_DATA_NOT_EXIST_ERROR_MSG);
+        }
         //修改sys_user表中密码
-        if(lawyer.getPassword() !=null && !("").equals(lawyer.getPassword())){
+        if(!(lawyer.getPassword()).equals(sysUser.getPassword())){
 //        sysUser.setRealName(lawyer.getName());
             sysUser.setPassword(lawyer.getPassword());
             boolean res = userSSOService.updateById(sysUser);
@@ -277,17 +283,38 @@ public class BusLawyerServiceImpl extends ServiceImpl<BusLawyerMapper, BusLawyer
                 throw new RuntimeException("修改律师登录密码失败");
             }
         }
-        if(lawyer.getRoleId() != null && lawyer.getRoleId() != 0 && !("").equals(lawyer.getRoleId())){
-            ReSYSUserRole sysUserRole = reUserRoleSSOService.getOne(new QueryWrapper<ReSYSUserRole>()
-                                                                   .eq("user_id",sysUser.getId()));
-//        sysUser.setRealName(lawyer.getName());
+        return new APIResponse();
+    }
+
+    @Override
+    public APIResponse AdminUpdateBusLawyer(BusLawyerDto lawyer) {
+        BusLawyer lawyer1 = getById(lawyer);
+        if (lawyer1 == null){
+            return new APIResponse<>(Config.RE_DATA_NOT_EXIST_ERROR_CODE,Config.RE_DATA_NOT_EXIST_ERROR_MSG);
+        }
+        if(lawyer.getRoleId() == null || lawyer.getRoleId() == 0 || ("").equals(lawyer.getRoleId()) || lawyer.getName() == null || ("").equals(lawyer.getName())){
+            return new APIResponse<>(Config.RE_CODE_PARAM_ERROR,Config.RE_MSG_PARAM_ERROR);
+        }
+
+        SYSUser sysUser = userSSOService.getById(lawyer1.getSysUserId());
+        if (sysUser == null){
+            return new APIResponse<>(Config.RE_DATA_NOT_EXIST_ERROR_CODE,Config.RE_DATA_NOT_EXIST_ERROR_MSG);
+        }
+        ReSYSUserRole sysUserRole = reUserRoleSSOService.getOne(new QueryWrapper<ReSYSUserRole>()
+                                                        .eq("user_id",sysUser.getId()));
+        if (sysUserRole == null){
+            return new APIResponse<>(Config.RE_DATA_NOT_EXIST_ERROR_CODE,Config.RE_DATA_NOT_EXIST_ERROR_MSG);
+        }
+        if(lawyer.getRoleId() != sysUserRole.getRoleId()){
+            //        sysUser.setRealName(lawyer.getName());
             sysUserRole.setRoleId(lawyer.getRoleId());
             boolean res = reUserRoleSSOService.updateById(sysUserRole);
             if (!res) {
                 throw new RuntimeException("修改律师角色失败");
             }
         }
-        if(lawyer.getName() != null && !("").equals(lawyer.getName())){
+
+        if(!(lawyer.getName()).equals(lawyer1.getName())){
             sysUser.setRealName(lawyer.getName());
             boolean res = userSSOService.updateById(sysUser);
             if (!res) {
