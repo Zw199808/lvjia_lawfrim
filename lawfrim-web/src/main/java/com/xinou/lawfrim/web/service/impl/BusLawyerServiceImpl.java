@@ -126,7 +126,11 @@ public class BusLawyerServiceImpl extends ServiceImpl<BusLawyerMapper, BusLawyer
         if (sysUserList.size() != 0) {
             return new APIResponse(Config.RE_CODE_USER_EXIST,Config.RE_MSG_USER_EXIST);
         }
-
+        //判断角色是否有效
+        Role role = roleSSOService.getById(lawyer.getRoleId());
+        if (role == null){
+            return new APIResponse(Config.RE_CODE_ROLE_ERROR,Config.RE_MSG_ROLE_ERROR);
+        }
         //插入一个后台用户
         SYSUser user = new SYSUser();
         user.setAccount(lawyer.getAccount());
@@ -303,6 +307,12 @@ public class BusLawyerServiceImpl extends ServiceImpl<BusLawyerMapper, BusLawyer
         }
         if(lawyer.getRoleId() == null || lawyer.getRoleId() == 0 || ("").equals(lawyer.getRoleId()) || lawyer.getName() == null || ("").equals(lawyer.getName())){
             return new APIResponse<>(Config.RE_CODE_PARAM_ERROR,Config.RE_MSG_PARAM_ERROR);
+        }
+
+        //判断角色是否有效
+        Role role = roleSSOService.getById(lawyer.getRoleId());
+        if (role == null){
+            return new APIResponse(Config.RE_CODE_ROLE_ERROR,Config.RE_MSG_ROLE_ERROR);
         }
 
         SYSUser sysUser = userSSOService.getById(lawyer1.getSysUserId());
