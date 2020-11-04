@@ -62,7 +62,7 @@ public class BusCustomServiceImpl extends ServiceImpl<BusCustomMapper, BusCustom
                     .eq("custom_id",busCustom.getId()));
 
             customVo.setAgreeNum(count);
-            customVo.setPassword(busCustom.getPassword());
+            customVo.setPassword("******");
             customVo.setId(busCustom.getId());
             customVo.setName(busCustom.getName());
             customVo.setAccount(busCustom.getAccount());
