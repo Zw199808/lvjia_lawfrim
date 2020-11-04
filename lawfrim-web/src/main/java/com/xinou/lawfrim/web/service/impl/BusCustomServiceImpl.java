@@ -16,6 +16,7 @@ import com.xinou.lawfrim.web.mapper.BusCustomMapper;
 import com.xinou.lawfrim.web.service.IBusAgreementService;
 import com.xinou.lawfrim.web.service.IBusCustomService;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
+import com.xinou.lawfrim.web.util.CheckMD5;
 import com.xinou.lawfrim.web.util.ExcelUtil2;
 import com.xinou.lawfrim.web.util.JwtUtil;
 import com.xinou.lawfrim.web.vo.custom.CustomExcel;
@@ -129,6 +130,9 @@ public class BusCustomServiceImpl extends ServiceImpl<BusCustomMapper, BusCustom
         if (custom.getPassword() == null || ("").equals(custom.getPassword())){
             return new APIResponse(Config.RE_CODE_PARAM_ERROR,Config.RE_MSG_PARAM_ERROR);
         }
+        if(!CheckMD5.isValidMessageAudio(custom.getPassword())){
+            return new APIResponse(Config.RE_CODE_PARAM_ERROR,Config.RE_MSG_PARAM_ERROR);
+        }
         if(busCustom.getPassword().equals(custom.getPassword())){
             return new APIResponse(Config.RE_CODE_PASSWORD_ERROR,Config.RE_MSG_PASSWORD_ERROR);
         }
@@ -171,10 +175,14 @@ public class BusCustomServiceImpl extends ServiceImpl<BusCustomMapper, BusCustom
         if (busCustom == null){
             return new APIResponse<>(Config.RE_DATA_NOT_EXIST_ERROR_CODE,Config.RE_DATA_NOT_EXIST_ERROR_MSG);
         }
+        //判断密码是否为空
         if(custom.getPassword() == null || ("").equals(custom.getPassword()) || custom.getOldPassword() == null || ("").equals(custom.getOldPassword())){
             return new APIResponse<>(Config.RE_CODE_PARAM_ERROR,Config.RE_MSG_PARAM_ERROR);
         }
-
+        //验证密码是否加密
+        if(!CheckMD5.isValidMessageAudio(custom.getPassword())){
+            return new APIResponse(Config.RE_CODE_PARAM_ERROR,Config.RE_MSG_PARAM_ERROR);
+        }
         if (!busCustom.getPassword().equals(custom.getOldPassword())){
             return new APIResponse(Config.RE_OLD_PASSWORD_ERROR_CODE,Config.RE_OLD_PASSWORD_ERROR_MSG);
         }

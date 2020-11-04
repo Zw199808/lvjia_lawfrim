@@ -24,6 +24,7 @@ import com.xinou.lawfrim.web.service.IBusAgreementAuditService;
 import com.xinou.lawfrim.web.service.IBusCustomService;
 import com.xinou.lawfrim.web.service.IBusLawyerService;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
+import com.xinou.lawfrim.web.util.CheckMD5;
 import com.xinou.lawfrim.web.util.ExcelUtil2;
 import com.xinou.lawfrim.web.vo.UserNumberVo;
 import com.xinou.lawfrim.web.vo.lawyer.*;
@@ -254,6 +255,10 @@ public class BusLawyerServiceImpl extends ServiceImpl<BusLawyerMapper, BusLawyer
         if (lawyer.getPassword() == null || ("").equals(lawyer.getPassword()) || lawyer.getOldPassword() == null || ("").equals(lawyer.getOldPassword())){
             return new APIResponse<>(Config.RE_CODE_PARAM_ERROR,Config.RE_MSG_PARAM_ERROR);
         }
+        //验证密码是否加密
+        if(!CheckMD5.isValidMessageAudio(lawyer.getPassword())){
+            return new APIResponse(Config.RE_CODE_PARAM_ERROR,Config.RE_MSG_PARAM_ERROR);
+        }
         //修改sys_user表中密码
         SYSUser sysUser = userSSOService.getById(lawyer.getSysUserId());
         if (sysUser == null){
@@ -278,6 +283,10 @@ public class BusLawyerServiceImpl extends ServiceImpl<BusLawyerMapper, BusLawyer
     public APIResponse AdminUpdateBusLawyerPassword(BusLawyerDto lawyer) {
         if(lawyer.getPassword() == null || ("").equals(lawyer.getPassword())){
             return new APIResponse<>(Config.RE_CODE_PARAM_ERROR,Config.RE_MSG_PARAM_ERROR);
+        }
+        //验证密码是否为md5格式
+        if(!CheckMD5.isValidMessageAudio(lawyer.getPassword())){
+            return new APIResponse(Config.RE_CODE_PARAM_ERROR,Config.RE_MSG_PARAM_ERROR);
         }
         BusLawyer lawyer1 = getById(lawyer);
         if (lawyer1 == null){
