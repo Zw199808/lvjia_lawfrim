@@ -111,6 +111,8 @@ public class BusAgreementServiceImpl extends ServiceImpl<BusAgreementMapper, Bus
             return new APIResponse<>(Config.RE_DATA_NOT_EXIST_ERROR_CODE,Config.RE_DATA_NOT_EXIST_ERROR_MSG);
         }
         String url = upLoadFile.resourcesCode(agreement.getName());
+        // 七牛鉴权
+        url = upLoadFile.downloadPrivateFile(url);
         AgreementVo agreementVo = new AgreementVo();
         agreementVo.setUrl(url);
         return new APIResponse<>(agreementVo);
@@ -255,9 +257,13 @@ public class BusAgreementServiceImpl extends ServiceImpl<BusAgreementMapper, Bus
         if (agreementAudit != null){
             if (!("").equals(agreementAudit.getFirstAgreementName()) && agreementAudit.getFirstAgreementName() != null ){
                 firstURL = upLoadFile.resourcesCode(agreementAudit.getFirstAgreementName());
+                // 七牛鉴权
+                firstURL = upLoadFile.downloadPrivateFile(firstURL);
             }
             if(!("").equals(agreementAudit.getSecondAgreementName()) && agreementAudit.getSecondAgreementName() != null){
                 secondURL = upLoadFile.resourcesCode(agreementAudit.getSecondAgreementName());
+                // 七牛鉴权
+                secondURL = upLoadFile.downloadPrivateFile(secondURL);
             }
         }
 
@@ -454,6 +460,9 @@ public class BusAgreementServiceImpl extends ServiceImpl<BusAgreementMapper, Bus
             return new APIResponse<>(Config.RE_DATA_NOT_EXIST_ERROR_CODE,Config.RE_DATA_NOT_EXIST_ERROR_MSG);
         }
         String url = upLoadFile.resourcesCode(agreement.getName());
+        // 七牛鉴权
+        url = upLoadFile.downloadPrivateFile(url);
+
         String firstURL = "";
         String secondURL = "";
         BusAgreementAudit agreementAudit = agreementAuditMapper.selectOne(new QueryWrapper<BusAgreementAudit>()
@@ -462,9 +471,13 @@ public class BusAgreementServiceImpl extends ServiceImpl<BusAgreementMapper, Bus
         if (agreementAudit != null){
             if (!("").equals(agreementAudit.getFirstAgreementName()) && agreementAudit.getFirstAgreementName() != null ){
             firstURL = upLoadFile.resourcesCode(agreementAudit.getFirstAgreementName());
+                // 七牛鉴权
+            firstURL = upLoadFile.downloadPrivateFile(firstURL);
             }
             if(!("").equals(agreementAudit.getSecondAgreementName()) && agreementAudit.getSecondAgreementName() != null){
                 secondURL = upLoadFile.resourcesCode(agreementAudit.getSecondAgreementName());
+                // 七牛鉴权
+                secondURL = upLoadFile.downloadPrivateFile(secondURL);
             }
         }
 

@@ -12,6 +12,7 @@ import com.xinou.lawfrim.web.entity.BusCustom;
 import com.xinou.lawfrim.web.service.IBusAgreementService;
 import com.xinou.lawfrim.web.service.IBusCustomService;
 import com.xinou.lawfrim.web.util.HeadersUtil;
+import com.xinou.lawfrim.web.util.upLoadFile;
 import com.xinou.lawfrim.web.vo.agreement.AgreementTypeVo;
 import com.xinou.lawfrim.web.vo.custom.CustomVo;
 import io.swagger.annotations.Api;
@@ -92,6 +93,8 @@ public class BusCustomController {
     @ApiOperationSupport(includeParameters = {"customDto.name"})
     public APIResponse AdminAllExcelAgreement(@RequestBody BusCustomDto customDto)  {
         String fileName = customService.AdminExcelCustom(customDto);
-        return new APIResponse(Config.BASE_URL+fileName);
+        // 七牛鉴权
+        fileName = upLoadFile.downloadPrivateFile(Config.BASE_URL+fileName);
+        return new APIResponse(fileName);
     }
 }

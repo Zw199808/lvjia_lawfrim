@@ -204,7 +204,9 @@ public class BusAgreementController {
         agreementDto.setLawyerId(lawyer.getId());
         agreementDto.setTag(2);
         String fileName = agreementService.LawyerExcelAgreement(agreementDto);
-        return new APIResponse(Config.BASE_URL+fileName);
+        // 七牛鉴权
+        fileName = upLoadFile.downloadPrivateFile(Config.BASE_URL+fileName);
+        return new APIResponse(fileName);
     }
 
     @PostMapping("LawyerExcelAgreement")
@@ -237,7 +239,9 @@ public class BusAgreementController {
         agreementDto.setState(2);
         agreementDto.setTag(1);
         String fileName = agreementService.LawyerExcelAgreement(agreementDto);
-        return new APIResponse(Config.BASE_URL+fileName);
+        // 七牛鉴权
+        fileName = upLoadFile.downloadPrivateFile(Config.BASE_URL+fileName);
+        return new APIResponse(fileName);
     }
 
     @PostMapping("AdminNewExcelAgreement")
@@ -247,7 +251,9 @@ public class BusAgreementController {
         BusAgreementDto agreementDto = new BusAgreementDto();
         agreementDto.setTag(2);
         String fileName = agreementService.LawyerExcelAgreement(agreementDto);
-        return new APIResponse(Config.BASE_URL+fileName);
+        // 七牛鉴权
+        fileName = upLoadFile.downloadPrivateFile(Config.BASE_URL+fileName);
+        return new APIResponse(fileName);
     }
 
     @PostMapping("AdminAllExcelAgreement")
@@ -256,7 +262,9 @@ public class BusAgreementController {
     public APIResponse AdminAllExcelAgreement()  {
         BusAgreementDto agreementDto = new BusAgreementDto();
         String fileName = agreementService.AdminExcelAgreement(agreementDto);
-        return new APIResponse(Config.BASE_URL+fileName);
+        // 七牛鉴权
+        fileName = upLoadFile.downloadPrivateFile(Config.BASE_URL+fileName);
+        return new APIResponse(fileName);
     }
 
     @PostMapping("adminDownloadAgreement")

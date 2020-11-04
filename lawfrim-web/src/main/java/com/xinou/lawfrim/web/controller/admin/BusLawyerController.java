@@ -11,6 +11,7 @@ import com.xinou.lawfrim.web.dto.SortRuleDto;
 import com.xinou.lawfrim.web.entity.BusLawyer;
 import com.xinou.lawfrim.web.service.IBusAgreementService;
 import com.xinou.lawfrim.web.service.IBusLawyerService;
+import com.xinou.lawfrim.web.util.upLoadFile;
 import com.xinou.lawfrim.web.vo.lawyer.AssignLawyerVo;
 import com.xinou.lawfrim.web.vo.lawyer.LawyerVo;
 import io.swagger.annotations.*;
@@ -112,7 +113,9 @@ public class BusLawyerController {
     @ApiOperationSupport(includeParameters = {"lawyerDto.name"})
     public APIResponse AdminAllExcelAgreement(@RequestBody BusLawyerDto lawyerDto)  {
         String fileName = busLawyerService.AdminExcelLawyer(lawyerDto);
-        return new APIResponse(Config.BASE_URL+fileName);
+        // 七牛鉴权
+        fileName = upLoadFile.downloadPrivateFile(Config.BASE_URL+fileName);
+        return new APIResponse(fileName);
     }
 
 

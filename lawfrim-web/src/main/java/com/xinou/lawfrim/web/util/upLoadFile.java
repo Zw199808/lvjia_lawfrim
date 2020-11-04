@@ -223,7 +223,8 @@ public class upLoadFile {
     }
 
     public static String resourcesCode(String url){
-        return Config.BASE_URL+encodeURIComponent(url)+"?attname=";
+//        return Config.BASE_URL+encodeURIComponent(url)+"?attname=";
+        return Config.BASE_URL+encodeURIComponent(url);
     }
 
     public static String encode(String str) {
