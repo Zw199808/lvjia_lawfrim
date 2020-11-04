@@ -247,10 +247,19 @@ public class BusLawyerServiceImpl extends ServiceImpl<BusLawyerMapper, BusLawyer
 
     @Override
     public APIResponse updateBusLawyerPassword(BusLawyerDto lawyer) {
+        if (lawyer.getPassword() == null || ("").equals(lawyer.getPassword()) || lawyer.getOldPassword() == null || ("").equals(lawyer.getOldPassword())){
+            return new APIResponse<>(Config.RE_CODE_PARAM_ERROR,Config.RE_MSG_PARAM_ERROR);
+        }
         //修改sys_user表中密码
         SYSUser sysUser = userSSOService.getById(lawyer.getSysUserId());
+        if (sysUser == null){
+            return new APIResponse<>(Config.RE_DATA_NOT_EXIST_ERROR_CODE,Config.RE_DATA_NOT_EXIST_ERROR_MSG);
+        }
         if (!sysUser.getPassword().equals(lawyer.getOldPassword())){
             return new APIResponse<>(Config.RE_OLD_PASSWORD_ERROR_CODE,Config.RE_OLD_PASSWORD_ERROR_MSG);
+        }
+        if (sysUser.getPassword().equals(lawyer.getPassword())){
+            return new APIResponse<>(Config.RE_CODE_PASSWORD_ERROR,Config.RE_MSG_PASSWORD_ERROR);
         }
 //        sysUser.setRealName(lawyer.getName());
         sysUser.setPassword(lawyer.getPassword());
