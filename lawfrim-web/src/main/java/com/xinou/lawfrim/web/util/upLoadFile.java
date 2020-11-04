@@ -19,6 +19,8 @@ import java.io.InputStream;
 import java.io.UnsupportedEncodingException;
 import java.net.URLDecoder;
 import java.net.URLEncoder;
+import java.sql.Time;
+import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -90,6 +92,7 @@ public class upLoadFile {
             uploadManager.put(file, file.getName(), upToken);
             return true;
         } catch (QiniuException ex) {
+
             System.out.println("url==="+file.getName());
         }
         return true;
@@ -302,16 +305,9 @@ public class upLoadFile {
     }
 
 
-    public static void main(String[] args) {
-
-        String[] array1 = {"1"};
-        String[] array2 = {};
-
-        List<String> list = compare(array1,array2);
-        for (String integer : list) {
-            System.out.println(integer);
-        }
-
+    public static String downloadPrivateFile(String url){
+        Auth auth = Auth.create(Config.ACCESSKEY_QN,Config.SECRETKEY_QN);
+        return auth.privateDownloadUrl(url,Config.FILE_EXPIRES);
     }
 
 }

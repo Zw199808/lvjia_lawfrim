@@ -9,7 +9,7 @@ import com.qiniu.storage.Region;
  */
 public class Config {
 
-    public static final String BASE_URL = "http://qig05me3p.hn-bkt.clouddn.com/";
+    public static final String BASE_URL = "http://file.lvjingclub.cn/";
     /**
      * xinouservice 相关
      */
@@ -27,6 +27,8 @@ public class Config {
     public static final Region BUCKET_ZONE_QN = Region.region2(); //七牛空间地区
     // 文件上传
     public static final String SERVICE_UPLOAD_URL = SERVICE_URL + "file/upload";
+    public static final long FILE_EXPIRES = 300;
+
 
     // 删除字段
     public static final int IS_DELETE = 1;

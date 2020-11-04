@@ -1,6 +1,7 @@
 package com.xinou.lawfrim.web.controller.admin;
 
 
+import cn.hutool.extra.servlet.multipart.UploadFile;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.github.xiaoymin.knife4j.annotations.ApiOperationSupport;
 import com.xinou.lawfrim.common.util.APIResponse;
@@ -12,6 +13,7 @@ import com.xinou.lawfrim.web.entity.BusLawyer;
 import com.xinou.lawfrim.web.service.IBusAgreementAuditService;
 import com.xinou.lawfrim.web.service.IBusAgreementService;
 import com.xinou.lawfrim.web.service.IBusLawyerService;
+import com.xinou.lawfrim.web.util.upLoadFile;
 import com.xinou.lawfrim.web.vo.agreement.*;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
@@ -222,7 +224,9 @@ public class BusAgreementController {
         agreementDto.setState(2);
         agreementDto.setTag(1);
         String fileName = agreementService.LawyerExcelAgreement(agreementDto);
-        return new APIResponse(Config.BASE_URL+fileName);
+        // 七牛鉴权
+        fileName = upLoadFile.downloadPrivateFile(Config.BASE_URL+fileName);
+        return new APIResponse(fileName);
     }
 
     @PostMapping("AdminExcelAgreement")
