@@ -82,7 +82,7 @@ public class BusCustomController {
     @ApiOperation(httpMethod = "POST", value = "修改客户姓名")
     @ApiOperationSupport(includeParameters = {"customDto.id","customDto.name"})
     APIResponse customUpdateName(@RequestBody BusCustomDto customDto) {
-        return customService.AdminUpdateCustom(customDto);
+        return customService.AdminUpdateCustomName(customDto);
     }
 
 

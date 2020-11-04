@@ -24,6 +24,7 @@ import com.xinou.lawfrim.web.service.IBusAgreementAuditService;
 import com.xinou.lawfrim.web.service.IBusCustomService;
 import com.xinou.lawfrim.web.service.IBusLawyerService;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
+import com.xinou.lawfrim.web.util.CheckMD5;
 import com.xinou.lawfrim.web.util.ExcelUtil2;
 import com.xinou.lawfrim.web.vo.UserNumberVo;
 import com.xinou.lawfrim.web.vo.lawyer.*;
@@ -117,13 +118,20 @@ public class BusLawyerServiceImpl extends ServiceImpl<BusLawyerMapper, BusLawyer
     @Override
     @Transactional(rollbackFor = RuntimeException.class)
     public APIResponse addBusLawyer(BusLawyerDto lawyer) {
+        if (lawyer.getName() == null || ("").equals(lawyer.getName()) || lawyer.getAccount() == null || ("").equals(lawyer.getAccount())) {
+            return new APIResponse(Config.RE_CODE_PARAM_ERROR,Config.RE_MSG_PARAM_ERROR);
+        }
         List<SYSUser> sysUserList = userSSOService.list(
                 new QueryWrapper<SYSUser>().eq("is_delete", 0).eq("account", lawyer.getAccount())
         );
         if (sysUserList.size() != 0) {
             return new APIResponse(Config.RE_CODE_USER_EXIST,Config.RE_MSG_USER_EXIST);
         }
-
+        //判断角色是否有效
+        Role role = roleSSOService.getById(lawyer.getRoleId());
+        if (role == null){
+            return new APIResponse(Config.RE_CODE_ROLE_ERROR,Config.RE_MSG_ROLE_ERROR);
+        }
         //插入一个后台用户
         SYSUser user = new SYSUser();
         user.setAccount(lawyer.getAccount());
@@ -244,10 +252,23 @@ public class BusLawyerServiceImpl extends ServiceImpl<BusLawyerMapper, BusLawyer
 
     @Override
     public APIResponse updateBusLawyerPassword(BusLawyerDto lawyer) {
+        if (lawyer.getPassword() == null || ("").equals(lawyer.getPassword()) || lawyer.getOldPassword() == null || ("").equals(lawyer.getOldPassword())){
+            return new APIResponse<>(Config.RE_CODE_PARAM_ERROR,Config.RE_MSG_PARAM_ERROR);
+        }
+        //验证密码是否加密
+        if(!CheckMD5.isValidMessageAudio(lawyer.getPassword())){
+            return new APIResponse(Config.RE_CODE_PARAM_ERROR,Config.RE_MSG_PARAM_ERROR);
+        }
         //修改sys_user表中密码
         SYSUser sysUser = userSSOService.getById(lawyer.getSysUserId());
+        if (sysUser == null){
+            return new APIResponse<>(Config.RE_DATA_NOT_EXIST_ERROR_CODE,Config.RE_DATA_NOT_EXIST_ERROR_MSG);
+        }
         if (!sysUser.getPassword().equals(lawyer.getOldPassword())){
             return new APIResponse<>(Config.RE_OLD_PASSWORD_ERROR_CODE,Config.RE_OLD_PASSWORD_ERROR_MSG);
+        }
+        if (sysUser.getPassword().equals(lawyer.getPassword())){
+            return new APIResponse<>(Config.RE_CODE_PASSWORD_ERROR,Config.RE_MSG_PASSWORD_ERROR);
         }
 //        sysUser.setRealName(lawyer.getName());
         sysUser.setPassword(lawyer.getPassword());
@@ -260,13 +281,23 @@ public class BusLawyerServiceImpl extends ServiceImpl<BusLawyerMapper, BusLawyer
 
     @Override
     public APIResponse AdminUpdateBusLawyerPassword(BusLawyerDto lawyer) {
+        if(lawyer.getPassword() == null || ("").equals(lawyer.getPassword())){
+            return new APIResponse<>(Config.RE_CODE_PARAM_ERROR,Config.RE_MSG_PARAM_ERROR);
+        }
+        //验证密码是否为md5格式
+        if(!CheckMD5.isValidMessageAudio(lawyer.getPassword())){
+            return new APIResponse(Config.RE_CODE_PARAM_ERROR,Config.RE_MSG_PARAM_ERROR);
+        }
         BusLawyer lawyer1 = getById(lawyer);
         if (lawyer1 == null){
             return new APIResponse<>(Config.RE_DATA_NOT_EXIST_ERROR_CODE,Config.RE_DATA_NOT_EXIST_ERROR_MSG);
         }
         SYSUser sysUser = userSSOService.getById(lawyer1.getSysUserId());
+        if (sysUser == null){
+            return new APIResponse<>(Config.RE_DATA_NOT_EXIST_ERROR_CODE,Config.RE_DATA_NOT_EXIST_ERROR_MSG);
+        }
         //修改sys_user表中密码
-        if(lawyer.getPassword() !=null && !("").equals(lawyer.getPassword())){
+        if(!(lawyer.getPassword()).equals(sysUser.getPassword())){
 //        sysUser.setRealName(lawyer.getName());
             sysUser.setPassword(lawyer.getPassword());
             boolean res = userSSOService.updateById(sysUser);
@@ -274,17 +305,44 @@ public class BusLawyerServiceImpl extends ServiceImpl<BusLawyerMapper, BusLawyer
                 throw new RuntimeException("修改律师登录密码失败");
             }
         }
-        if(lawyer.getRoleId() != null && lawyer.getRoleId() != 0 && !("").equals(lawyer.getRoleId())){
-            ReSYSUserRole sysUserRole = reUserRoleSSOService.getOne(new QueryWrapper<ReSYSUserRole>()
-                                                                   .eq("user_id",sysUser.getId()));
-//        sysUser.setRealName(lawyer.getName());
+        return new APIResponse();
+    }
+
+    @Override
+    public APIResponse AdminUpdateBusLawyer(BusLawyerDto lawyer) {
+        BusLawyer lawyer1 = getById(lawyer);
+        if (lawyer1 == null){
+            return new APIResponse<>(Config.RE_DATA_NOT_EXIST_ERROR_CODE,Config.RE_DATA_NOT_EXIST_ERROR_MSG);
+        }
+        if(lawyer.getRoleId() == null || lawyer.getRoleId() == 0 || ("").equals(lawyer.getRoleId()) || lawyer.getName() == null || ("").equals(lawyer.getName())){
+            return new APIResponse<>(Config.RE_CODE_PARAM_ERROR,Config.RE_MSG_PARAM_ERROR);
+        }
+
+        //判断角色是否有效
+        Role role = roleSSOService.getById(lawyer.getRoleId());
+        if (role == null){
+            return new APIResponse(Config.RE_CODE_ROLE_ERROR,Config.RE_MSG_ROLE_ERROR);
+        }
+
+        SYSUser sysUser = userSSOService.getById(lawyer1.getSysUserId());
+        if (sysUser == null){
+            return new APIResponse<>(Config.RE_DATA_NOT_EXIST_ERROR_CODE,Config.RE_DATA_NOT_EXIST_ERROR_MSG);
+        }
+        ReSYSUserRole sysUserRole = reUserRoleSSOService.getOne(new QueryWrapper<ReSYSUserRole>()
+                                                        .eq("user_id",sysUser.getId()));
+        if (sysUserRole == null){
+            return new APIResponse<>(Config.RE_DATA_NOT_EXIST_ERROR_CODE,Config.RE_DATA_NOT_EXIST_ERROR_MSG);
+        }
+        if(lawyer.getRoleId() != sysUserRole.getRoleId()){
+            //        sysUser.setRealName(lawyer.getName());
             sysUserRole.setRoleId(lawyer.getRoleId());
             boolean res = reUserRoleSSOService.updateById(sysUserRole);
             if (!res) {
                 throw new RuntimeException("修改律师角色失败");
             }
         }
-        if(lawyer.getName() != null && !("").equals(lawyer.getName())){
+
+        if(!(lawyer.getName()).equals(lawyer1.getName())){
             sysUser.setRealName(lawyer.getName());
             boolean res = userSSOService.updateById(sysUser);
             if (!res) {
