@@ -82,6 +82,11 @@ public class BusCustomServiceImpl extends ServiceImpl<BusCustomMapper, BusCustom
 
     @Override
     public APIResponse addCustom(BusCustomDto custom) {
+        //判断账户、姓名是否为空
+        if (custom.getName() == null || ("").equals(custom.getName()) || custom.getAccount() == null || ("").equals(custom.getAccount())) {
+            return new APIResponse(Config.RE_CODE_PARAM_ERROR,Config.RE_MSG_PARAM_ERROR);
+        }
+
         List<BusCustom> customList = list(
                 new QueryWrapper<BusCustom>().eq("is_delete", 0)
                                              .eq("account", custom.getAccount()));

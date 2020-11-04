@@ -117,6 +117,9 @@ public class BusLawyerServiceImpl extends ServiceImpl<BusLawyerMapper, BusLawyer
     @Override
     @Transactional(rollbackFor = RuntimeException.class)
     public APIResponse addBusLawyer(BusLawyerDto lawyer) {
+        if (lawyer.getName() == null || ("").equals(lawyer.getName()) || lawyer.getAccount() == null || ("").equals(lawyer.getAccount())) {
+            return new APIResponse(Config.RE_CODE_PARAM_ERROR,Config.RE_MSG_PARAM_ERROR);
+        }
         List<SYSUser> sysUserList = userSSOService.list(
                 new QueryWrapper<SYSUser>().eq("is_delete", 0).eq("account", lawyer.getAccount())
         );
