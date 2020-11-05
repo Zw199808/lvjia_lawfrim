@@ -187,7 +187,7 @@ public class BusCustomServiceImpl extends ServiceImpl<BusCustomMapper, BusCustom
             return new APIResponse(Config.RE_OLD_PASSWORD_ERROR_CODE,Config.RE_OLD_PASSWORD_ERROR_MSG);
         }
         //密码未发生改变
-        if (!busCustom.getPassword().equals(custom.getPassword())){
+        if (busCustom.getPassword().equals(custom.getPassword())){
             return new APIResponse(Config.RE_CODE_PASSWORD_ERROR,Config.RE_MSG_PASSWORD_ERROR);
         }
         busCustom.setPassword(custom.getPassword());
