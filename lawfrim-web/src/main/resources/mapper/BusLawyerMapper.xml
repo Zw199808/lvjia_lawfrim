@@ -54,7 +54,7 @@
     )as a on a.id = law.id
     where law.id != #{condition.lawyerId}
     and law.state != 2
-    order by is_delete
+    order by law.id
     <if test="condition.notAuditNum != null and condition.notAuditNum!='' ">
     , notAuditNum
     </if>
@@ -82,7 +82,8 @@
         group by la.id
         )as a on a.id = law.id
         where law.id != #{condition.lawyerId}
-        order by is_delete
+        and law.state != 2
+        order by law.id
         <if test="condition.notAuditNum != null and condition.notAuditNum!='' ">
             , notAuditNum
         </if>
