@@ -63,6 +63,9 @@ public class BusAgreementAuditServiceImpl extends ServiceImpl<BusAgreementAuditM
         if (busAgreement == null){
             return new APIResponse<>(Config.RE_DATA_NOT_EXIST_ERROR_CODE,Config.RE_DATA_NOT_EXIST_ERROR_MSG);
         }
+        if (busAgreement.getState() != 1){
+            return new APIResponse<>(Config.RE_AGREE_IS_ACCEPT_CODE,Config.RE_AGREE_IS_ACCEPT_MSG);
+        }
         busAgreement.setState(2);//将合同修改为初审状态
         boolean res = agreementService.updateById(busAgreement);
         if (!res){
