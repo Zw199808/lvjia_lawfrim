@@ -119,6 +119,11 @@ public class Config {
     public static final String RE_AUDIT_SCORE_CODE = "4003";
     public static final String RE_AUDIT_SCORE_MSG = "只能复审律师进行评分";
 
+    public static final String RE_AGREE_IS_ACCEPT_CODE = "4004";
+    public static final String RE_AGREE_IS_ACCEPT_MSG = "该合同已被领取，请刷新页面！";
+
+    public static final String RE_AGREE_IS_ANSWER_CODE = "4005";
+    public static final String RE_AGREE_IS_ANSWER_MSG = "该合同已被回复，请刷新页面！";
 
             public static final String EXCEL_PATH = "D:\\ideaProject\\";
 //    public static final String EXCEL_PATH = "/root/xinou-upload/";
