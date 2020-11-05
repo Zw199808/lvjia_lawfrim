@@ -289,6 +289,9 @@ public class BusAgreementAuditServiceImpl extends ServiceImpl<BusAgreementAuditM
         if (busAgreement == null){
             return new APIResponse<>(Config.RE_DATA_NOT_EXIST_ERROR_CODE,Config.RE_DATA_NOT_EXIST_ERROR_MSG);
         }
+        if (busAgreement.getState() != 1){
+            return new APIResponse<>(Config.RE_CODE_PARAM_ERROR,Config.RE_MSG_PARAM_ERROR);
+        }
         //根据adminId获取lawyerId
         BusLawyer lawyer1 = lawyerMapper.selectOne(new QueryWrapper<BusLawyer>().eq("sys_user_id",agreementDto.getAdminId())
                 .eq("is_delete",0));
