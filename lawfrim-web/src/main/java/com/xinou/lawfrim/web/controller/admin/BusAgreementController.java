@@ -84,7 +84,7 @@ public class BusAgreementController {
     @RequiresPermissions("/admin/agreement/acceptAgreement")
     @ApiOperation(httpMethod = "POST", value = "接受未领取合同")
     @ApiOperationSupport(includeParameters = {"agreement.id"})
-    APIResponse acceptAgreement(HttpServletRequest request, @RequestBody BusAgreementDto agreement) {
+    synchronized APIResponse acceptAgreement(HttpServletRequest request, @RequestBody BusAgreementDto agreement) {
         HttpSession session = request.getSession();
         Integer adminId = (Integer)session.getAttribute("sysUserId");
         BusAgreementAuditDto agreementAudit = new BusAgreementAuditDto();
@@ -274,4 +274,5 @@ public class BusAgreementController {
     APIResponse<AdminDownloadAgreementVo> downloadAgreement(@RequestBody DownloadAgreementDto agreement) {
         return agreementService.adminDownloadAgreement(agreement);
     }
+
 }
