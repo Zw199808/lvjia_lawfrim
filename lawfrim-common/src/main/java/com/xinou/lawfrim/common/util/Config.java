@@ -134,6 +134,19 @@ public class Config {
     public static final String RE_AGREE_IS_AUDIT_CODE = "4008";
     public static final String RE_AGREE_IS_AUDIT_MSG = "只能转移初审状态合同！";
 
+    public static final String RE_STRING_IS_SPECIAL_CODE = "4009";
+    public static final String RE_STRING_IS_SPECIAL_MSG = "请不要输入特殊字符！";
+
+    public static final String RE_STRING_IS_WORD_CODE = "4010";
+    public static final String RE_STRING_IS_WORD_MSG = "请不要输入非法单词！";
+
+    public static final String RE_STRING_IS_HTML_CODE = "4011";
+    public static final String RE_STRING_IS_HTML_MSG = "请不要输入非法标签！";
+
+    public static final String RE_STRING_IS_EMOJI_CODE = "4012";
+    public static final String RE_STRING_IS_EMOJI_MSG = "请不要输入特殊表情！";
+
+
             public static final String EXCEL_PATH = "D:\\ideaProject\\";
 //    public static final String EXCEL_PATH = "/root/xinou-upload/";
 

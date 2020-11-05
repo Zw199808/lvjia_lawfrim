@@ -7,8 +7,10 @@ package com.xinou.lawfrim.common.util.XssAndSqlFilter;
  * Description:
  */
 
+import cn.hutool.extra.emoji.EmojiUtil;
 import com.alibaba.fastjson.JSON;
 import com.xinou.lawfrim.common.util.APIResponse;
+import com.xinou.lawfrim.common.util.BusException;
 import com.xinou.lawfrim.common.util.Config;
 import org.apache.commons.io.IOUtils;
 import org.apache.commons.lang3.StringUtils;
@@ -177,39 +179,123 @@ public class XssAndSqlHttpServletRequestWrapper extends HttpServletRequestWrappe
 
     private  String cleanXSS(String valueP) {
 
+        //判断接口是否需要过滤
         if (justifyStr(currentUrl)) {
             return valueP;
         }
 
         // You'll need to remove the spaces from the html entities below
-        String value = valueP.replaceAll("<", "&lt;").replaceAll(">", "&gt;");
-        value = value.replaceAll("<", "& lt;").replaceAll(">", "& gt;");
-        value = value.replaceAll("\\(", "& #40;").replaceAll("\\)", "& #41;");
-        value = value.replaceAll("'", "& #39;");
-        value = value.replaceAll("eval\\((.*)\\)", "");
-        value = value.replaceAll("[\\\"\\\'][\\s]*javascript:(.*)[\\\"\\\']", "\"\"");
-        value = value.replaceAll("script", "");
-        value = cleanSqlKeyWords(value);
+//        String value = valueP.replaceAll("<", "&lt;").replaceAll(">", "&gt;");
+//        value = value.replaceAll("<", "& lt;").replaceAll(">", "& gt;");
+//        value = value.replaceAll("\\(", "& #40;").replaceAll("\\)", "& #41;");
+//        value = value.replaceAll("'", "& #39;");
+//        value = value.replaceAll("eval\\((.*)\\)", "");
+//        value = value.replaceAll("[\\\"\\\'][\\s]*javascript:(.*)[\\\"\\\']", "\"\"");
+//        value = value.replaceAll("script", "");
+//        value = cleanSqlKeyWords(value);
 
-        // 过滤敏感字
-//        value = SensitiveWord.filterFileStr(value);
-        return value;
+        //String str="判断的字符串@";
+//        特殊字符抛出异常
+        String regEx="[`@#$%^&*()+=|{}\\[\\]<>/@#￥%&*（）+|{}【】]";
+        Pattern p=Pattern.compile(regEx);
+        Matcher m=p.matcher(valueP);
+        //System.out.println(m.find());
+        if (m.find()){
+            throw new BusException(Config.RE_STRING_IS_SPECIAL_CODE,Config.RE_STRING_IS_SPECIAL_MSG);
+        }
+
+//      包含js抛出异常
+        String regEx_script="<script[^>]*?>[\\s\\S]*?<\\/script>"; //定义script的正则表达式
+        Pattern p_script=Pattern.compile(regEx_script,Pattern.CASE_INSENSITIVE);
+        Matcher m_script=p_script.matcher(valueP);
+        if (m_script.find()){
+            throw new BusException(Config.RE_STRING_IS_WORD_CODE,Config.RE_STRING_IS_WORD_CODE);
+        }
+        //valueP=m_script.replaceAll(""); //过滤
+
+        String regEx_style="<style[^>]*?>[\\s\\S]*?<\\/style>"; //定义style的正则表达式
+        Pattern p_style=Pattern.compile(regEx_style,Pattern.CASE_INSENSITIVE);
+        Matcher m_style=p_style.matcher(valueP);
+        if (m_style.find()){
+            throw new BusException(Config.RE_STRING_IS_WORD_CODE,Config.RE_STRING_IS_WORD_CODE);
+        }
+
+        String regEx_html="<[^>]+>"; //定义HTML标签的正则表达式
+        Pattern p_html=Pattern.compile(regEx_html,Pattern.CASE_INSENSITIVE);
+        Matcher m_html=p_html.matcher(valueP);
+        if (m_style.find()){
+            throw new BusException(Config.RE_STRING_IS_HTML_CODE,Config.RE_STRING_IS_HTML_MSG);
+        }
+
+//        过滤敏感字
+        //value = SensitiveWord.filterFileStr(value);
+//      判断是否存在sql语句
+        cleanSqlKeyWords(valueP);
+//      判断是否存在emoji
+        cleanEmojiKeyWords(valueP);
+        return valueP;
     }
 
     private String cleanSqlKeyWords(String value) {
         String paramValue = value;
-
         if (!justifyStr(currentUrl)) {
 
             for (String keyword : notAllowedKeyWords) {
                 if ( paramValue.contains(keyword)) {
-                    paramValue = StringUtils.replace(paramValue, keyword, replacedString);
-                    log.error(this.currentUrl + "已被过滤，因为参数中包含不允许sql的关键词(" + keyword
-                            + ")" + ";参数：" + value + ";过滤后的参数：" + paramValue);
+//                    paramValue = StringUtils.replace(paramValue, keyword, replacedString);
+//                    log.error(this.currentUrl + "已被过滤，因为参数中包含不允许sql的关键词(" + keyword
+//                            + ")" + ";参数：" + value + ";过滤后的参数：" + paramValue);
+                    throw new BusException(Config.RE_STRING_IS_WORD_CODE,Config.RE_STRING_IS_WORD_MSG);
                 }
             }
         }
         return paramValue;
+    }
+
+    private String cleanEmojiKeyWords(String value) {
+        if (EmojiUtil.containsEmoji(value)) {
+            throw new BusException(Config.RE_STRING_IS_EMOJI_CODE,Config.RE_STRING_IS_EMOJI_MSG);
+        }
+//        String paramValue = value;
+//
+//        if (!justifyStr(currentUrl)) {
+//            int len = paramValue.length();
+//            for (int i = 0; i < len; i++) {
+//                char hs = paramValue.charAt(i);
+//                if (0xd800 <= hs && hs <= 0xdbff) {
+//                    if (paramValue.length() > 1) {
+//                        char ls = paramValue.charAt(i + 1);
+//                        int uc = ((hs - 0xd800) * 0x400) + (ls - 0xdc00) + 0x10000;
+//                        if (0x1d000 <= uc && uc <= 0x1f77f) {
+//                            throw new BusException(Config.RE_STRING_IS_EMOJI_CODE,Config.RE_STRING_IS_EMOJI_MSG);
+//                        }
+//                    }
+//                } else {
+//                    // non surrogate
+//                    if (0x2100 <= hs && hs <= 0x27ff && hs != 0x263b) {
+//                        throw new BusException(Config.RE_STRING_IS_EMOJI_CODE,Config.RE_STRING_IS_EMOJI_MSG);
+//                    } else if (0x2B05 <= hs && hs <= 0x2b07) {
+//                        throw new BusException(Config.RE_STRING_IS_EMOJI_CODE,Config.RE_STRING_IS_EMOJI_MSG);
+//                    } else if (0x2934 <= hs && hs <= 0x2935) {
+//                        throw new BusException(Config.RE_STRING_IS_EMOJI_CODE,Config.RE_STRING_IS_EMOJI_MSG);
+//                    } else if (0x3297 <= hs && hs <= 0x3299) {
+//                        throw new BusException(Config.RE_STRING_IS_EMOJI_CODE,Config.RE_STRING_IS_EMOJI_MSG);
+//                    } else if (hs == 0xa9 || hs == 0xae || hs == 0x303d
+//                            || hs == 0x3030 || hs == 0x2b55 || hs == 0x2b1c
+//                            || hs == 0x2b1b || hs == 0x2b50 || hs == 0x231a) {
+//                        throw new BusException(Config.RE_STRING_IS_EMOJI_CODE,Config.RE_STRING_IS_EMOJI_MSG);
+//                    }
+//                    if (!false && paramValue.length() > 1 && i < paramValue.length() - 1) {
+//                        char ls = paramValue.charAt(i + 1);
+//                        if (ls == 0x20e3) {
+//                            throw new BusException(Config.RE_STRING_IS_EMOJI_CODE,Config.RE_STRING_IS_EMOJI_MSG);
+//                        }
+//                    }
+//                }
+//            }
+//            return paramValue;
+//        }
+        return value;
     }
 
 
