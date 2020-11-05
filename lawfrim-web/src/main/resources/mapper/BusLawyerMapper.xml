@@ -37,7 +37,7 @@
 
 <!--获取分配律师列表-->
     <select id="getAssignLawyerList" resultType="com.xinou.lawfrim.web.vo.lawyer.AssignLawyerVo">
-       SELECT law.id as lawyerId,
+       select  * from (SELECT law.id as lawyerId,
               law.name as lawyerName,
               law.adviser as isAdviser,
               a.score,
@@ -54,7 +54,7 @@
     )as a on a.id = law.id
     where law.id != #{condition.lawyerId}
     and law.state != 2
-    order by law.id
+    order by is_delete
     <if test="condition.notAuditNum != null and condition.notAuditNum!='' ">
     , notAuditNum
     </if>
@@ -67,6 +67,7 @@
     <if test="condition.score != null and condition.score != '' ">
      , score desc
     </if>
+        )res
     </select>
 
 
@@ -83,7 +84,7 @@
         )as a on a.id = law.id
         where law.id != #{condition.lawyerId}
         and law.state != 2
-        order by law.id
+        order by is_delete
         <if test="condition.notAuditNum != null and condition.notAuditNum!='' ">
             , notAuditNum
         </if>
