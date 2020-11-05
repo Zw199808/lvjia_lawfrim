@@ -42,7 +42,7 @@ public class XssAndSqlHttpServletRequestWrapper extends HttpServletRequestWrappe
         }
 
         //  不需要过滤的接口
-        urllist.add("");
+//        urllist.add("");
     }
 
     private String currentUrl;

@@ -125,6 +125,15 @@ public class Config {
     public static final String RE_AGREE_IS_ANSWER_CODE = "4005";
     public static final String RE_AGREE_IS_ANSWER_MSG = "该合同已被回复，请刷新页面！";
 
+    public static final String RE_AGREE_IS_SCORE_CODE = "4006";
+    public static final String RE_AGREE_IS_SCORE_MSG = "该合同已被评分，请刷新页面！";
+
+    public static final String RE_AGREE_IS_CHANGE_CODE = "4007";
+    public static final String RE_AGREE_IS_CHANGE_MSG = "该律师已经接受转移，请刷新页面！";
+
+    public static final String RE_AGREE_IS_AUDIT_CODE = "4008";
+    public static final String RE_AGREE_IS_AUDIT_MSG = "只能转移初审状态合同！";
+
             public static final String EXCEL_PATH = "D:\\ideaProject\\";
 //    public static final String EXCEL_PATH = "/root/xinou-upload/";
 

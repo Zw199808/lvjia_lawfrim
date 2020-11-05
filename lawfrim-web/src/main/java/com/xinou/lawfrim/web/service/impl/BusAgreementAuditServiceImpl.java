@@ -58,7 +58,7 @@ public class BusAgreementAuditServiceImpl extends ServiceImpl<BusAgreementAuditM
     }
 
     @Override
-    public APIResponse acceptAgreement(BusAgreementAuditDto agreementAuditDto) {
+    public synchronized APIResponse acceptAgreement(BusAgreementAuditDto agreementAuditDto) {
         BusAgreement busAgreement = agreementService.getById(agreementAuditDto.getAgreementId());
         if (busAgreement == null){
             return new APIResponse<>(Config.RE_DATA_NOT_EXIST_ERROR_CODE,Config.RE_DATA_NOT_EXIST_ERROR_MSG);
@@ -96,7 +96,7 @@ public class BusAgreementAuditServiceImpl extends ServiceImpl<BusAgreementAuditM
             return new APIResponse<>(Config.RE_DATA_NOT_EXIST_ERROR_CODE,Config.RE_DATA_NOT_EXIST_ERROR_MSG);
         }
         if(agreement.getState() == 3){
-            return new APIResponse<>(Config.RE_DATA_NOT_EXIST_ERROR_CODE,Config.RE_DATA_NOT_EXIST_ERROR_MSG);
+            return new APIResponse<>(Config.RE_AGREE_IS_ANSWER_CODE,Config.RE_AGREE_IS_ANSWER_MSG);
         }
         agreement.setState(3);
         boolean res1 = agreementService.updateById(agreement);
@@ -134,19 +134,16 @@ public class BusAgreementAuditServiceImpl extends ServiceImpl<BusAgreementAuditM
 //        if (res1 <= 0){
 //            throw new RuntimeException("修改审批表原律师失败");
 //        }
-        //将合同状态改为5：转移中
         BusAgreementAudit busAgreementAudit = agreementAuditMapper.selectById(changeRecord.getAgreementAuditId());
         if (busAgreementAudit == null ){
             return new APIResponse<>(Config.RE_DATA_NOT_EXIST_ERROR_CODE,Config.RE_DATA_NOT_EXIST_ERROR_MSG);
         }
         BusAgreement agreement = agreementService.getById(busAgreementAudit.getAgreementId());
-        if (busAgreementAudit == null ){
+        if (agreement == null ){
             return new APIResponse<>(Config.RE_DATA_NOT_EXIST_ERROR_CODE,Config.RE_DATA_NOT_EXIST_ERROR_MSG);
         }
-        agreement.setState(5);
-        boolean res = agreementService.updateById(agreement);
-        if (!res){
-            throw  new RuntimeException("修改合同状态失败");
+        if (agreement.getState() !=2 ){
+            return new APIResponse<>(Config.RE_AGREE_IS_AUDIT_CODE,Config.RE_AGREE_IS_AUDIT_MSG);
         }
         //根据adminId获取lawyerId
         BusLawyer lawyer = lawyerMapper.selectOne(new QueryWrapper<BusLawyer>().eq("is_delete",0)
@@ -154,6 +151,14 @@ public class BusAgreementAuditServiceImpl extends ServiceImpl<BusAgreementAuditM
         if (lawyer == null){
             return new APIResponse<>(Config.RE_DATA_NOT_EXIST_ERROR_CODE,Config.RE_DATA_NOT_EXIST_ERROR_MSG);
         }
+
+        //将合同状态改为5：转移中
+        agreement.setState(5);
+        boolean res = agreementService.updateById(agreement);
+        if (!res){
+            throw  new RuntimeException("修改合同状态失败");
+        }
+
         BusChangeRecord changeRecord1 = new BusChangeRecord();
         changeRecord1.setType(2);//类型为转移
         changeRecord1.setAgreementAuditId(changeRecord.getAgreementAuditId());//审批表id
@@ -182,6 +187,14 @@ public class BusAgreementAuditServiceImpl extends ServiceImpl<BusAgreementAuditM
         if (agreementAudit == null ){
             return new APIResponse<>(Config.RE_DATA_NOT_EXIST_ERROR_CODE,Config.RE_DATA_NOT_EXIST_ERROR_MSG);
         }
+        BusAgreement agreement = agreementService.getById(agreementAudit.getAgreementId());
+        if (agreement == null ){
+            return new APIResponse<>(Config.RE_DATA_NOT_EXIST_ERROR_CODE,Config.RE_DATA_NOT_EXIST_ERROR_MSG);
+        }
+        //判断合同是否已被接受
+        if(agreementAudit.getState() == 2 && agreement.getState() == 2){
+            return new APIResponse<>(Config.RE_AGREE_IS_CHANGE_CODE,Config.RE_AGREE_IS_CHANGE_MSG);
+        }
         //根据adminId获取lawyerId
         BusLawyer lawyer = lawyerMapper.selectOne(new QueryWrapper<BusLawyer>().eq("sys_user_id",changeRecord.getAdminId())
                                                  .eq("is_delete",0));
@@ -189,17 +202,14 @@ public class BusAgreementAuditServiceImpl extends ServiceImpl<BusAgreementAuditM
             return new APIResponse<>(Config.RE_DATA_NOT_EXIST_ERROR_CODE,Config.RE_DATA_NOT_EXIST_ERROR_MSG);
         }
 //        agreementAudit.setLawyerId(lawyer.getId());
-        agreementAudit.setState(2);//将合同状态改为已接收
+        //将审核表合同状态改为已接收
+        agreementAudit.setState(2);
         agreementAudit.setGmtModified(null);
         int res = agreementAuditMapper.updateById(agreementAudit);
         if (res <= 0 ){
             throw new RuntimeException("修改合同转移信息失败");
         }
         //修改合同信息
-        BusAgreement agreement = agreementService.getById(agreementAudit.getAgreementId());
-        if (agreement == null ){
-            return new APIResponse<>(Config.RE_DATA_NOT_EXIST_ERROR_CODE,Config.RE_DATA_NOT_EXIST_ERROR_MSG);
-        }
         agreement.setState(2);
         boolean res1 = agreementService.updateById(agreement);
         if (!res1){
@@ -236,6 +246,10 @@ public class BusAgreementAuditServiceImpl extends ServiceImpl<BusAgreementAuditM
 
     @Override
     public APIResponse endAuditAgreement(BusAgreementScoreDto agreementScore) {
+        //判断分数合法性
+        if (agreementScore.getScore() < 0 || agreementScore.getScore() > 100 ){
+            return new APIResponse(Config.RE_CODE_PARAM_ERROR,Config.RE_MSG_PARAM_ERROR);
+        }
         BusAgreementAudit agreementAudit = getById(agreementScore.getAgreementAuditId());
         if (agreementAudit == null){
             return new APIResponse(Config.RE_DATA_NOT_EXIST_ERROR_CODE,Config.RE_DATA_NOT_EXIST_ERROR_MSG);
@@ -243,17 +257,23 @@ public class BusAgreementAuditServiceImpl extends ServiceImpl<BusAgreementAuditM
         if (agreementScore.getLawyerId() != agreementAudit.getEndLawyerId()){
             return new APIResponse(Config.RE_AUDIT_SCORE_CODE,Config.RE_AUDIT_SCORE_MSG);
         }
+        //判断该合同是否已被评分
+        BusAgreement agreement = agreementService.getById(agreementAudit.getAgreementId());
+        if (agreement == null){
+            return new APIResponse(Config.RE_DATA_NOT_EXIST_ERROR_CODE,Config.RE_DATA_NOT_EXIST_ERROR_MSG);
+        }
+        if (agreement.getState() == 4){
+            return new APIResponse(Config.RE_AGREE_IS_SCORE_CODE,Config.RE_AGREE_IS_SCORE_MSG);
+        }
+
         agreementAudit.setScore(agreementScore.getScore());
         agreementAudit.setGmtModified(null);
         int res = agreementAuditMapper.updateById(agreementAudit);
         if (res <= 0){
             throw new RuntimeException("评分失败");
         }
+
         //修改合同表状态为4
-        BusAgreement agreement = agreementService.getById(agreementAudit.getAgreementId());
-        if (agreement == null){
-            return new APIResponse(Config.RE_DATA_NOT_EXIST_ERROR_CODE,Config.RE_DATA_NOT_EXIST_ERROR_MSG);
-        }
         agreement.setState(4);//将合同状态修改为4
         agreement.setGmtModified(null);
         boolean res1 = agreementService.updateById(agreement);
@@ -269,6 +289,13 @@ public class BusAgreementAuditServiceImpl extends ServiceImpl<BusAgreementAuditM
         if (busAgreement == null){
             return new APIResponse<>(Config.RE_DATA_NOT_EXIST_ERROR_CODE,Config.RE_DATA_NOT_EXIST_ERROR_MSG);
         }
+        //根据adminId获取lawyerId
+        BusLawyer lawyer1 = lawyerMapper.selectOne(new QueryWrapper<BusLawyer>().eq("sys_user_id",agreementDto.getAdminId())
+                .eq("is_delete",0));
+        if (lawyer1 == null ){
+            return new APIResponse<>(Config.RE_DATA_NOT_EXIST_ERROR_CODE,Config.RE_DATA_NOT_EXIST_ERROR_MSG);
+        }
+
         busAgreement.setState(2);//将合同修改为初审状态
         boolean res = agreementService.updateById(busAgreement);
         if (!res){
@@ -280,12 +307,6 @@ public class BusAgreementAuditServiceImpl extends ServiceImpl<BusAgreementAuditM
         res = save(busAgreementAudit);
         if (!res){
             throw new RuntimeException("分配合同失败");
-        }
-        //根据adminId获取lawyerId
-        BusLawyer lawyer1 = lawyerMapper.selectOne(new QueryWrapper<BusLawyer>().eq("sys_user_id",agreementDto.getAdminId())
-                .eq("is_delete",0));
-        if (lawyer1 == null ){
-            return new APIResponse<>(Config.RE_DATA_NOT_EXIST_ERROR_CODE,Config.RE_DATA_NOT_EXIST_ERROR_MSG);
         }
         BusChangeRecord changeRecord = new BusChangeRecord();
         changeRecord.setLawyerId(busAgreement.getId());
