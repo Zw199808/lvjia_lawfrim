@@ -31,7 +31,7 @@ import java.util.regex.Pattern;
 public class XssAndSqlHttpServletRequestWrapper extends HttpServletRequestWrapper {
 
     private final Logger log = LoggerFactory.getLogger(getClass());
-    private static String key = "drop|and|exec|insert|select|delete|update|count|*|%|chr|mid|master|truncate|char|declare|;|or|-|+" +
+    private static String key = "drop|and|exec|insert|select|delete|update|count|*|%|chr|mid|master|truncate|char|declare|;|or|+" +
             "DROP|AND|EXEC|INSERT|SELECT|DELETE|UPDATE|COUNT|CHR|MID|MASTER|TRUNCATE|CHAR|DECLARE|OR";
     private static Set<String> notAllowedKeyWords = new HashSet<String>(0);
     private static String replacedString="INVALID";
@@ -44,7 +44,7 @@ public class XssAndSqlHttpServletRequestWrapper extends HttpServletRequestWrappe
         }
 
         //  不需要过滤的接口
-//        urllist.add("");
+//        urllist.add("/admin/LawyerStatistics/lawyerAgreementNum");
     }
 
     private String currentUrl;

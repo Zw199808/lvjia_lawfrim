@@ -11,6 +11,7 @@ import com.xinou.lawfrim.web.entity.*;
 import com.xinou.lawfrim.web.mapper.*;
 import com.xinou.lawfrim.web.service.IBusAgreementService;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
+import com.xinou.lawfrim.web.util.CoolFormat;
 import com.xinou.lawfrim.web.util.ExcelUtil2;
 import com.xinou.lawfrim.web.util.upLoadFile;
 import com.xinou.lawfrim.web.vo.agreement.*;
@@ -54,28 +55,35 @@ public class BusAgreementServiceImpl extends ServiceImpl<BusAgreementMapper, Bus
     @Override
     public APIResponse<CustomNumVo> getCustomAgreementCount(BusAgreementDto agreement) {
         //根据id查询该对象上传的合同总数
-        Integer agreementCount = count(new QueryWrapper<BusAgreement>()
+        long agreementCount = count(new QueryWrapper<BusAgreement>()
                 .eq("is_delete",0)
                 .eq("custom_id",agreement.getCustomId()));
-        Integer auditCount = count(new QueryWrapper<BusAgreement>()
+        long auditCount = count(new QueryWrapper<BusAgreement>()
                 .eq("is_delete",0)
                 .eq("custom_id",agreement.getCustomId())
                 .eq("state",4));
-        Integer notAuditCount = count(new QueryWrapper<BusAgreement>()
+        long notAuditCount = count(new QueryWrapper<BusAgreement>()
                 .eq("is_delete",0)
                 .eq("custom_id",agreement.getCustomId())
                 .in("state",1,2,3,5));
+        //将结果格式化
         CustomNumVo customNumVo = new CustomNumVo();
         customNumVo.setAgreeNum(agreementCount);
         customNumVo.setAuditAgreement(auditCount);
         customNumVo.setNotAuditAgreement(notAuditCount);
-
+        customNumVo.setAgreeNumStr(CoolFormat.format(agreementCount));
+        customNumVo.setAuditAgreementStr(CoolFormat.format(auditCount));
+        customNumVo.setNotAuditAgreementStr(CoolFormat.format(notAuditCount));
         return new APIResponse<>(customNumVo);
     }
 
     @Override
     public APIResponse<AgreementTypeVo> getAgreementTypeStatistic(BusAgreementDto agreement) {
         List<AgreementTypeVo> list = agreementMapper.getAgreementTypeStatistic(agreement);
+        for (AgreementTypeVo agreementTypeVo : list){
+            //查询格式化结果
+            agreementTypeVo.setAgreementStr(CoolFormat.format(agreementTypeVo.getAgreement()));
+        }
         Map<String, Object> map = new HashMap<>(2);
         if (list.size() == 0) {
             map.put("dataList", new ArrayList<>());
@@ -88,18 +96,21 @@ public class BusAgreementServiceImpl extends ServiceImpl<BusAgreementMapper, Bus
     @Override
     public APIResponse<CustomNumVo> getAllAgreementCount() {
         //根据id查询该对象上传的合同总数
-        Integer agreementCount = count(new QueryWrapper<BusAgreement>()
+        long agreementCount = count(new QueryWrapper<BusAgreement>()
                 .eq("is_delete",0));
-        Integer auditCount = count(new QueryWrapper<BusAgreement>()
+        long auditCount = count(new QueryWrapper<BusAgreement>()
                 .eq("is_delete",0)
                 .eq("state",4));
-        Integer notAuditCount = count(new QueryWrapper<BusAgreement>()
+        long notAuditCount = count(new QueryWrapper<BusAgreement>()
                 .eq("is_delete",0)
                 .in("state",1,2,3,5));
         CustomNumVo customNumVo = new CustomNumVo();
         customNumVo.setAgreeNum(agreementCount);
         customNumVo.setAuditAgreement(auditCount);
         customNumVo.setNotAuditAgreement(notAuditCount);
+        customNumVo.setAgreeNumStr(CoolFormat.format(agreementCount));
+        customNumVo.setAuditAgreementStr(CoolFormat.format(auditCount));
+        customNumVo.setNotAuditAgreementStr(CoolFormat.format(notAuditCount));
 
         return new APIResponse<>(customNumVo);
     }

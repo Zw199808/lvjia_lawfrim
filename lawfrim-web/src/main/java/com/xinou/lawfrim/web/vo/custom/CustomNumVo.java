@@ -21,11 +21,20 @@ import java.io.Serializable;
 public class CustomNumVo implements Serializable {
 
     @ApiModelProperty("处理中合同数")
-    private Integer notAuditAgreement;
+    private Long notAuditAgreement;
 
     @ApiModelProperty("已处理合同数")
-    private Integer auditAgreement;
+    private Long auditAgreement;
 
     @ApiModelProperty("合同总数")
-    private Integer agreeNum;
+    private Long agreeNum;
+
+    @ApiModelProperty("处理中合同数-格式化")
+    private String notAuditAgreementStr;
+
+    @ApiModelProperty("已处理合同数-格式化")
+    private String auditAgreementStr;
+
+    @ApiModelProperty("合同总数-格式化")
+    private String agreeNumStr;
 }

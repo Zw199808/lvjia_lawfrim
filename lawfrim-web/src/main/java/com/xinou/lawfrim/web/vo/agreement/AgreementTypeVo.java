@@ -24,5 +24,8 @@ public class AgreementTypeVo implements Serializable {
     private Integer type;
 
     @ApiModelProperty("合同数量")
-    private Integer agreement;
+    private Long agreement;
+
+    @ApiModelProperty("合同数量-格式化")
+    private String agreementStr;
 }

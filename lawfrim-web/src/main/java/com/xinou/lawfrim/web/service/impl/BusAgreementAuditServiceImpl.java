@@ -13,6 +13,7 @@ import com.xinou.lawfrim.web.mapper.BusChangeRecordMapper;
 import com.xinou.lawfrim.web.mapper.BusLawyerMapper;
 import com.xinou.lawfrim.web.service.*;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
+import com.xinou.lawfrim.web.util.CoolFormat;
 import com.xinou.lawfrim.web.vo.agreementAudit.ScoreVo;
 import com.xinou.lawfrim.web.vo.custom.CustomNumVo;
 import org.apache.ibatis.annotations.Param;
@@ -54,6 +55,9 @@ public class BusAgreementAuditServiceImpl extends ServiceImpl<BusAgreementAuditM
         }
         agreementAuditDto.setLawyerId(lawyer.getId());
         CustomNumVo customNumVo = agreementAuditMapper.getLawyerAgreementCount(agreementAuditDto);
+        customNumVo.setAgreeNumStr(CoolFormat.format(customNumVo.getAgreeNum()));
+        customNumVo.setAuditAgreementStr(CoolFormat.format(customNumVo.getAuditAgreement()));
+        customNumVo.setNotAuditAgreementStr(CoolFormat.format(customNumVo.getNotAuditAgreement()));
         return new APIResponse<>(customNumVo);
     }
 
