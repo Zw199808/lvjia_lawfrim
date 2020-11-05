@@ -4,7 +4,11 @@ import java.text.DecimalFormat;
 import java.util.Map;
 import java.util.NavigableMap;
 import java.util.TreeMap;
-
+/**
+ * @author Wangxin
+ * @since 2020-11-05
+ * 数字格式化   1002  --> 1k+  1000 --> 1K
+ */
 public class CoolFormat {
 
     private static final NavigableMap<Long, String> suffixes = new TreeMap<>();
