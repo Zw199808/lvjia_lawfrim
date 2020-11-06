@@ -9,6 +9,7 @@ import com.xinou.lawfrim.web.vo.agreement.*;
 import com.xinou.lawfrim.web.vo.custom.CustomNumVo;
 
 import javax.servlet.http.HttpServletResponse;
+import java.util.List;
 
 /**
  * <p>
@@ -120,5 +121,6 @@ public interface IBusAgreementService extends IService<BusAgreement> {
      * @return
      */
     APIResponse<AdminDownloadAgreementVo> adminDownloadAgreement(DownloadAgreementDto agreementDto);
+
 
 }

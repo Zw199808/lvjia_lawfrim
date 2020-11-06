@@ -3,12 +3,14 @@ package com.xinou.lawfrim.web.service.impl;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.xinou.lawfrim.common.util.APIResponse;
 import com.xinou.lawfrim.common.util.Config;
+import com.xinou.lawfrim.common.util.StringUtil;
 import com.xinou.lawfrim.web.dto.*;
 import com.xinou.lawfrim.web.entity.BusAgreement;
 import com.xinou.lawfrim.web.entity.BusAgreementAudit;
 import com.xinou.lawfrim.web.entity.BusChangeRecord;
 import com.xinou.lawfrim.web.entity.BusLawyer;
 import com.xinou.lawfrim.web.mapper.BusAgreementAuditMapper;
+import com.xinou.lawfrim.web.mapper.BusAgreementMapper;
 import com.xinou.lawfrim.web.mapper.BusChangeRecordMapper;
 import com.xinou.lawfrim.web.mapper.BusLawyerMapper;
 import com.xinou.lawfrim.web.service.*;
@@ -20,6 +22,9 @@ import org.apache.ibatis.annotations.Param;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Primary;
 import org.springframework.stereotype.Service;
+
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * <p>
@@ -44,6 +49,9 @@ public class BusAgreementAuditServiceImpl extends ServiceImpl<BusAgreementAuditM
 
     @Autowired
     private BusLawyerMapper lawyerMapper;
+
+    @Autowired
+    private BusAgreementMapper agreementMapper;
 
     @Override
     public APIResponse<CustomNumVo> getLawyerAgreementCount(BusAgreementAuditDto agreementAuditDto) {
@@ -123,6 +131,8 @@ public class BusAgreementAuditServiceImpl extends ServiceImpl<BusAgreementAuditM
         if (res<=0){
             throw new RuntimeException("回复合同失败");
         }
+        //回复合同后将该合同添加到待自动评分合同列表
+        ScoreAutoBean.addToBeScoreList(agreement);
         return new APIResponse();
     }
 
@@ -284,6 +294,7 @@ public class BusAgreementAuditServiceImpl extends ServiceImpl<BusAgreementAuditM
         if (!res1){
             throw new RuntimeException("修改合同状态失败");
         }
+        ScoreAutoBean.removeToBeScoreList(agreement);
         return new APIResponse();
     }
 
@@ -325,6 +336,101 @@ public class BusAgreementAuditServiceImpl extends ServiceImpl<BusAgreementAuditM
             throw new RuntimeException("分配合同失败");
         }
         return new APIResponse();
+    }
+
+    @Override
+    public List<BusAgreement> toBeScoreList() {
+        List<BusAgreement> list = agreementMapper.selectList(new QueryWrapper<BusAgreement>()
+                .eq("is_delete",0)
+                .eq("state",3));
+        return list;
+    }
+
+    @Override
+    public List<BusAgreement> toBeScoreAuto(List<BusAgreement> agreeList) {
+
+        if (agreeList.size() == 0) {
+            return agreeList;
+        }
+
+        long now = System.currentTimeMillis();
+
+        //要自动评分的合同列表
+        List<BusAgreement> newAgreeList = new ArrayList<>();
+
+
+        for (BusAgreement agreement : agreeList) {
+
+            if (StringUtil.isNullString(agreement.getEndTime() + "")) {
+                continue;
+            }
+            //正数,第一个时间大
+            int count = (int) (agreement.getEndTime().getTime() - now);
+
+            if (count <= 0) {
+                newAgreeList.add(agreement);
+            }
+        }
+
+        if (newAgreeList.size() == 0) {
+            return agreeList;
+        }
+
+        boolean res = autoScore(newAgreeList);
+
+        if (!res) {
+            return agreeList;
+        }
+
+        int size = agreeList.size();
+
+        for (int index = 0; index < size; index++) {
+
+            BusAgreement agreement = agreeList.get(index);
+
+            for (BusAgreement newAgree : newAgreeList) {
+
+                if (agreement.getId() == newAgree.getId()) {
+                    agreeList.remove(index);
+
+                    index--;
+                    size--;
+                }
+
+            }
+        }
+
+        return agreeList;
+    }
+
+
+    @Override
+    public boolean autoScore(List<BusAgreement> agreeList) {
+
+        if (agreeList.size() == 0) {
+            return true;
+        }
+
+        List<BusAgreementAudit> list = new ArrayList<>();
+
+        for (BusAgreement agreement : agreeList) {
+            BusAgreementAudit agreementAudit = agreementAuditMapper.selectOne(new QueryWrapper<BusAgreementAudit>()
+                    .eq("is_delete",0)
+                    .eq("agreement_id",agreement.getId()));
+            agreement.setState(4);
+            agreement.setGmtModified(null);
+
+            agreementAudit.setScore(100d);
+            agreementAudit.setGmtModified(null);
+            list.add(agreementAudit);
+        }
+
+        boolean res1 = updateBatchById(list);
+        if (!res1){
+            return res1;
+        }
+        boolean res = agreementService.updateBatchById(agreeList);
+        return res;
     }
 
 }

@@ -4,13 +4,16 @@ import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.xinou.lawfrim.common.util.APIResponse;
 import com.xinou.lawfrim.common.util.Config;
+import com.xinou.lawfrim.common.util.StringUtil;
 import com.xinou.lawfrim.common.util.TimeChange;
 import com.xinou.lawfrim.web.dto.BusAgreementDto;
 import com.xinou.lawfrim.web.dto.DownloadAgreementDto;
 import com.xinou.lawfrim.web.entity.*;
 import com.xinou.lawfrim.web.mapper.*;
+import com.xinou.lawfrim.web.service.IBusAgreementAuditService;
 import com.xinou.lawfrim.web.service.IBusAgreementService;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
+import com.xinou.lawfrim.web.service.IBusChangeRecordService;
 import com.xinou.lawfrim.web.util.CoolFormat;
 import com.xinou.lawfrim.web.util.ExcelUtil2;
 import com.xinou.lawfrim.web.util.upLoadFile;
@@ -18,6 +21,7 @@ import com.xinou.lawfrim.web.vo.agreement.*;
 import com.xinou.lawfrim.web.vo.custom.CustomNumVo;
 import com.xinou.lawfrim.web.vo.lawyer.*;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Lazy;
 import org.springframework.context.annotation.Primary;
 import org.springframework.stereotype.Service;
 
@@ -51,6 +55,7 @@ public class BusAgreementServiceImpl extends ServiceImpl<BusAgreementMapper, Bus
 
     @Autowired
     private BusLawyerMapper lawyerMapper;
+
 
     @Override
     public APIResponse<CustomNumVo> getCustomAgreementCount(BusAgreementDto agreement) {
@@ -498,6 +503,7 @@ public class BusAgreementServiceImpl extends ServiceImpl<BusAgreementMapper, Bus
         adminDownloadAgreementVo.setSecondURL(secondURL);
         return new APIResponse<>(adminDownloadAgreementVo);
     }
+
 
     private void getTime(BusAgreementDto agreement) {
         LocalDateTime now = LocalDateTime.now();
