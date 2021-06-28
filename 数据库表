@@ -1,0 +1,682 @@
+/*
+ Navicat Premium Data Transfer
+
+ Source Server         : 南开化学院校友会
+ Source Server Type    : MySQL
+ Source Server Version : 50628
+ Source Host           : 578d7e0e5ca35.bj.cdb.myqcloud.com:3449
+ Source Schema         : lvjia_lawfrim_zhangwei
+
+ Target Server Type    : MySQL
+ Target Server Version : 50628
+ File Encoding         : 65001
+
+ Date: 28/06/2021 16:45:27
+*/
+
+SET NAMES utf8mb4;
+SET FOREIGN_KEY_CHECKS = 0;
+
+-- ----------------------------
+-- Table structure for bus_agreement
+-- ----------------------------
+DROP TABLE IF EXISTS `bus_agreement`;
+CREATE TABLE `bus_agreement` (
+  `id` int(11) NOT NULL AUTO_INCREMENT COMMENT '合同信息',
+  `name` varchar(300) COLLATE utf8mb4_unicode_ci NOT NULL DEFAULT '' COMMENT '合同名称',
+  `custom_id` int(11) NOT NULL DEFAULT '0' COMMENT '客户id',
+  `state` int(11) NOT NULL DEFAULT '0' COMMENT '合同状态\n0:-\n1:发布\n2:初审\n3:终审\n4:审核完成\n5:转移中',
+  `end_time` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT '截止日期',
+  `audit` int(11) NOT NULL DEFAULT '0' COMMENT '需审核方\\n0：-\\n1：甲方\\n2：乙方 3丙方 4其他',
+  `audit_str` varchar(45) COLLATE utf8mb4_unicode_ci NOT NULL DEFAULT '' COMMENT '审核方为其他的时候为必填',
+  `remark` varchar(300) CHARACTER SET utf8mb4 NOT NULL DEFAULT '' COMMENT '备注',
+  `gmt_create` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间',
+  `gmt_modified` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+  `is_delete` tinyint(1) NOT NULL DEFAULT '0' COMMENT '是否删除\n\n0: 未删除\n1: 已删除',
+  `firm_id` int(11) NOT NULL DEFAULT '0',
+  `meet_name` varchar(45) COLLATE utf8mb4_unicode_ci NOT NULL DEFAULT '' COMMENT '对接人姓名',
+  `meet_tel` varchar(45) COLLATE utf8mb4_unicode_ci NOT NULL DEFAULT '' COMMENT '对接人联系方式',
+  `type` varchar(45) COLLATE utf8mb4_unicode_ci NOT NULL DEFAULT '' COMMENT '合同类型名称',
+  `reply_mode` varchar(45) COLLATE utf8mb4_unicode_ci NOT NULL DEFAULT '2' COMMENT '回复方式 1：邮箱 2：系统回复',
+  `reply_mode_str` varchar(200) COLLATE utf8mb4_unicode_ci NOT NULL DEFAULT '' COMMENT '邮箱',
+  `emergency_state` int(11) NOT NULL DEFAULT '1' COMMENT '紧急情况 1正常  2加急 3紧急  4特急',
+  `work_nature` varchar(45) COLLATE utf8mb4_unicode_ci NOT NULL DEFAULT '' COMMENT '工作性质',
+  `work_state` int(11) NOT NULL DEFAULT '0' COMMENT '工作阶段',
+  `begin_time` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT '开始时间',
+  `stop_time` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT '结束时间',
+  PRIMARY KEY (`id`),
+  UNIQUE KEY `id_UNIQUE` (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=9 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+-- ----------------------------
+-- Records of bus_agreement
+-- ----------------------------
+BEGIN;
+INSERT INTO `bus_agreement` VALUES (1, '合同履约担保函_1609988064006.docx', 3, 4, '2021-01-08 00:00:00', 2, '', '尽快粗粒', '2021-01-07 10:54:53', '2021-01-07 11:01:18', 0, 1, '李丽丽', '12399989098', '买卖合同类', '2', '微信', 1, '87', 1, '2021-01-07 01:00:00', '2021-01-07 04:00:00');
+INSERT INTO `bus_agreement` VALUES (2, '4.股东会决议（模板）_1610004205884.docx', 3, 4, '2021-01-11 00:00:00', 2, '', '低调', '2021-01-07 15:23:32', '2021-01-13 09:15:13', 0, 1, '吴总', '18666666666', '技术合同类', '2', '微信', 1, '87', 1, '2021-01-12 01:00:00', '2021-01-12 03:00:00');
+INSERT INTO `bus_agreement` VALUES (3, '律甲文契系统测试版反馈意见_1610501003288.docx', 3, 4, '2021-01-14 00:00:00', 2, '', '这里是备注', '2021-01-13 09:23:26', '2021-01-14 00:00:00', 0, 1, 'zhangsan', '17695922979', '买卖合同类', '1', '1533439825@qq.com', 1, '87', 2, '2021-01-13 00:00:00', '2021-01-13 00:00:00');
+INSERT INTO `bus_agreement` VALUES (4, '【修订版】合同履约担保函_1609988226090_1610957329732.docx', 3, 4, '2021-01-21 00:00:00', 2, '', 'dfgsd', '2021-01-18 16:09:03', '2021-01-18 17:46:16', 0, 1, 'zhangsan', '17695922979', '供水电气热力合同', '1', '1533439825@qq.com', 1, '87', 2, '2021-01-19 00:00:00', '2021-01-29 00:00:00');
+INSERT INTO `bus_agreement` VALUES (5, '副本律甲文契系统测试版反馈意见_1609385701368 (1)_1620288988876.docx', 25, 4, '2021-05-06 00:00:00', 2, '', '十大', '2021-05-06 16:16:35', '2021-05-21 14:47:59', 0, 0, '', '', '', '2', '', 1, '', 0, '2021-05-06 16:16:35', '2021-05-06 16:16:35');
+INSERT INTO `bus_agreement` VALUES (6, '20201216085350397605_1621414054183.docx', 25, 4, '2021-05-19 00:00:00', 1, '', '往往企鹅', '2021-05-19 16:48:59', '2021-05-20 10:48:16', 0, 0, '', '', '', '2', '', 1, '', 0, '2021-05-19 16:48:59', '2021-05-19 16:48:59');
+INSERT INTO `bus_agreement` VALUES (7, '191419141914_1621484624676.pdf', 25, 2, '2021-05-20 00:00:00', 1, '', '', '2021-05-20 12:24:02', '2021-05-20 12:24:02', 0, 0, '', '', '', '2', '', 1, '', 0, '2021-05-20 12:24:02', '2021-05-20 12:24:02');
+INSERT INTO `bus_agreement` VALUES (8, '副本天津科技大学毕业实习鉴定表_1621575636797.doc', 25, 5, '2021-05-21 00:00:00', 1, '', '往往企鹅', '2021-05-21 13:40:44', '2021-05-21 13:40:44', 0, 0, '', '', '', '2', '', 1, '', 0, '2021-05-21 13:40:44', '2021-05-21 13:40:44');
+COMMIT;
+
+-- ----------------------------
+-- Table structure for bus_agreement_audit
+-- ----------------------------
+DROP TABLE IF EXISTS `bus_agreement_audit`;
+CREATE TABLE `bus_agreement_audit` (
+  `id` int(11) NOT NULL AUTO_INCREMENT COMMENT '合同审批表',
+  `lawyer_id` int(11) NOT NULL COMMENT '律师id',
+  `agreement_id` int(11) NOT NULL COMMENT '合同id',
+  `first_agreement_name` varchar(300) COLLATE utf8mb4_unicode_ci NOT NULL DEFAULT '' COMMENT '初审合同',
+  `second_agreement_name` varchar(300) COLLATE utf8mb4_unicode_ci NOT NULL DEFAULT '' COMMENT '终审合同',
+  `score` double NOT NULL DEFAULT '0' COMMENT '评分',
+  `type` int(11) NOT NULL DEFAULT '0' COMMENT '合同类型\n0：-\n1：买卖合同\n2：供水电气热力合同\n3：赠与合同\n4：借款合同\n5：租赁合同\n6：股权合同\n7：融资租赁合同\n8：承揽合同\n9：建设工程合同\n10：物流运输合同\n11：技术合同\n12：保管合同\n13：仓储合同\n14：委托合同\n15：行纪合同\n16：居间合同\n17：混合法律关系合同\n18：其他合同',
+  `gmt_create` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间',
+  `gmt_modified` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+  `is_delete` tinyint(1) NOT NULL DEFAULT '0' COMMENT '是否删除\n\n0: 未删除\n1: 已删除',
+  `end_lawyer_id` int(11) NOT NULL DEFAULT '0' COMMENT '复审律师id',
+  `first_audit_time` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT '初审回复日期',
+  `state` int(11) NOT NULL DEFAULT '0' COMMENT '转移状态\n0：-\n1：未接收\n2：已接收',
+  `firm_id` int(11) NOT NULL DEFAULT '0',
+  `content` varchar(300) COLLATE utf8mb4_unicode_ci NOT NULL DEFAULT '' COMMENT '回复合同备注',
+  PRIMARY KEY (`id`),
+  UNIQUE KEY `id_UNIQUE` (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=9 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+-- ----------------------------
+-- Records of bus_agreement_audit
+-- ----------------------------
+BEGIN;
+INSERT INTO `bus_agreement_audit` VALUES (1, 33, 1, '', '【修订版】合同履约担保函_1609988226090.docx', 80, 0, '2021-01-07 10:55:16', '2021-01-07 11:01:18', 0, 1, '2021-01-07 10:57:07', 0, 1, '已复核');
+INSERT INTO `bus_agreement_audit` VALUES (2, 32, 2, '', '4.股东会决议（模板）_1610004340327.docx', 100, 0, '2021-01-07 15:24:24', '2021-01-13 09:15:12', 0, 34, '2021-01-07 15:25:42', 0, 1, '');
+INSERT INTO `bus_agreement_audit` VALUES (3, 1, 3, '', '反馈文档WQ_1610501071898.docx', 100, 0, '2021-01-13 09:23:43', '2021-01-14 00:00:00', 0, 32, '2021-01-13 09:24:45', 0, 1, '备注');
+INSERT INTO `bus_agreement_audit` VALUES (4, 1, 4, '', '【修订版】合同履约担保函_1609988226090_1610957431665.docx', 97, 0, '2021-01-18 16:09:56', '2021-01-18 17:46:16', 0, 32, '2021-01-18 16:10:33', 0, 1, '备注');
+INSERT INTO `bus_agreement_audit` VALUES (5, 1, 5, '副本天津科技大学毕业实习鉴定表_1621578535881.doc', '副本天津科技大学毕业实习鉴定表_1621578540908.doc', 100, 1, '2021-05-19 16:49:19', '2021-05-21 14:29:04', 0, 1, '2021-05-21 14:29:04', 0, 0, '');
+INSERT INTO `bus_agreement_audit` VALUES (6, 1, 6, '“智慧团建”系统毕业学生团员团组织关系转接工作指引_1621478847815.docx', '副本律甲文契系统测试版反馈意见_1610968602405_1621478886853.docx', 100, 1, '2021-05-19 16:49:32', '2021-05-20 10:48:16', 0, 1, '2021-05-20 10:48:15', 0, 0, '');
+INSERT INTO `bus_agreement_audit` VALUES (7, 40, 7, '', '', 0, 0, '2021-05-21 13:38:31', '2021-05-21 13:38:31', 0, 0, '2021-05-21 13:38:31', 0, 0, '');
+INSERT INTO `bus_agreement_audit` VALUES (8, 32, 8, '', '', 0, 0, '2021-05-21 14:28:30', '2021-05-21 14:28:36', 0, 0, '2021-05-21 14:28:30', 1, 0, '');
+COMMIT;
+
+-- ----------------------------
+-- Table structure for bus_agreement_img
+-- ----------------------------
+DROP TABLE IF EXISTS `bus_agreement_img`;
+CREATE TABLE `bus_agreement_img` (
+  `id` int(11) NOT NULL AUTO_INCREMENT COMMENT '合同图片',
+  `cover` varchar(300) COLLATE utf8mb4_unicode_ci NOT NULL DEFAULT '',
+  `agreement_id` int(11) NOT NULL DEFAULT '0' COMMENT '合同Id',
+  `gmt_create` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间',
+  `gmt_modified` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+  `is_delete` tinyint(1) NOT NULL DEFAULT '0' COMMENT '是否删除\\n\\n0: 未删除\\n1: 已删除',
+  `firm_id` int(11) NOT NULL DEFAULT '0',
+  PRIMARY KEY (`id`),
+  UNIQUE KEY `id_UNIQUE` (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+-- ----------------------------
+-- Records of bus_agreement_img
+-- ----------------------------
+BEGIN;
+COMMIT;
+
+-- ----------------------------
+-- Table structure for bus_change_record
+-- ----------------------------
+DROP TABLE IF EXISTS `bus_change_record`;
+CREATE TABLE `bus_change_record` (
+  `id` int(11) NOT NULL AUTO_INCREMENT COMMENT '转移/分配记录表',
+  `lawyer_id` int(11) NOT NULL COMMENT '律师id',
+  `agreement_audit_id` int(11) NOT NULL COMMENT '审批表id',
+  `type` int(11) NOT NULL DEFAULT '0' COMMENT '领取方式\n0:-\n1:领取\n2:转移\n3:分配',
+  `old_or_assign_lawyer_id` int(11) NOT NULL DEFAULT '0' COMMENT '原分配律师',
+  `state` int(11) NOT NULL DEFAULT '0' COMMENT '转移状态\\n0：-\\n1：未接收\\n2：已接收 3：拒绝接受',
+  `gmt_create` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间',
+  `gmt_modified` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+  `is_delete` tinyint(1) NOT NULL DEFAULT '0' COMMENT '是否删除\n\n0: 未删除\n1: 已删除',
+  PRIMARY KEY (`id`),
+  UNIQUE KEY `id_UNIQUE` (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=10 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+-- ----------------------------
+-- Records of bus_change_record
+-- ----------------------------
+BEGIN;
+INSERT INTO `bus_change_record` VALUES (1, 33, 1, 1, 0, 0, '2021-01-07 10:55:16', '2021-01-07 10:55:16', 0);
+INSERT INTO `bus_change_record` VALUES (2, 32, 2, 1, 0, 0, '2021-01-07 15:24:24', '2021-01-07 15:24:24', 0);
+INSERT INTO `bus_change_record` VALUES (3, 1, 3, 1, 0, 0, '2021-01-13 09:23:43', '2021-01-13 09:23:43', 0);
+INSERT INTO `bus_change_record` VALUES (4, 1, 4, 1, 0, 0, '2021-01-18 16:09:56', '2021-01-18 16:09:56', 0);
+INSERT INTO `bus_change_record` VALUES (5, 1, 5, 1, 0, 0, '2021-05-19 16:49:19', '2021-05-19 16:49:19', 0);
+INSERT INTO `bus_change_record` VALUES (6, 1, 6, 1, 0, 0, '2021-05-19 16:49:32', '2021-05-19 16:49:32', 0);
+INSERT INTO `bus_change_record` VALUES (7, 7, 7, 3, 1, 0, '2021-05-21 13:38:31', '2021-05-21 13:38:31', 0);
+INSERT INTO `bus_change_record` VALUES (8, 1, 8, 1, 0, 0, '2021-05-21 14:28:30', '2021-05-21 14:28:30', 0);
+INSERT INTO `bus_change_record` VALUES (9, 32, 8, 2, 1, 1, '2021-05-21 14:28:36', '2021-05-21 14:28:36', 0);
+COMMIT;
+
+-- ----------------------------
+-- Table structure for bus_custom
+-- ----------------------------
+DROP TABLE IF EXISTS `bus_custom`;
+CREATE TABLE `bus_custom` (
+  `id` int(10) NOT NULL AUTO_INCREMENT COMMENT '客户信息表',
+  `name` varchar(45) CHARACTER SET utf8mb4 NOT NULL DEFAULT '' COMMENT '用户名',
+  `account` varchar(50) CHARACTER SET utf8mb4 NOT NULL DEFAULT '' COMMENT '账户',
+  `password` varchar(100) CHARACTER SET utf8mb4 NOT NULL DEFAULT '' COMMENT '密码（加密）',
+  `gmt_create` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间',
+  `gmt_modified` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT '修改时间',
+  `is_delete` tinyint(1) NOT NULL DEFAULT '0' COMMENT '是否删除\n\n0: 未删除\n1: 已删除',
+  `firm_id` int(11) NOT NULL DEFAULT '0',
+  `company_id` int(11) NOT NULL DEFAULT '0' COMMENT 'OA系统顾问单位id',
+  PRIMARY KEY (`id`),
+  UNIQUE KEY `id_UNIQUE` (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=30 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+-- ----------------------------
+-- Records of bus_custom
+-- ----------------------------
+BEGIN;
+INSERT INTO `bus_custom` VALUES (1, '我是30日到期', '我是30日到期', 'e10adc3949ba59abbe56e057f20f883e', '2020-12-31 16:44:29', '2020-12-31 16:44:29', 0, 1, 63);
+INSERT INTO `bus_custom` VALUES (2, '我是线的', '我是线的', 'e10adc3949ba59abbe56e057f20f883e', '2020-12-31 16:44:29', '2020-12-31 16:44:29', 0, 1, 62);
+INSERT INTO `bus_custom` VALUES (3, '中国汽车技术研究中心有限公司', '中国汽车技术研究中心有限公司', 'e10adc3949ba59abbe56e057f20f883e', '2020-12-31 16:44:29', '2020-12-31 16:44:29', 0, 1, 61);
+INSERT INTO `bus_custom` VALUES (4, '这是一个新的法人，挺长的', '这是一个新的法人，挺长的', 'e10adc3949ba59abbe56e057f20f883e', '2020-12-31 16:44:29', '2020-12-31 16:44:29', 0, 1, 59);
+INSERT INTO `bus_custom` VALUES (5, '内蒙古伊利实业集团股份有限公司', '内蒙古伊利实业集团股份有限公司', 'e10adc3949ba59abbe56e057f20f883e', '2020-12-31 16:44:29', '2020-12-31 16:44:29', 0, 1, 57);
+INSERT INTO `bus_custom` VALUES (6, '海南海光房地产营销策划有限公司', '海南海光房地产营销策划有限公司', 'e10adc3949ba59abbe56e057f20f883e', '2020-12-31 16:44:29', '2020-12-31 16:44:29', 0, 1, 56);
+INSERT INTO `bus_custom` VALUES (7, '深圳市腾讯计算机系统有限公司', '深圳市腾讯计算机系统有限公司', 'e10adc3949ba59abbe56e057f20f883e', '2020-12-31 16:44:29', '2020-12-31 16:44:29', 0, 1, 55);
+INSERT INTO `bus_custom` VALUES (8, '阿里巴巴（中国）有限公司', '阿里巴巴（中国）有限公司', 'e10adc3949ba59abbe56e057f20f883e', '2020-12-31 16:44:29', '2020-12-31 16:44:29', 0, 1, 52);
+INSERT INTO `bus_custom` VALUES (9, '自然人测试一', '自然人测试一', 'e10adc3949ba59abbe56e057f20f883e', '2020-12-31 16:44:29', '2020-12-31 16:44:29', 0, 1, 42);
+INSERT INTO `bus_custom` VALUES (10, '内蒙古海光科贸有限公司', '内蒙古海光科贸有限公司', 'e10adc3949ba59abbe56e057f20f883e', '2020-12-31 16:44:29', '2020-12-31 16:44:29', 0, 1, 41);
+INSERT INTO `bus_custom` VALUES (11, '测试第一回合', '测试第一回合', 'e10adc3949ba59abbe56e057f20f883e', '2020-12-31 16:44:29', '2020-12-31 16:44:29', 0, 1, 40);
+INSERT INTO `bus_custom` VALUES (12, '我是谁 ', '我是谁 ', 'e10adc3949ba59abbe56e057f20f883e', '2020-12-31 16:44:29', '2020-12-31 16:44:29', 0, 1, 12);
+INSERT INTO `bus_custom` VALUES (13, '测试单位', '测试单位', 'e10adc3949ba59abbe56e057f20f883e', '2020-12-31 16:44:29', '2020-12-31 16:44:29', 0, 1, 2);
+INSERT INTO `bus_custom` VALUES (14, 'asdfsdfsdf', 'asdfsdfsdf', 'e10adc3949ba59abbe56e057f20f883e', '2021-01-18 18:56:40', '2021-01-18 18:56:40', 0, 0, 81);
+INSERT INTO `bus_custom` VALUES (15, 'asdfsdfsdf', 'asdfsdfsdf', 'e10adc3949ba59abbe56e057f20f883e', '2021-01-18 18:59:05', '2021-01-18 18:59:05', 0, 1, 82);
+INSERT INTO `bus_custom` VALUES (16, 'asdfsdfsdf', 'asdfsdfsdf', 'e10adc3949ba59abbe56e057f20f883e', '2021-01-18 18:59:57', '2021-01-18 18:59:57', 0, 1, 83);
+INSERT INTO `bus_custom` VALUES (17, 'asdfsdfsdf', 'asdfsdfsdf', 'e10adc3949ba59abbe56e057f20f883e', '2021-01-18 19:01:17', '2021-01-18 19:01:17', 0, 1, 84);
+INSERT INTO `bus_custom` VALUES (18, 'asdfsdfsdf', 'asdfsdfsdf', 'e10adc3949ba59abbe56e057f20f883e', '2021-01-18 19:04:12', '2021-01-18 19:04:12', 0, 1, 85);
+INSERT INTO `bus_custom` VALUES (19, 'asdfsdfsdf', 'asdfsdfsdf', 'e10adc3949ba59abbe56e057f20f883e', '2021-01-18 19:04:39', '2021-01-18 19:04:39', 0, 1, 86);
+INSERT INTO `bus_custom` VALUES (20, 'asdfsdfsdf', 'asdfsdfsdf', 'e10adc3949ba59abbe56e057f20f883e', '2021-01-18 19:05:07', '2021-01-18 19:05:07', 0, 1, 87);
+INSERT INTO `bus_custom` VALUES (21, 'asdfsdfsdf', 'asdfsdfsdf', 'e10adc3949ba59abbe56e057f20f883e', '2021-01-18 19:05:24', '2021-01-18 19:05:24', 0, 1, 88);
+INSERT INTO `bus_custom` VALUES (22, 'asdfsdfsdf', 'asdfsdfsdf', 'e10adc3949ba59abbe56e057f20f883e', '2021-01-18 19:05:46', '2021-01-18 19:05:46', 0, 1, 89);
+INSERT INTO `bus_custom` VALUES (23, 'asdfsdfsdf', 'asdfsdfsdf', 'e10adc3949ba59abbe56e057f20f883e', '2021-01-18 19:06:22', '2021-01-18 19:06:22', 0, 1, 90);
+INSERT INTO `bus_custom` VALUES (24, 'asdfsdfsdf', 'asdfsdfsdf', 'e10adc3949ba59abbe56e057f20f883e', '2021-01-18 19:08:37', '2021-01-18 19:08:37', 1, 1, 91);
+INSERT INTO `bus_custom` VALUES (25, '张伟啊实打实', 'custom1', 'e10adc3949ba59abbe56e057f20f883e', '2021-05-06 16:15:09', '2021-05-18 17:20:31', 0, 0, 0);
+INSERT INTO `bus_custom` VALUES (26, '哈哈哈', '¥¥DF¥', 'e10adc3949ba59abbe56e057f20f883e', '2021-05-20 18:06:02', '2021-05-20 18:06:02', 0, 0, 0);
+INSERT INTO `bus_custom` VALUES (27, '啊实打实啊实打实的', '啊实打实的', 'e10adc3949ba59abbe56e057f20f883e', '2021-05-20 18:09:55', '2021-05-20 18:11:57', 0, 0, 0);
+INSERT INTO `bus_custom` VALUES (28, '测试', 'test', '25d55ad283aa400af464c76d713c07ad', '2021-05-21 12:05:43', '2021-05-21 12:25:35', 0, 0, 0);
+INSERT INTO `bus_custom` VALUES (29, '测试21', 'test21', 'e10adc3949ba59abbe56e057f20f883e', '2021-05-21 14:29:38', '2021-05-21 14:43:36', 0, 0, 0);
+COMMIT;
+
+-- ----------------------------
+-- Table structure for bus_lawyer
+-- ----------------------------
+DROP TABLE IF EXISTS `bus_lawyer`;
+CREATE TABLE `bus_lawyer` (
+  `id` int(11) NOT NULL AUTO_INCREMENT COMMENT '律师信息',
+  `name` varchar(45) COLLATE utf8mb4_unicode_ci NOT NULL COMMENT '姓名',
+  `sys_user_id` int(11) NOT NULL COMMENT 'sys_user表id',
+  `state` int(11) NOT NULL DEFAULT '1' COMMENT '律师在线状态\n0:-\n1:在线\n2:不在线',
+  `gmt_create` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间',
+  `gmt_modified` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+  `is_delete` tinyint(1) NOT NULL DEFAULT '0' COMMENT '是否删除\n\n0: 未删除\n1: 已删除',
+  `adviser` int(11) NOT NULL DEFAULT '0' COMMENT '是否顾问法务\n0：-\n1：是',
+  `firm_id` int(11) NOT NULL DEFAULT '0',
+  PRIMARY KEY (`id`),
+  UNIQUE KEY `id_UNIQUE` (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=43 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+-- ----------------------------
+-- Records of bus_lawyer
+-- ----------------------------
+BEGIN;
+INSERT INTO `bus_lawyer` VALUES (1, 'admin', 1, 1, '2020-10-16 21:53:02', '2020-12-10 15:41:04', 0, 0, 1);
+INSERT INTO `bus_lawyer` VALUES (32, '顾问法务', 6523, 1, '2020-11-06 21:41:25', '2020-12-10 19:42:14', 0, 0, 1);
+INSERT INTO `bus_lawyer` VALUES (33, '普通律师', 6524, 1, '2020-11-06 21:42:27', '2020-12-10 19:42:14', 0, 0, 1);
+INSERT INTO `bus_lawyer` VALUES (34, '张晨曦', 6525, 1, '2020-11-09 15:00:26', '2020-12-10 19:42:14', 0, 0, 1);
+INSERT INTO `bus_lawyer` VALUES (35, 'asdf', 6526, 1, '2020-12-18 16:26:04', '2020-12-18 16:26:04', 0, 0, 1);
+INSERT INTO `bus_lawyer` VALUES (36, '萨达QWE', 6527, 1, '2020-12-18 16:37:10', '2020-12-18 16:37:10', 0, 0, 1);
+INSERT INTO `bus_lawyer` VALUES (37, 'awsd', 6528, 1, '2020-12-18 16:49:25', '2020-12-18 16:49:25', 0, 0, 1);
+INSERT INTO `bus_lawyer` VALUES (38, '辛玉涛', 6529, 1, '2020-12-29 10:13:22', '2020-12-29 10:13:22', 0, 0, 1);
+INSERT INTO `bus_lawyer` VALUES (39, '张雅平', 6530, 1, '2020-12-29 10:13:50', '2020-12-29 10:13:50', 0, 0, 1);
+INSERT INTO `bus_lawyer` VALUES (40, '测试', 6531, 1, '2021-05-21 12:05:17', '2021-05-21 12:05:17', 0, 0, 0);
+INSERT INTO `bus_lawyer` VALUES (41, '测试22', 6532, 1, '2021-05-21 12:27:27', '2021-05-21 12:27:27', 0, 0, 0);
+INSERT INTO `bus_lawyer` VALUES (42, '测试211', 6533, 1, '2021-05-21 14:30:27', '2021-05-21 14:30:27', 0, 0, 0);
+COMMIT;
+
+-- ----------------------------
+-- Table structure for sys_app
+-- ----------------------------
+DROP TABLE IF EXISTS `sys_app`;
+CREATE TABLE `sys_app` (
+  `id` int(11) NOT NULL AUTO_INCREMENT COMMENT '权限应用表',
+  `name` varchar(128) COLLATE utf8mb4_unicode_ci NOT NULL COMMENT '名称',
+  `sort` int(11) NOT NULL DEFAULT '0' COMMENT '排序',
+  `is_enable` tinyint(1) NOT NULL DEFAULT '1' COMMENT '是否启用\n\n0:不可用\n1:可用',
+  `code` varchar(16) COLLATE utf8mb4_unicode_ci NOT NULL COMMENT '编码',
+  `gmt_create` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间',
+  `gmt_modified` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+  `is_delete` tinyint(1) NOT NULL DEFAULT '0' COMMENT '是否删除\n\n0: 未删除\n1: 已删除',
+  PRIMARY KEY (`id`),
+  UNIQUE KEY `id_UNIQUE` (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+-- ----------------------------
+-- Records of sys_app
+-- ----------------------------
+BEGIN;
+INSERT INTO `sys_app` VALUES (1, '文契管理系统', 0, 1, 'policeSystem', '0000-00-00 00:00:00', '2020-10-21 17:03:12', 0);
+COMMIT;
+
+-- ----------------------------
+-- Table structure for sys_permission
+-- ----------------------------
+DROP TABLE IF EXISTS `sys_permission`;
+CREATE TABLE `sys_permission` (
+  `id` int(11) NOT NULL AUTO_INCREMENT COMMENT '权限表',
+  `app_id` int(11) NOT NULL COMMENT '应用ID',
+  `parent_id` int(11) DEFAULT NULL COMMENT '父ID\n\n没有有父id 的  都为菜单\n\n有父id 的  都为  按钮或者显示\n\n\n父id 表示   此权限 是在哪个菜单下的 ',
+  `name` varchar(50) COLLATE utf8mb4_unicode_ci NOT NULL COMMENT '名称',
+  `icon` varchar(100) COLLATE utf8mb4_unicode_ci NOT NULL DEFAULT '' COMMENT '图标',
+  `url` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL COMMENT '权限URL',
+  `sort` int(11) NOT NULL COMMENT '排序',
+  `is_menu` tinyint(1) NOT NULL COMMENT '是否菜单',
+  `is_enable` tinyint(1) NOT NULL DEFAULT '1' COMMENT '是否启用\n\n0：不可用\n\n1:可用',
+  `gmt_create` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间',
+  `gmt_modified` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+  `is_delete` tinyint(1) NOT NULL DEFAULT '0' COMMENT '是否删除\n\n0: 未删除\n1: 已删除',
+  PRIMARY KEY (`id`),
+  UNIQUE KEY `id_UNIQUE` (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=184 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+-- ----------------------------
+-- Records of sys_permission
+-- ----------------------------
+BEGIN;
+INSERT INTO `sys_permission` VALUES (1, 1, 0, '应用', '', '/admin/app', 0, 1, 1, '2017-12-08 17:55:19', '2017-12-08 17:55:34', 0);
+INSERT INTO `sys_permission` VALUES (2, 1, 1, '应用-添加', '', '/admin/app/add', 0, 0, 1, '2017-12-08 17:55:19', '2019-04-29 17:30:29', 0);
+INSERT INTO `sys_permission` VALUES (3, 1, 1, '应用-删除', '', '/admin/app/del', 0, 0, 1, '2017-12-08 17:55:19', '2019-04-29 17:30:29', 0);
+INSERT INTO `sys_permission` VALUES (4, 1, 1, '应用-修改', '', '/admin/app/update', 0, 0, 1, '2017-12-08 17:55:19', '2019-04-29 17:30:29', 0);
+INSERT INTO `sys_permission` VALUES (5, 1, 1, '应用-列表', '', '/admin/app/list', 0, 0, 1, '2017-12-08 17:55:19', '2019-04-29 17:30:29', 0);
+INSERT INTO `sys_permission` VALUES (6, 1, 0, '权限', '', '/admin/permissions', 0, 1, 1, '2017-12-08 17:58:23', '2017-12-08 18:04:51', 0);
+INSERT INTO `sys_permission` VALUES (7, 1, 6, '权限-添加', '', '/admin/permission/add', 0, 0, 1, '2017-12-08 17:58:23', '2019-04-29 17:30:29', 0);
+INSERT INTO `sys_permission` VALUES (8, 1, 6, '权限-删除', '', '/admin/permission/del', 0, 0, 1, '2017-12-08 17:58:23', '2019-04-29 17:30:29', 0);
+INSERT INTO `sys_permission` VALUES (9, 1, 6, '权限-修改', '', '/admin/permission/update', 0, 0, 1, '2017-12-08 17:58:23', '2019-04-29 17:30:29', 0);
+INSERT INTO `sys_permission` VALUES (10, 1, 6, '权限-列表', '', '/admin/permission/list', 0, 0, 1, '2017-12-08 17:58:23', '2019-04-29 17:30:29', 0);
+INSERT INTO `sys_permission` VALUES (11, 1, 0, '角色', '', '/admin/role', 0, 1, 1, '2017-12-08 18:00:35', '2017-12-08 18:04:51', 0);
+INSERT INTO `sys_permission` VALUES (12, 1, 11, '角色-添加', '', '/admin/role/add', 0, 0, 1, '2017-12-08 18:00:35', '2019-04-29 17:30:29', 0);
+INSERT INTO `sys_permission` VALUES (13, 1, 11, '角色-删除', '', '/admin/role/del', 0, 0, 1, '2017-12-08 18:00:35', '2019-04-29 17:30:29', 0);
+INSERT INTO `sys_permission` VALUES (14, 1, 11, '角色-修改', '', '/admin/role/update', 0, 0, 1, '2017-12-08 18:00:35', '2019-04-29 17:30:29', 0);
+INSERT INTO `sys_permission` VALUES (15, 1, 11, '角色-列表', '', '/admin/role/list', 0, 0, 1, '2017-12-08 18:00:35', '2019-04-29 17:30:29', 0);
+INSERT INTO `sys_permission` VALUES (16, 1, 0, '用户', '', '/admin/user', 0, 1, 1, '2017-12-08 18:04:51', '2017-12-08 18:05:07', 0);
+INSERT INTO `sys_permission` VALUES (17, 1, 16, '用户-添加', '', '/admin/user/add', 0, 0, 1, '2017-12-08 18:04:51', '2019-04-29 17:30:29', 0);
+INSERT INTO `sys_permission` VALUES (18, 1, 16, '用户-删除', '', '/admin/user/del', 0, 0, 1, '2017-12-08 18:04:51', '2019-04-29 17:30:29', 0);
+INSERT INTO `sys_permission` VALUES (19, 1, 16, '用户-修改', '', '/admin/user/update', 0, 0, 1, '2017-12-08 18:04:51', '2019-04-29 17:31:41', 0);
+INSERT INTO `sys_permission` VALUES (20, 1, 16, '用户-列表', '', '/admin/user/list', 0, 0, 1, '2017-12-08 18:04:51', '2019-04-29 17:31:41', 0);
+INSERT INTO `sys_permission` VALUES (21, 1, 16, '修改所有人的密码', '', '/admin/user/updateAllPwd', 0, 0, 1, '2017-12-08 18:04:51', '2017-12-08 18:04:51', 0);
+INSERT INTO `sys_permission` VALUES (62, 1, 0, '系统管理', '', '/admin/setting', 0, 1, 1, '2019-10-10 14:06:52', '2019-10-10 14:06:52', 0);
+INSERT INTO `sys_permission` VALUES (135, 1, 0, '律师-列表', '', '/admin/lawyer/list', 0, 1, 1, '2020-10-27 14:26:54', '2020-10-27 14:26:54', 0);
+INSERT INTO `sys_permission` VALUES (136, 1, 135, '律师-添加', '', '/admin/lawyer/add', 0, 0, 1, '2020-10-27 14:30:03', '2020-10-27 14:30:03', 0);
+INSERT INTO `sys_permission` VALUES (137, 1, 135, '律师-详情', '', '/admin/lawyer/info', 0, 0, 1, '2020-10-27 14:30:03', '2020-10-27 14:30:03', 0);
+INSERT INTO `sys_permission` VALUES (138, 1, 135, '律师-修改', '', '/admin/lawyer/updatePassword', 0, 0, 1, '2020-10-27 14:30:03', '2020-10-27 14:30:03', 0);
+INSERT INTO `sys_permission` VALUES (139, 1, 135, '律师-分配列表', '', '/admin/lawyer/assignLawyerList', 0, 0, 1, '2020-10-27 14:30:03', '2020-10-27 14:30:03', 0);
+INSERT INTO `sys_permission` VALUES (140, 1, 135, '律师-导出', '', '/admin/lawyer/AdminExcelLawyer', 0, 0, 1, '2020-10-27 14:31:22', '2020-10-27 14:31:22', 0);
+INSERT INTO `sys_permission` VALUES (141, 1, 0, '客户-列表', '', '/admin/custom/list', 0, 1, 1, '2020-10-27 14:39:19', '2020-10-27 14:42:57', 0);
+INSERT INTO `sys_permission` VALUES (142, 1, 141, '客户-添加', '', '/admin/custom/add', 0, 0, 1, '2020-10-27 14:42:57', '2020-10-27 14:42:57', 0);
+INSERT INTO `sys_permission` VALUES (143, 1, 141, '客户-详情', '', '/admin/custom/info', 0, 0, 1, '2020-10-27 14:42:57', '2020-10-27 14:42:57', 0);
+INSERT INTO `sys_permission` VALUES (144, 1, 141, '客户-修改', '', '/admin/custom/update', 0, 0, 1, '2020-10-27 14:42:57', '2020-10-27 14:42:57', 0);
+INSERT INTO `sys_permission` VALUES (145, 1, 141, '客户-导出', '', '/admin/custom/AdminExcelCustom', 0, 0, 1, '2020-10-27 14:42:57', '2020-10-27 14:42:57', 0);
+INSERT INTO `sys_permission` VALUES (146, 1, 151, '统计-全部合同数', '', '/admin/statistics/allAgreementNum', 0, 0, 1, '2020-10-27 14:51:08', '2020-10-27 15:03:27', 0);
+INSERT INTO `sys_permission` VALUES (147, 1, 151, '统计-合同类型', '', '/admin/statistics/statisticAgreementType', 0, 0, 1, '2020-10-27 14:51:08', '2020-10-27 15:03:27', 0);
+INSERT INTO `sys_permission` VALUES (148, 1, 151, '统计-全部评分', '', '/admin/statistics/statisticMyScore', 0, 0, 1, '2020-10-27 14:51:08', '2020-10-27 15:03:27', 0);
+INSERT INTO `sys_permission` VALUES (149, 1, 151, '统计-用户数量', '', '/admin/statistics/userNumber', 0, 0, 1, '2020-10-27 14:51:08', '2020-10-27 15:03:27', 0);
+INSERT INTO `sys_permission` VALUES (150, 1, 151, '统计-合同数量', '', '/admin/statistics/agreementNumber', 0, 0, 1, '2020-10-27 14:51:08', '2020-10-27 15:03:27', 0);
+INSERT INTO `sys_permission` VALUES (151, 1, 0, '统计', '', '/admin/statistics', 0, 1, 1, '2020-10-27 15:03:27', '2020-10-27 15:21:50', 0);
+INSERT INTO `sys_permission` VALUES (152, 1, 0, '合同', '', '/admin/agreement', 0, 1, 1, '2020-10-27 15:06:37', '2020-10-27 15:21:50', 0);
+INSERT INTO `sys_permission` VALUES (153, 1, 152, '合同-未领取列表', '', '/admin/agreement/list', 0, 0, 1, '2020-10-27 15:21:36', '2020-10-27 15:21:50', 0);
+INSERT INTO `sys_permission` VALUES (154, 1, 152, '合同-我的合同列表', '', '/admin/agreement/AllAgreementList', 0, 0, 1, '2020-10-27 15:21:36', '2020-10-27 15:21:50', 0);
+INSERT INTO `sys_permission` VALUES (155, 1, 152, '合同-接受合同', '', '/admin/agreement/acceptAgreement', 0, 0, 1, '2020-10-27 15:21:36', '2020-10-27 15:21:50', 0);
+INSERT INTO `sys_permission` VALUES (156, 1, 152, '合同-详情', '', '/admin/agreement/agreementInfo', 0, 0, 1, '2020-10-27 15:21:36', '2020-10-27 15:21:50', 0);
+INSERT INTO `sys_permission` VALUES (157, 1, 152, '合同-下载', '', '/admin/agreement/downloadAgreement', 0, 0, 1, '2020-10-27 15:21:36', '2020-10-27 15:21:50', 0);
+INSERT INTO `sys_permission` VALUES (158, 1, 152, '合同-复审律师列表', '', '/admin/agreement/endLawyerList', 0, 0, 1, '2020-10-27 15:21:36', '2020-10-27 15:21:50', 0);
+INSERT INTO `sys_permission` VALUES (159, 1, 152, '合同-回复合同', '', '/admin/agreement/answerAgreement', 0, 0, 1, '2020-10-27 15:21:36', '2020-10-27 15:21:50', 0);
+INSERT INTO `sys_permission` VALUES (160, 1, 152, '合同-转移合同', '', '/admin/agreement/changeAgreement', 0, 0, 1, '2020-10-27 15:21:36', '2020-10-27 15:21:50', 0);
+INSERT INTO `sys_permission` VALUES (161, 1, 152, '合同-接受合同', '', '/admin/agreement/agreeChangeAgreement', 0, 0, 1, '2020-10-27 15:21:36', '2020-10-27 15:21:50', 0);
+INSERT INTO `sys_permission` VALUES (162, 1, 152, '合同-复审评分', '', '/admin/agreement/endAuditAgreement', 0, 0, 1, '2020-10-27 15:21:36', '2020-10-27 15:21:50', 0);
+INSERT INTO `sys_permission` VALUES (163, 1, 152, '合同-全部合同列表', '', '/admin/agreement/AdminAgreementList', 0, 0, 1, '2020-10-27 15:21:36', '2020-10-27 15:21:36', 0);
+INSERT INTO `sys_permission` VALUES (164, 1, 152, '合同-分配合同', '', '/admin/agreement/assignAgreement', 0, 0, 1, '2020-10-27 15:21:36', '2020-10-27 15:21:36', 0);
+INSERT INTO `sys_permission` VALUES (165, 1, 152, '合同-律师-导出今日新合同', '', '/admin/agreement/LawyerNewExcelAgreement', 0, 0, 1, '2020-10-27 15:21:36', '2020-10-27 15:21:36', 0);
+INSERT INTO `sys_permission` VALUES (166, 1, 152, '合同-律师-导出未回复合同', '', '/admin/agreement/LawyerExcelAgreement', 0, 0, 1, '2020-10-27 15:21:36', '2020-10-27 15:21:36', 0);
+INSERT INTO `sys_permission` VALUES (167, 1, 152, '合同-管理员-导出未回复合同', '', '/admin/agreement/AdminExcelAgreement', 0, 0, 1, '2020-10-27 15:21:36', '2020-10-27 15:21:36', 0);
+INSERT INTO `sys_permission` VALUES (168, 1, 152, '合同-管理员-导出今日新合同', '', '/admin/agreement/AdminNewExcelAgreement', 0, 0, 1, '2020-10-27 15:21:36', '2020-10-27 15:21:36', 0);
+INSERT INTO `sys_permission` VALUES (169, 1, 152, '合同-管理员-导出全部合同', '', '/admin/agreement/AdminAllExcelAgreement', 0, 0, 1, '2020-10-27 15:21:36', '2020-10-27 15:21:36', 0);
+INSERT INTO `sys_permission` VALUES (170, 1, 151, '统计-律师-合同数', '', '/admin/LawyerStatistics/lawyerAgreementNum', 0, 0, 1, '2020-10-27 15:36:41', '2020-10-27 15:36:41', 0);
+INSERT INTO `sys_permission` VALUES (171, 1, 151, '统计-律师-我的评分', '', '/admin/LawyerStatistics/statisticMyScore', 0, 0, 1, '2020-10-27 15:36:41', '2020-10-27 15:36:41', 0);
+INSERT INTO `sys_permission` VALUES (172, 1, 135, '律师-修改角色', '', '/admin/lawyer/updateRole', 0, 0, 1, '2020-10-30 12:09:23', '2020-10-30 12:09:23', 0);
+INSERT INTO `sys_permission` VALUES (173, 1, 141, '客户-修改姓名', '', '/admin/custom/updateName', 0, 0, 1, '2020-10-30 12:09:23', '2020-10-30 12:09:23', 0);
+INSERT INTO `sys_permission` VALUES (174, 1, 152, '合同-管理员下载', '', '/admin/agreement/adminDownloadAgreement', 0, 0, 1, '2020-11-02 18:07:34', '2020-11-02 18:07:34', 0);
+INSERT INTO `sys_permission` VALUES (175, 1, 0, '顾问单位-列表', '', '/admin/custom/companyList', 0, 0, 1, '2020-12-10 21:56:44', '2020-12-10 21:56:44', 0);
+INSERT INTO `sys_permission` VALUES (176, 1, 175, '顾问单位-列表-导出', '', '/admin/custom/companyListExcel', 0, 0, 1, '2020-12-10 21:56:44', '2020-12-10 21:59:45', 0);
+INSERT INTO `sys_permission` VALUES (177, 1, 175, '顾问单位-全部列表', '', '/admin/custom/allCompanyList', 0, 0, 1, '2020-12-10 21:59:45', '2020-12-10 21:59:45', 0);
+INSERT INTO `sys_permission` VALUES (178, 1, 175, '顾问单位-详情', '', '/admin/custom/companyInfo', 0, 0, 1, '2020-12-10 21:59:45', '2020-12-10 21:59:45', 0);
+INSERT INTO `sys_permission` VALUES (179, 1, 175, '顾问单位-详情-客户列表', '', '/admin/custom/getCustomListByCompanyId', 0, 0, 1, '2020-12-10 21:59:45', '2020-12-10 21:59:45', 0);
+INSERT INTO `sys_permission` VALUES (180, 1, 152, '合同-获取回复合同信息', '', '/admin/agreement/getAnswerAgreement', 0, 0, 1, '2020-12-10 21:59:45', '2020-12-10 21:59:45', 0);
+INSERT INTO `sys_permission` VALUES (181, 1, 152, '合同-上传合同', '', '/admin/agreement/addAgreement', 0, 0, 1, '2020-12-10 21:59:45', '2020-12-10 22:01:30', 0);
+INSERT INTO `sys_permission` VALUES (182, 1, 152, '合同-合同类型列表', '', '/admin/custom/agreementType', 0, 0, 1, '2020-12-10 22:01:30', '2020-12-10 22:01:46', 0);
+INSERT INTO `sys_permission` VALUES (183, 1, 152, '合同-拒绝接受', '', '/admin/agreement/refuseChangeAgreement', 0, 0, 1, '2020-12-30 10:14:53', '2020-12-30 10:16:58', 0);
+COMMIT;
+
+-- ----------------------------
+-- Table structure for sys_re_role_permission
+-- ----------------------------
+DROP TABLE IF EXISTS `sys_re_role_permission`;
+CREATE TABLE `sys_re_role_permission` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `role_id` int(11) NOT NULL COMMENT '角色ID',
+  `permission_id` int(11) NOT NULL COMMENT '权限ID',
+  `gmt_create` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间',
+  `gmt_modified` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+  `is_delete` tinyint(1) NOT NULL DEFAULT '0' COMMENT '是否删除\n\n0: 未删除\n1: 已删除',
+  PRIMARY KEY (`id`),
+  UNIQUE KEY `id_UNIQUE` (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=3730 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+-- ----------------------------
+-- Records of sys_re_role_permission
+-- ----------------------------
+BEGIN;
+INSERT INTO `sys_re_role_permission` VALUES (1, 1, 1, '2019-05-07 15:58:29', '2020-10-21 17:02:38', 0);
+INSERT INTO `sys_re_role_permission` VALUES (2, 1, 2, '2019-05-07 16:01:27', '2020-10-21 17:02:38', 0);
+INSERT INTO `sys_re_role_permission` VALUES (3, 1, 3, '2019-05-07 16:01:28', '2020-10-21 17:02:38', 0);
+INSERT INTO `sys_re_role_permission` VALUES (4, 1, 4, '2019-05-07 16:01:28', '2020-10-21 17:02:38', 0);
+INSERT INTO `sys_re_role_permission` VALUES (5, 1, 5, '2019-05-07 16:01:28', '2020-10-21 17:02:38', 0);
+INSERT INTO `sys_re_role_permission` VALUES (6, 1, 6, '2019-05-07 16:01:28', '2020-10-21 17:02:38', 0);
+INSERT INTO `sys_re_role_permission` VALUES (7, 1, 7, '2019-05-07 16:01:28', '2020-10-21 17:02:38', 0);
+INSERT INTO `sys_re_role_permission` VALUES (8, 1, 8, '2019-05-07 16:01:28', '2020-10-21 17:02:38', 0);
+INSERT INTO `sys_re_role_permission` VALUES (9, 1, 9, '2019-05-07 16:01:28', '2020-10-21 17:02:38', 0);
+INSERT INTO `sys_re_role_permission` VALUES (10, 1, 10, '2019-05-07 16:01:28', '2020-10-21 17:02:38', 0);
+INSERT INTO `sys_re_role_permission` VALUES (11, 1, 11, '2019-05-07 16:01:28', '2020-10-21 17:02:38', 0);
+INSERT INTO `sys_re_role_permission` VALUES (12, 1, 12, '2019-05-07 16:01:28', '2020-10-21 17:02:38', 0);
+INSERT INTO `sys_re_role_permission` VALUES (13, 1, 13, '2019-05-07 16:01:28', '2020-10-21 17:02:38', 0);
+INSERT INTO `sys_re_role_permission` VALUES (14, 1, 14, '2019-05-07 16:01:28', '2020-10-21 17:02:38', 0);
+INSERT INTO `sys_re_role_permission` VALUES (15, 1, 15, '2019-05-07 16:01:28', '2020-10-21 17:02:38', 0);
+INSERT INTO `sys_re_role_permission` VALUES (16, 1, 16, '2019-05-07 16:01:28', '2020-10-21 17:02:38', 0);
+INSERT INTO `sys_re_role_permission` VALUES (17, 1, 17, '2019-05-07 16:01:28', '2020-10-21 17:02:38', 0);
+INSERT INTO `sys_re_role_permission` VALUES (18, 1, 18, '2019-05-07 16:01:28', '2020-10-21 17:02:38', 0);
+INSERT INTO `sys_re_role_permission` VALUES (19, 1, 19, '2019-05-07 16:01:28', '2020-10-21 17:02:38', 0);
+INSERT INTO `sys_re_role_permission` VALUES (20, 1, 20, '2019-05-07 16:01:28', '2020-10-21 17:02:39', 0);
+INSERT INTO `sys_re_role_permission` VALUES (21, 1, 21, '2019-05-07 16:01:28', '2020-10-21 17:02:39', 0);
+INSERT INTO `sys_re_role_permission` VALUES (641, 1, 62, '2019-10-10 14:08:59', '2020-10-21 17:02:39', 0);
+INSERT INTO `sys_re_role_permission` VALUES (3633, 1, 135, '2020-10-27 14:37:48', '2020-10-27 14:37:48', 0);
+INSERT INTO `sys_re_role_permission` VALUES (3634, 1, 136, '2020-10-27 14:37:48', '2020-10-27 14:37:48', 0);
+INSERT INTO `sys_re_role_permission` VALUES (3635, 1, 137, '2020-10-27 14:37:48', '2020-10-27 14:37:48', 0);
+INSERT INTO `sys_re_role_permission` VALUES (3636, 1, 138, '2020-10-27 14:37:48', '2020-10-27 14:37:48', 0);
+INSERT INTO `sys_re_role_permission` VALUES (3637, 1, 139, '2020-10-27 14:37:48', '2020-10-27 14:37:48', 0);
+INSERT INTO `sys_re_role_permission` VALUES (3638, 1, 140, '2020-10-27 14:37:48', '2020-10-27 14:37:48', 0);
+INSERT INTO `sys_re_role_permission` VALUES (3639, 1, 141, '2020-10-27 14:47:02', '2020-10-27 14:47:02', 0);
+INSERT INTO `sys_re_role_permission` VALUES (3640, 1, 142, '2020-10-27 14:47:02', '2020-10-27 14:47:02', 0);
+INSERT INTO `sys_re_role_permission` VALUES (3641, 1, 143, '2020-10-27 14:47:02', '2020-10-27 14:47:02', 0);
+INSERT INTO `sys_re_role_permission` VALUES (3642, 1, 144, '2020-10-27 14:47:02', '2020-10-27 14:47:02', 0);
+INSERT INTO `sys_re_role_permission` VALUES (3643, 1, 145, '2020-10-27 14:47:02', '2020-10-27 14:47:02', 0);
+INSERT INTO `sys_re_role_permission` VALUES (3644, 1, 146, '2020-10-27 14:52:36', '2020-10-27 14:52:36', 0);
+INSERT INTO `sys_re_role_permission` VALUES (3645, 1, 147, '2020-10-27 14:52:36', '2020-10-27 14:52:36', 0);
+INSERT INTO `sys_re_role_permission` VALUES (3646, 1, 148, '2020-10-27 14:52:36', '2020-10-27 14:52:36', 0);
+INSERT INTO `sys_re_role_permission` VALUES (3647, 1, 149, '2020-10-27 14:52:36', '2020-10-27 14:52:36', 0);
+INSERT INTO `sys_re_role_permission` VALUES (3648, 1, 150, '2020-10-27 14:52:36', '2020-10-27 14:52:36', 0);
+INSERT INTO `sys_re_role_permission` VALUES (3649, 1, 151, '2020-10-27 15:03:55', '2020-10-27 15:03:55', 0);
+INSERT INTO `sys_re_role_permission` VALUES (3650, 1, 152, '2020-10-27 15:25:14', '2020-10-27 15:25:14', 0);
+INSERT INTO `sys_re_role_permission` VALUES (3651, 1, 153, '2020-10-27 15:25:14', '2020-10-27 15:25:14', 0);
+INSERT INTO `sys_re_role_permission` VALUES (3652, 1, 154, '2020-10-27 15:25:15', '2020-10-27 15:25:15', 0);
+INSERT INTO `sys_re_role_permission` VALUES (3653, 1, 155, '2020-10-27 15:25:15', '2020-10-27 15:25:15', 0);
+INSERT INTO `sys_re_role_permission` VALUES (3654, 1, 156, '2020-10-27 15:25:15', '2020-10-27 15:25:15', 0);
+INSERT INTO `sys_re_role_permission` VALUES (3655, 1, 157, '2020-10-27 15:25:15', '2020-10-27 15:25:15', 0);
+INSERT INTO `sys_re_role_permission` VALUES (3656, 1, 158, '2020-10-27 15:25:15', '2020-10-27 15:25:15', 0);
+INSERT INTO `sys_re_role_permission` VALUES (3657, 1, 159, '2020-10-27 15:25:15', '2020-10-27 15:25:15', 0);
+INSERT INTO `sys_re_role_permission` VALUES (3658, 1, 160, '2020-10-27 15:25:17', '2020-10-27 15:25:17', 0);
+INSERT INTO `sys_re_role_permission` VALUES (3659, 1, 161, '2020-10-27 15:25:17', '2020-10-27 15:25:17', 0);
+INSERT INTO `sys_re_role_permission` VALUES (3660, 1, 162, '2020-10-27 15:25:18', '2020-10-27 15:25:18', 0);
+INSERT INTO `sys_re_role_permission` VALUES (3661, 1, 163, '2020-10-27 15:25:18', '2020-10-27 15:25:18', 0);
+INSERT INTO `sys_re_role_permission` VALUES (3662, 1, 164, '2020-10-27 15:25:18', '2020-10-27 15:25:18', 0);
+INSERT INTO `sys_re_role_permission` VALUES (3663, 1, 165, '2020-10-27 15:25:18', '2020-10-27 15:25:18', 0);
+INSERT INTO `sys_re_role_permission` VALUES (3664, 1, 166, '2020-10-27 15:25:18', '2020-10-27 15:25:18', 0);
+INSERT INTO `sys_re_role_permission` VALUES (3665, 1, 167, '2020-10-27 15:25:18', '2020-10-27 15:25:18', 0);
+INSERT INTO `sys_re_role_permission` VALUES (3666, 1, 168, '2020-10-27 15:25:18', '2020-10-27 15:25:18', 0);
+INSERT INTO `sys_re_role_permission` VALUES (3667, 1, 169, '2020-10-27 15:25:19', '2020-10-27 15:25:19', 0);
+INSERT INTO `sys_re_role_permission` VALUES (3668, 2, 152, '2020-10-27 15:26:41', '2020-10-27 15:26:41', 0);
+INSERT INTO `sys_re_role_permission` VALUES (3669, 2, 153, '2020-10-27 15:26:41', '2020-10-27 15:26:41', 0);
+INSERT INTO `sys_re_role_permission` VALUES (3670, 2, 154, '2020-10-27 15:26:41', '2020-10-27 15:26:41', 0);
+INSERT INTO `sys_re_role_permission` VALUES (3671, 2, 155, '2020-10-27 15:26:41', '2020-10-27 15:26:41', 0);
+INSERT INTO `sys_re_role_permission` VALUES (3672, 2, 156, '2020-10-27 15:26:41', '2020-10-27 15:26:41', 0);
+INSERT INTO `sys_re_role_permission` VALUES (3673, 2, 157, '2020-10-27 15:26:41', '2020-10-27 15:26:41', 0);
+INSERT INTO `sys_re_role_permission` VALUES (3674, 2, 158, '0000-00-00 00:00:00', '2020-10-27 15:26:41', 0);
+INSERT INTO `sys_re_role_permission` VALUES (3675, 2, 159, '2020-10-27 15:26:41', '2020-10-27 15:26:41', 0);
+INSERT INTO `sys_re_role_permission` VALUES (3676, 2, 160, '2020-10-27 15:26:41', '2020-10-27 15:26:41', 0);
+INSERT INTO `sys_re_role_permission` VALUES (3677, 2, 161, '2020-10-27 15:26:41', '2020-10-27 15:26:41', 0);
+INSERT INTO `sys_re_role_permission` VALUES (3678, 2, 162, '2020-10-27 15:26:41', '2020-10-27 15:26:41', 0);
+INSERT INTO `sys_re_role_permission` VALUES (3679, 2, 165, '2020-10-27 15:26:41', '2020-10-27 15:26:41', 0);
+INSERT INTO `sys_re_role_permission` VALUES (3680, 2, 166, '2020-10-27 15:26:41', '2020-10-27 15:26:41', 0);
+INSERT INTO `sys_re_role_permission` VALUES (3681, 3, 152, '2020-10-27 15:26:41', '2020-10-27 15:26:41', 0);
+INSERT INTO `sys_re_role_permission` VALUES (3682, 3, 153, '2020-10-27 15:26:41', '2020-10-27 15:26:41', 0);
+INSERT INTO `sys_re_role_permission` VALUES (3683, 3, 154, '2020-10-27 15:26:41', '2020-10-27 15:26:41', 0);
+INSERT INTO `sys_re_role_permission` VALUES (3684, 3, 155, '2020-10-27 15:26:41', '2020-10-27 15:26:41', 0);
+INSERT INTO `sys_re_role_permission` VALUES (3685, 3, 156, '2020-10-27 15:26:41', '2020-10-27 15:26:41', 0);
+INSERT INTO `sys_re_role_permission` VALUES (3686, 3, 157, '2020-10-27 15:26:41', '2020-10-27 15:26:41', 0);
+INSERT INTO `sys_re_role_permission` VALUES (3687, 3, 158, '0000-00-00 00:00:00', '2020-10-27 15:26:41', 0);
+INSERT INTO `sys_re_role_permission` VALUES (3688, 3, 159, '2020-10-27 15:26:41', '2020-10-27 15:26:41', 0);
+INSERT INTO `sys_re_role_permission` VALUES (3689, 3, 160, '2020-10-27 15:26:41', '2020-10-27 15:26:41', 0);
+INSERT INTO `sys_re_role_permission` VALUES (3690, 3, 161, '2020-10-27 15:26:41', '2020-10-27 15:26:41', 0);
+INSERT INTO `sys_re_role_permission` VALUES (3691, 3, 162, '2020-10-27 15:26:41', '2020-10-27 15:26:41', 0);
+INSERT INTO `sys_re_role_permission` VALUES (3692, 3, 165, '2020-10-27 15:26:41', '2020-10-27 15:26:41', 0);
+INSERT INTO `sys_re_role_permission` VALUES (3693, 3, 166, '2020-10-27 15:26:41', '2020-10-27 15:26:41', 0);
+INSERT INTO `sys_re_role_permission` VALUES (3694, 1, 170, '2020-10-27 15:37:38', '2020-10-27 15:37:38', 0);
+INSERT INTO `sys_re_role_permission` VALUES (3695, 1, 171, '2020-10-27 15:37:38', '2020-10-27 15:37:38', 0);
+INSERT INTO `sys_re_role_permission` VALUES (3696, 2, 170, '2020-10-27 15:37:38', '2020-10-27 15:37:38', 0);
+INSERT INTO `sys_re_role_permission` VALUES (3697, 2, 171, '2020-10-27 15:37:38', '2020-10-27 15:37:38', 0);
+INSERT INTO `sys_re_role_permission` VALUES (3698, 3, 170, '2020-10-27 15:37:38', '2020-10-27 15:37:38', 0);
+INSERT INTO `sys_re_role_permission` VALUES (3699, 3, 171, '2020-10-27 15:37:38', '2020-10-27 15:37:38', 0);
+INSERT INTO `sys_re_role_permission` VALUES (3702, 1, 172, '2020-10-30 12:09:49', '2020-10-30 12:09:49', 0);
+INSERT INTO `sys_re_role_permission` VALUES (3703, 1, 173, '2020-10-30 12:09:49', '2020-10-30 12:09:49', 0);
+INSERT INTO `sys_re_role_permission` VALUES (3704, 2, 165, '2020-10-30 15:33:58', '2020-10-30 15:33:58', 0);
+INSERT INTO `sys_re_role_permission` VALUES (3705, 2, 166, '2020-10-30 15:34:02', '2020-10-30 15:34:02', 0);
+INSERT INTO `sys_re_role_permission` VALUES (3706, 3, 165, '2020-10-30 15:34:07', '2020-10-30 15:34:07', 0);
+INSERT INTO `sys_re_role_permission` VALUES (3707, 3, 166, '2020-10-30 15:34:11', '2020-10-30 15:34:11', 0);
+INSERT INTO `sys_re_role_permission` VALUES (3708, 1, 174, '2020-11-02 18:07:56', '2020-11-02 18:07:56', 0);
+INSERT INTO `sys_re_role_permission` VALUES (3709, 1, 175, '2020-12-10 22:02:59', '2020-12-10 22:02:59', 0);
+INSERT INTO `sys_re_role_permission` VALUES (3710, 1, 176, '2020-12-10 22:02:59', '2020-12-10 22:02:59', 0);
+INSERT INTO `sys_re_role_permission` VALUES (3711, 1, 177, '2020-12-10 22:02:59', '2020-12-10 22:02:59', 0);
+INSERT INTO `sys_re_role_permission` VALUES (3712, 1, 178, '2020-12-10 22:02:59', '2020-12-10 22:02:59', 0);
+INSERT INTO `sys_re_role_permission` VALUES (3713, 1, 179, '2020-12-10 22:02:59', '2020-12-10 22:02:59', 0);
+INSERT INTO `sys_re_role_permission` VALUES (3714, 1, 180, '2020-12-10 22:02:59', '2020-12-10 22:02:59', 0);
+INSERT INTO `sys_re_role_permission` VALUES (3715, 1, 181, '2020-12-10 22:02:59', '2020-12-10 22:02:59', 0);
+INSERT INTO `sys_re_role_permission` VALUES (3716, 1, 182, '2020-12-10 22:02:59', '2020-12-10 22:04:44', 0);
+INSERT INTO `sys_re_role_permission` VALUES (3717, 2, 177, '2020-12-10 22:04:44', '2020-12-10 22:04:44', 0);
+INSERT INTO `sys_re_role_permission` VALUES (3718, 2, 180, '2020-12-10 22:04:44', '2020-12-10 22:04:44', 0);
+INSERT INTO `sys_re_role_permission` VALUES (3719, 2, 181, '2020-12-10 22:04:44', '2020-12-10 22:04:44', 0);
+INSERT INTO `sys_re_role_permission` VALUES (3720, 2, 182, '2020-12-10 22:04:44', '2020-12-10 22:04:44', 0);
+INSERT INTO `sys_re_role_permission` VALUES (3721, 3, 177, '2020-12-10 22:04:44', '2020-12-10 22:04:44', 0);
+INSERT INTO `sys_re_role_permission` VALUES (3722, 3, 180, '2020-12-10 22:04:44', '2020-12-10 22:04:44', 0);
+INSERT INTO `sys_re_role_permission` VALUES (3723, 3, 181, '2020-12-10 22:04:44', '2020-12-10 22:04:44', 0);
+INSERT INTO `sys_re_role_permission` VALUES (3724, 3, 182, '2020-12-10 22:04:44', '2020-12-18 16:16:52', 0);
+INSERT INTO `sys_re_role_permission` VALUES (3725, 2, 179, '2020-12-23 14:27:11', '2020-12-23 14:27:30', 0);
+INSERT INTO `sys_re_role_permission` VALUES (3726, 3, 179, '2020-12-23 14:34:45', '2020-12-23 14:34:56', 0);
+INSERT INTO `sys_re_role_permission` VALUES (3727, 1, 183, '2020-12-30 10:15:28', '2020-12-30 10:15:28', 0);
+INSERT INTO `sys_re_role_permission` VALUES (3728, 2, 183, '2020-12-30 10:15:28', '2020-12-30 10:15:28', 0);
+INSERT INTO `sys_re_role_permission` VALUES (3729, 3, 183, '2020-12-30 10:15:28', '2020-12-30 10:15:28', 0);
+COMMIT;
+
+-- ----------------------------
+-- Table structure for sys_re_user_app
+-- ----------------------------
+DROP TABLE IF EXISTS `sys_re_user_app`;
+CREATE TABLE `sys_re_user_app` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `user_id` int(11) NOT NULL COMMENT '用户ID ',
+  `app_id` int(11) NOT NULL COMMENT '应用ID',
+  `gmt_create` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间',
+  `gmt_modified` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+  `is_delete` tinyint(1) NOT NULL DEFAULT '0' COMMENT '是否删除\n\n0: 未删除\n1: 已删除',
+  PRIMARY KEY (`id`),
+  UNIQUE KEY `id_UNIQUE` (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=2223 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+-- ----------------------------
+-- Records of sys_re_user_app
+-- ----------------------------
+BEGIN;
+INSERT INTO `sys_re_user_app` VALUES (1, 1, 1, '2019-05-07 15:58:39', '2019-05-07 15:58:39', 0);
+INSERT INTO `sys_re_user_app` VALUES (2193, 6504, 1, '2020-10-30 10:54:38', '2020-10-30 10:54:38', 0);
+INSERT INTO `sys_re_user_app` VALUES (2194, 6505, 1, '2020-10-30 10:55:58', '2020-10-30 10:55:58', 0);
+INSERT INTO `sys_re_user_app` VALUES (2195, 6506, 1, '2020-10-30 17:43:07', '2020-10-30 17:43:07', 0);
+INSERT INTO `sys_re_user_app` VALUES (2196, 6507, 1, '2020-11-03 22:04:02', '2020-11-03 22:04:02', 0);
+INSERT INTO `sys_re_user_app` VALUES (2197, 6508, 1, '2020-11-03 22:12:00', '2020-11-03 22:12:00', 0);
+INSERT INTO `sys_re_user_app` VALUES (2198, 6509, 1, '2020-11-03 22:14:25', '2020-11-03 22:14:25', 0);
+INSERT INTO `sys_re_user_app` VALUES (2199, 6510, 1, '2020-11-03 22:15:04', '2020-11-03 22:15:04', 0);
+INSERT INTO `sys_re_user_app` VALUES (2200, 6511, 1, '2020-11-03 22:15:19', '2020-11-03 22:15:19', 0);
+INSERT INTO `sys_re_user_app` VALUES (2201, 6512, 1, '2020-11-03 22:16:03', '2020-11-03 22:16:03', 0);
+INSERT INTO `sys_re_user_app` VALUES (2202, 6513, 1, '2020-11-04 17:33:09', '2020-11-04 17:33:09', 0);
+INSERT INTO `sys_re_user_app` VALUES (2203, 6514, 1, '2020-11-04 19:00:12', '2020-11-04 19:00:12', 0);
+INSERT INTO `sys_re_user_app` VALUES (2204, 6515, 1, '2020-11-05 08:56:52', '2020-11-05 08:56:52', 0);
+INSERT INTO `sys_re_user_app` VALUES (2205, 6516, 1, '2020-11-05 09:28:18', '2020-11-05 09:28:18', 0);
+INSERT INTO `sys_re_user_app` VALUES (2206, 6517, 1, '2020-11-05 09:45:56', '2020-11-05 09:45:56', 0);
+INSERT INTO `sys_re_user_app` VALUES (2207, 6518, 1, '2020-11-05 09:48:27', '2020-11-05 09:48:27', 0);
+INSERT INTO `sys_re_user_app` VALUES (2208, 6519, 1, '2020-11-05 09:49:59', '2020-11-05 09:49:59', 0);
+INSERT INTO `sys_re_user_app` VALUES (2209, 6520, 1, '2020-11-05 10:18:12', '2020-11-05 10:18:12', 0);
+INSERT INTO `sys_re_user_app` VALUES (2210, 6521, 1, '2020-11-05 11:16:32', '2020-11-05 11:16:32', 0);
+INSERT INTO `sys_re_user_app` VALUES (2211, 6522, 1, '2020-11-05 11:31:07', '2020-11-05 11:31:07', 0);
+INSERT INTO `sys_re_user_app` VALUES (2212, 6523, 1, '2020-11-06 21:41:26', '2020-11-06 21:41:26', 0);
+INSERT INTO `sys_re_user_app` VALUES (2213, 6524, 1, '2020-11-06 21:42:27', '2020-11-06 21:42:27', 0);
+INSERT INTO `sys_re_user_app` VALUES (2214, 6525, 1, '2020-11-09 15:00:26', '2020-11-09 15:00:26', 0);
+INSERT INTO `sys_re_user_app` VALUES (2215, 6526, 1, '2020-12-18 16:26:04', '2020-12-18 16:26:04', 0);
+INSERT INTO `sys_re_user_app` VALUES (2216, 6527, 1, '2020-12-18 16:37:10', '2020-12-18 16:37:10', 0);
+INSERT INTO `sys_re_user_app` VALUES (2217, 6528, 1, '2020-12-18 16:49:25', '2020-12-18 16:49:25', 0);
+INSERT INTO `sys_re_user_app` VALUES (2218, 6529, 1, '2020-12-29 10:13:22', '2020-12-29 10:13:22', 0);
+INSERT INTO `sys_re_user_app` VALUES (2219, 6530, 1, '2020-12-29 10:13:50', '2020-12-29 10:13:50', 0);
+INSERT INTO `sys_re_user_app` VALUES (2220, 6531, 1, '2021-05-21 12:05:18', '2021-05-21 12:05:18', 0);
+INSERT INTO `sys_re_user_app` VALUES (2221, 6532, 1, '2021-05-21 12:27:27', '2021-05-21 12:27:27', 0);
+INSERT INTO `sys_re_user_app` VALUES (2222, 6533, 1, '2021-05-21 14:30:27', '2021-05-21 14:30:27', 0);
+COMMIT;
+
+-- ----------------------------
+-- Table structure for sys_re_user_role
+-- ----------------------------
+DROP TABLE IF EXISTS `sys_re_user_role`;
+CREATE TABLE `sys_re_user_role` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `user_id` int(11) NOT NULL COMMENT '用户ID ',
+  `role_id` int(11) NOT NULL DEFAULT '0' COMMENT '角色ID',
+  `gmt_create` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间',
+  `gmt_modified` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+  `is_delete` tinyint(1) NOT NULL DEFAULT '0' COMMENT '是否删除\n\n0: 未删除\n1: 已删除',
+  PRIMARY KEY (`id`),
+  UNIQUE KEY `id_UNIQUE` (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=2223 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+-- ----------------------------
+-- Records of sys_re_user_role
+-- ----------------------------
+BEGIN;
+INSERT INTO `sys_re_user_role` VALUES (1, 1, 1, '2019-05-07 15:58:48', '2019-05-07 15:58:48', 0);
+INSERT INTO `sys_re_user_role` VALUES (2193, 6504, 5, '2020-10-30 10:54:38', '2020-10-30 10:54:38', 0);
+INSERT INTO `sys_re_user_role` VALUES (2194, 6505, 2, '2020-10-30 10:55:58', '2020-10-30 10:55:58', 0);
+INSERT INTO `sys_re_user_role` VALUES (2195, 6506, 2, '2020-10-30 17:43:07', '2020-10-30 17:43:07', 0);
+INSERT INTO `sys_re_user_role` VALUES (2196, 6507, 2, '2020-11-03 22:04:02', '2020-11-03 22:04:02', 0);
+INSERT INTO `sys_re_user_role` VALUES (2197, 6508, 3, '2020-11-03 22:12:00', '2020-11-03 22:12:00', 0);
+INSERT INTO `sys_re_user_role` VALUES (2198, 6509, 4, '2020-11-03 22:14:25', '2020-11-03 22:14:25', 0);
+INSERT INTO `sys_re_user_role` VALUES (2199, 6510, 2, '2020-11-03 22:15:04', '2020-11-03 22:15:04', 0);
+INSERT INTO `sys_re_user_role` VALUES (2200, 6511, 1, '2020-11-03 22:15:19', '2020-11-03 22:15:19', 0);
+INSERT INTO `sys_re_user_role` VALUES (2201, 6512, 2, '2020-11-03 22:16:03', '2020-11-03 22:16:03', 0);
+INSERT INTO `sys_re_user_role` VALUES (2202, 6513, 2, '2020-11-04 17:33:09', '2020-11-04 17:33:09', 0);
+INSERT INTO `sys_re_user_role` VALUES (2203, 6514, 3, '2020-11-04 19:00:12', '2020-11-04 19:00:12', 0);
+INSERT INTO `sys_re_user_role` VALUES (2204, 6515, 3, '2020-11-05 08:56:52', '2020-11-05 08:56:52', 0);
+INSERT INTO `sys_re_user_role` VALUES (2205, 6516, 3, '2020-11-05 09:28:18', '2020-11-05 09:28:18', 0);
+INSERT INTO `sys_re_user_role` VALUES (2206, 6517, 1, '2020-11-05 09:45:56', '2020-11-05 09:45:56', 0);
+INSERT INTO `sys_re_user_role` VALUES (2207, 6518, 1, '2020-11-05 09:48:27', '2020-11-05 09:48:27', 0);
+INSERT INTO `sys_re_user_role` VALUES (2208, 6519, 1, '2020-11-05 09:49:59', '2020-11-05 09:49:59', 0);
+INSERT INTO `sys_re_user_role` VALUES (2209, 6520, 3, '2020-11-05 10:18:12', '2020-11-05 10:18:12', 0);
+INSERT INTO `sys_re_user_role` VALUES (2210, 6521, 3, '2020-11-05 11:16:32', '2020-11-05 11:16:32', 0);
+INSERT INTO `sys_re_user_role` VALUES (2211, 6522, 3, '2020-11-05 11:31:07', '2020-11-05 11:31:07', 0);
+INSERT INTO `sys_re_user_role` VALUES (2212, 6523, 2, '2020-11-06 21:41:25', '2020-11-06 21:41:25', 0);
+INSERT INTO `sys_re_user_role` VALUES (2213, 6524, 3, '2020-11-06 21:42:27', '2020-11-06 21:42:27', 0);
+INSERT INTO `sys_re_user_role` VALUES (2214, 6525, 2, '2020-11-09 15:00:26', '2020-11-09 15:00:26', 0);
+INSERT INTO `sys_re_user_role` VALUES (2215, 6526, 2, '2020-12-18 16:26:04', '2020-12-18 16:26:04', 0);
+INSERT INTO `sys_re_user_role` VALUES (2216, 6527, 2, '2020-12-18 16:37:10', '2020-12-18 16:37:10', 0);
+INSERT INTO `sys_re_user_role` VALUES (2217, 6528, 2, '2020-12-18 16:49:25', '2020-12-18 16:49:25', 0);
+INSERT INTO `sys_re_user_role` VALUES (2218, 6529, 2, '2020-12-29 10:13:22', '2020-12-29 10:13:22', 0);
+INSERT INTO `sys_re_user_role` VALUES (2219, 6530, 3, '2020-12-29 10:13:50', '2020-12-29 10:13:50', 0);
+INSERT INTO `sys_re_user_role` VALUES (2220, 6531, 2, '2021-05-21 12:05:17', '2021-05-21 12:05:17', 0);
+INSERT INTO `sys_re_user_role` VALUES (2221, 6532, 2, '2021-05-21 12:27:27', '2021-05-21 12:27:27', 0);
+INSERT INTO `sys_re_user_role` VALUES (2222, 6533, 2, '2021-05-21 14:30:27', '2021-05-21 14:30:27', 0);
+COMMIT;
+
+-- ----------------------------
+-- Table structure for sys_role
+-- ----------------------------
+DROP TABLE IF EXISTS `sys_role`;
+CREATE TABLE `sys_role` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `app_id` int(11) NOT NULL COMMENT '应用ID',
+  `name` varchar(50) COLLATE utf8mb4_unicode_ci NOT NULL COMMENT '名称',
+  `grade_type` int(11) NOT NULL DEFAULT '0' COMMENT '管理员类型\n\n如果再有按业务需求分的 管理员类型  在这个字段中添加\n\n0:通用角色\n1:校级\n2:学院级别\n3:部门级别\n\n\n',
+  `grade_id` int(11) NOT NULL DEFAULT '0' COMMENT '等级 id\n\n\n根据type  \n分别去不同表中找\n\n如\n学院级别   就去DIC_COLLEGE表中找对应id\n部门级别    DIC_DEP',
+  `is_grade` tinyint(1) NOT NULL DEFAULT '0' COMMENT '是否为 \n\n等级管理员\n\n如果是等级管理员\n\n与 grade_name   字段对应\n\n0:否\n1:是',
+  `sort` int(11) NOT NULL COMMENT '排序',
+  `description` varchar(200) COLLATE utf8mb4_unicode_ci NOT NULL DEFAULT '' COMMENT '描述',
+  `is_enable` tinyint(1) NOT NULL DEFAULT '1' COMMENT '是否启用\n\n0:不可用\n1:可用',
+  `gmt_create` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间',
+  `gmt_modified` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+  `is_delete` tinyint(1) NOT NULL DEFAULT '0' COMMENT '是否删除\n\n0: 未删除\n1: 已删除',
+  `type` int(11) NOT NULL DEFAULT '0',
+  PRIMARY KEY (`id`),
+  UNIQUE KEY `id_UNIQUE` (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+-- ----------------------------
+-- Records of sys_role
+-- ----------------------------
+BEGIN;
+INSERT INTO `sys_role` VALUES (1, 1, '超级管理员', 0, 0, 0, 1, '超级管理员', 1, '2019-05-07 15:55:30', '2020-09-28 14:49:08', 0, 1);
+INSERT INTO `sys_role` VALUES (2, 1, '顾问法务', 0, 0, 0, 0, '法务', 1, '2020-10-21 17:39:57', '2020-10-27 12:18:00', 0, 0);
+INSERT INTO `sys_role` VALUES (3, 1, '普通律师', 0, 0, 0, 0, '管理员', 1, '2020-10-21 17:39:57', '2020-10-27 12:18:00', 0, 0);
+COMMIT;
+
+-- ----------------------------
+-- Table structure for sys_user
+-- ----------------------------
+DROP TABLE IF EXISTS `sys_user`;
+CREATE TABLE `sys_user` (
+  `id` int(11) NOT NULL AUTO_INCREMENT COMMENT '后台管理系统用户表',
+  `account` varchar(50) COLLATE utf8mb4_unicode_ci NOT NULL DEFAULT '' COMMENT '登录名',
+  `password` varchar(100) COLLATE utf8mb4_unicode_ci NOT NULL DEFAULT '' COMMENT '密码(加密)',
+  `real_name` varchar(45) COLLATE utf8mb4_unicode_ci NOT NULL DEFAULT '' COMMENT '真实姓名',
+  `mobile` varchar(45) COLLATE utf8mb4_unicode_ci NOT NULL DEFAULT '' COMMENT '手机号',
+  `last_login_ip` varchar(20) COLLATE utf8mb4_unicode_ci NOT NULL DEFAULT '' COMMENT '最后登录IP',
+  `last_login_time` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT '最后登录时间',
+  `login_count` int(11) NOT NULL DEFAULT '0' COMMENT '登录总次数',
+  `is_enable` tinyint(1) NOT NULL DEFAULT '1' COMMENT '是否启用\n\n0: 未开启\n1: 已开启',
+  `gmt_create` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间',
+  `gmt_modified` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+  `is_delete` tinyint(1) NOT NULL DEFAULT '0' COMMENT '是否删除\n\n0: 未删除\n1: 已删除',
+  `firm_id` int(11) NOT NULL DEFAULT '0',
+  PRIMARY KEY (`id`),
+  UNIQUE KEY `id_UNIQUE` (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=6534 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+-- ----------------------------
+-- Records of sys_user
+-- ----------------------------
+BEGIN;
+INSERT INTO `sys_user` VALUES (1, 'admin', 'e10adc3949ba59abbe56e057f20f883e', '超级管理员', '15035551106', '127.0.0.1', '2021-05-21 14:47:56', 17235, 1, '2019-05-07 15:42:04', '2021-05-21 14:47:56', 0, 1);
+INSERT INTO `sys_user` VALUES (6523, 'lawyer1', 'e10adc3949ba59abbe56e057f20f883e', '顾问法务', '', '127.0.0.1', '2021-02-03 17:01:51', 34, 1, '2020-11-06 21:41:25', '2021-02-03 17:01:51', 0, 1);
+INSERT INTO `sys_user` VALUES (6524, 'lawyer2', 'e10adc3949ba59abbe56e057f20f883e', '普通律师', '', '127.0.0.1', '2021-01-07 15:22:27', 31, 1, '2020-11-06 21:42:27', '2021-01-07 15:22:27', 0, 1);
+INSERT INTO `sys_user` VALUES (6525, 'cx1109', 'e10adc3949ba59abbe56e057f20f883e', '张晨曦', '', '127.0.0.1', '2021-01-07 11:08:49', 9, 1, '2020-11-09 15:00:26', '2021-01-07 11:08:49', 0, 1);
+INSERT INTO `sys_user` VALUES (6526, 'asdf', 'e10adc3949ba59abbe56e057f20f883e', 'asdf', '', '', '2020-12-18 16:26:04', 0, 1, '2020-12-18 16:26:04', '2020-12-18 16:26:04', 0, 1);
+INSERT INTO `sys_user` VALUES (6527, 'lawyer3', 'e10adc3949ba59abbe56e057f20f883e', '萨达QWE', '', '127.0.0.1', '2020-12-31 14:06:05', 9, 1, '2020-12-18 16:37:10', '2020-12-31 14:06:05', 0, 1);
+INSERT INTO `sys_user` VALUES (6528, '112233', 'e10adc3949ba59abbe56e057f20f883e', 'awsd', '', '', '2020-12-18 16:49:25', 0, 1, '2020-12-18 16:49:25', '2020-12-18 16:49:25', 0, 1);
+INSERT INTO `sys_user` VALUES (6529, 'xywl1109', 'e10adc3949ba59abbe56e057f20f883e', '辛玉涛', '', '127.0.0.1', '2020-12-29 10:17:30', 1, 1, '2020-12-29 10:13:22', '2020-12-29 10:17:30', 0, 1);
+INSERT INTO `sys_user` VALUES (6530, 'zyp1229', 'e10adc3949ba59abbe56e057f20f883e', '张雅平', '', '127.0.0.1', '2020-12-29 11:13:20', 2, 1, '2020-12-29 10:13:50', '2020-12-29 11:13:20', 0, 1);
+INSERT INTO `sys_user` VALUES (6531, 'test', '25d55ad283aa400af464c76d713c07ad', '测试', '', '', '2021-05-21 12:05:17', 0, 1, '2021-05-21 12:05:17', '2021-05-21 12:05:17', 0, 0);
+INSERT INTO `sys_user` VALUES (6532, 'test2', '25d55ad283aa400af464c76d713c07ad', '测试22', '', '', '2021-05-21 12:27:27', 0, 1, '2021-05-21 12:27:27', '2021-05-21 12:27:27', 0, 0);
+INSERT INTO `sys_user` VALUES (6533, 'test21', '3eca79884526bc633714bdc79c19acab', '测试211', '', '', '2021-05-21 14:30:27', 0, 1, '2021-05-21 14:30:27', '2021-05-21 14:30:27', 0, 0);
+COMMIT;
+
+SET FOREIGN_KEY_CHECKS = 1;
